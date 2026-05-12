@@ -1,5 +1,18 @@
 {
+  "/auth/callback/route": "app/auth/callback/route.js",
+  "/api/send-claim/route": "app/api/send-claim/route.js",
   "/_not-found/page": "app/_not-found/page.js",
+  "/a-propos/page": "app/a-propos/page.js",
+  "/cgu/page": "app/cgu/page.js",
+  "/confidentialite/page": "app/confidentialite/page.js",
+  "/confirm/page": "app/confirm/page.js",
+  "/login/page": "app/login/page.js",
   "/dashboard/page": "app/dashboard/page.js",
-  "/settings/page": "app/settings/page.js"
+  "/page": "app/page.js",
+  "/mentions-legales/page": "app/mentions-legales/page.js",
+  "/tarifs/page": "app/tarifs/page.js",
+  "/reset-password/page": "app/reset-password/page.js",
+  "/onboarding/page": "app/onboarding/page.js",
+  "/settings/page": "app/settings/page.js",
+  "/signup/page": "app/signup/page.js"
 }

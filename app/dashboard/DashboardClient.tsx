@@ -176,7 +176,7 @@ export default function DashboardClient({ user, initialDeliveries, initialAnomal
           status: "pending",
           user_id: user.id,
         };
-      }).filter(Boolean);
+      }).filter((x): x is NonNullable<typeof x> => x !== null);
 
       let insertedAnomalies: Anomaly[] = [];
       if (aIns.length > 0) {
@@ -379,7 +379,7 @@ export default function DashboardClient({ user, initialDeliveries, initialAnomal
                 <CartesianGrid strokeDasharray="3 3" stroke="#1e2d45" />
                 <XAxis dataKey="mois" tick={{ fill: "#64748b", fontSize: 12 }} axisLine={false} tickLine={false} />
                 <YAxis tick={{ fill: "#64748b", fontSize: 12 }} axisLine={false} tickLine={false} tickFormatter={(v) => `${v}€`} />
-                <Tooltip contentStyle={{ backgroundColor: "#1a2236", border: "1px solid #1e2d45", borderRadius: "12px", color: "#e2e8f0" }} formatter={(value: number) => [`${value.toFixed(2)}€`]} />
+                <Tooltip contentStyle={{ backgroundColor: "#1a2236", border: "1px solid #1e2d45", borderRadius: "12px", color: "#e2e8f0" }} formatter={(value) => [`${Number(value).toFixed(2)}€`]} />
                 <Area type="monotone" dataKey="récupérable" stroke="#1a56ff" strokeWidth={2} fill="url(#colorRecuperable)" name="Récupérable" />
                 <Area type="monotone" dataKey="récupéré" stroke="#10b981" strokeWidth={2} fill="url(#colorRecupere)" name="Récupéré" />
               </AreaChart>

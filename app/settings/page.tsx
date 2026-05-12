@@ -9,7 +9,7 @@ export default function SettingsPage() {
   const router = useRouter();
   const supabase = createClient();
 
-  const [user, setUser] = useState<{ id: string; email: string } | null>(null);
+  const [user, setUser] = useState<{ id: string; email: string | undefined } | null>(null);
   const [companyName, setCompanyName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,7 +20,7 @@ export default function SettingsPage() {
     async function load() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) { router.push("/login"); return; }
-      setUser(user);
+      setUser({ id: user.id, email: user.email });
       setEmail(user.email ?? "");
       const { data: profile } = await supabase.from("users").select("*").eq("id", user.id).single();
       if (profile) setCompanyName(profile.company_name);

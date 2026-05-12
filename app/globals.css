@@ -1,0 +1,144 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: #0a0f1e;
+    color: #e2e8f0;
+    font-family: 'DM Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4, h5 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+}
+
+@layer components {
+
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-5 py-2.5
+           bg-brand-500 hover:bg-brand-400 text-white
+           font-semibold text-sm rounded-xl
+           transition-all duration-200
+           hover:-translate-y-0.5 active:translate-y-0
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 px-5 py-2.5
+           bg-white/5 hover:bg-white/10 text-slate-300
+           font-medium text-sm rounded-xl border border-white/10
+           hover:border-white/20 transition-all duration-200;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 px-4 py-2
+           text-slate-400 hover:text-white hover:bg-white/5
+           font-medium text-sm rounded-xl transition-all duration-150;
+  }
+
+  .btn-action {
+    @apply inline-flex items-center gap-1.5 px-3 py-1.5
+           bg-brand-500/10 hover:bg-brand-500/20 text-brand-400
+           font-medium text-xs rounded-lg transition-colors duration-150;
+  }
+
+  .btn-success {
+    @apply inline-flex items-center gap-1.5 px-3 py-1.5
+           bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400
+           font-medium text-xs rounded-lg transition-colors duration-150;
+  }
+
+  .glass-card {
+    @apply bg-card/80 backdrop-blur-sm border border-border
+           rounded-2xl shadow-card;
+  }
+
+  .kpi-card {
+    @apply glass-card p-6 relative overflow-hidden
+           hover:border-brand-500/30 transition-colors duration-300;
+  }
+
+  .input {
+    @apply w-full px-4 py-2.5 bg-white/5 border border-border
+           rounded-xl text-sm text-slate-200 placeholder:text-slate-500
+           focus:outline-none focus:ring-2 focus:ring-brand-500/30
+           focus:border-brand-500/50 transition-all duration-150;
+  }
+
+  .label {
+    @apply block text-xs font-semibold text-slate-400
+           uppercase tracking-wider mb-1.5;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1
+           rounded-full text-xs font-semibold;
+  }
+  .badge-green  { @apply badge bg-emerald-500/10 text-emerald-400 border border-emerald-500/20; }
+  .badge-red    { @apply badge bg-red-500/10 text-red-400 border border-red-500/20; }
+  .badge-orange { @apply badge bg-orange-500/10 text-orange-400 border border-orange-500/20; }
+  .badge-blue   { @apply badge bg-brand-500/10 text-brand-400 border border-brand-500/20; }
+  .badge-gray   { @apply badge bg-white/5 text-slate-400 border border-white/10; }
+
+  .data-table { @apply w-full text-sm; }
+  .data-table thead tr { @apply border-b border-border; }
+  .data-table th {
+    @apply px-4 py-3 text-left text-xs font-semibold
+           text-slate-500 uppercase tracking-wider;
+  }
+  .data-table td {
+    @apply px-4 py-3.5 border-b border-border/50 text-slate-300;
+  }
+  .data-table tbody tr:last-child td { @apply border-0; }
+  .data-table tbody tr:hover td { @apply bg-white/[0.02]; }
+
+  .section-tag {
+    @apply inline-flex items-center gap-2 px-3 py-1
+           bg-brand-500/10 text-brand-400 border border-brand-500/20
+           text-xs font-semibold rounded-full uppercase tracking-wider;
+  }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes slideIn {
+  from { transform: translateX(120%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+select option {
+  background-color: #1a2236;
+  color: #e2e8f0;
+}
+.animate-fade-up { animation: fadeUp 0.5s ease both; }
+.animate-fade-in { animation: fadeIn 0.3s ease both; }
+.spinner {
+  width: 16px; height: 16px;
+  border: 2px solid rgba(26,86,255,0.2);
+  border-top-color: #1a56ff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+}
+.toast { animation: slideIn 0.3s ease; }
+
+.bg-grid {
+  background-image: linear-gradient(rgba(30,45,69,0.4) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(30,45,69,0.4) 1px, transparent 1px);
+  background-size: 48px 48px;
+}

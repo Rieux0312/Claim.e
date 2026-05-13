@@ -566,7 +566,7 @@ export default function DashboardClient({ user, initialDeliveries, initialAnomal
             </div>
           )}
         </div>
-        <p className="text-center text-xs text-slate-700 pb-4">Claim.e · Commission de 20% sur les montants récupérés</p>
+        <p className="text-center text-xs text-slate-700 pb-4">Claim.e · </p>
       </main>
     </div>
   );

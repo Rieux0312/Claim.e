@@ -66,7 +66,7 @@ export default function AProposPage() {
             {
               emoji: "🎯",
               title: "Transparence",
-              desc: "Commission uniquement sur les montants récupérés. Si on ne récupère rien, vous ne payez rien.",
+              desc: "Nous récupérons l'argent perdu pour vous avec une transparence totale sur nos résultats.",
             },
             {
               emoji: "🔒",

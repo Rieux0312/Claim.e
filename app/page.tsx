@@ -135,7 +135,7 @@ function HowItWorks() {
           {[
             { num: "01", title: "Importez vos données", desc: "Exportez vos livraisons depuis votre transporteur et importez en CSV en quelques secondes.", detail: "Compatible : Colissimo, DHL, FedEx, UPS…" },
             { num: "02", title: "Détection automatique", desc: "Notre moteur analyse chaque livraison et identifie toutes les anomalies récupérables.", detail: "Analyse en temps réel · 98% de taux de détection" },
-            { num: "03", title: "Réclamations & remboursements", desc: "Claim.e génère les réclamations et suit les remboursements jusqu'au paiement.", detail: "Commission de 20% uniquement sur l'argent récupéré" },
+            { num: "03", title: "Réclamations & remboursements", desc: "Claim.e génère les réclamations et suit les remboursements jusqu'au paiement.", detail: "Suivi automatique jusqu'au remboursement" },
           ].map(({ num, title, desc, detail }) => (
             <div key={num} className="glass-card p-7 relative overflow-hidden group hover:border-brand-500/30 transition-all duration-300">
               <div className="absolute top-4 right-4 font-display text-6xl font-800 text-white/[0.03] select-none">{num}</div>

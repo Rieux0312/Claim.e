@@ -37,7 +37,7 @@ export default function CguPage() {
           <div className="glass-card p-6">
             <h2 className="font-display text-xl font-600 text-white mb-4">2. Description du service</h2>
             <p className="text-slate-400 text-sm leading-relaxed">
-              Claim.e est une plateforme SaaS permettant aux entreprises de détecter automatiquement les anomalies logistiques (retards, colis perdus, surfacturations, SLA non respectés) et de récupérer les compensations financières auprès des transporteurs. Le service fonctionne sur la base d'une commission prélevée uniquement sur les montants effectivement récupérés.
+              Claim.e est une plateforme SaaS permettant aux entreprises de détecter automatiquement les anomalies logistiques (retards, colis perdus, surfacturations, SLA non respectés) et de récupérer les compensations financières auprès des transporteurs.
             </p>
           </div>
 
@@ -49,14 +49,14 @@ export default function CguPage() {
           </div>
 
           <div className="glass-card p-6">
-            <h2 className="font-display text-xl font-600 text-white mb-4">4. Tarification et commission</h2>
+            <h2 className="font-display text-xl font-600 text-white mb-4">4. Tarification</h2>
             <div className="text-slate-400 text-sm leading-relaxed space-y-2">
-              <p>Le service est proposé selon deux modalités :</p>
+              <p>Le service est proposé selon deux formules d'abonnement mensuel :</p>
               <ul className="list-disc list-inside space-y-1 ml-2">
-                <li><strong className="text-slate-300">Abonnement mensuel :</strong> Starter (99€/mois) ou Pro (299€/mois)</li>
-                <li><strong className="text-slate-300">Commission de succès :</strong> 20% des montants effectivement récupérés</li>
+                <li><strong className="text-slate-300">Starter :</strong> 99.99€/mois</li>
+                <li><strong className="text-slate-300">Pro :</strong> 179.99€/mois</li>
               </ul>
-              <p>Aucune commission n'est prélevée si aucun montant n'est récupéré.</p>
+              <p>Les abonnements sont sans engagement et annulables à tout moment.</p>
             </div>
           </div>
 

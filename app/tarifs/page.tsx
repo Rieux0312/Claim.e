@@ -31,8 +31,8 @@ export default function TarifsPage() {
             Transparent et sans risque
           </h1>
           <p className="text-slate-400 text-lg max-w-2xl mx-auto leading-relaxed">
-            Abonnement mensuel + commission de 20% sur l'argent effectivement récupéré.
-            <br />Vous ne payez rien si on ne récupère rien.
+            Abonnement mensuel simple et transparent.
+            <br />Sans engagement, annulable à tout moment.
           </p>
         </div>
 
@@ -108,30 +108,6 @@ export default function TarifsPage() {
             </Link>
           </div>
         </div>
-
-        {/* Commission */}
-        <div className="glass-card p-8 mb-6 max-w-3xl mx-auto">
-          <div className="flex items-start gap-4">
-            <span className="text-3xl">💸</span>
-            <div>
-              <h2 className="font-display text-xl font-700 text-white mb-2">
-                + 20% de commission sur succès
-              </h2>
-              <p className="text-slate-400 text-sm leading-relaxed">
-                En plus de l'abonnement mensuel, nous prélevons une commission de <strong className="text-white">20%</strong> uniquement 
-                sur les montants effectivement récupérés auprès des transporteurs. 
-                Si nous ne récupérons rien, vous ne payez aucune commission.
-              </p>
-              <div className="mt-4 p-4 bg-brand-500/10 border border-brand-500/20 rounded-xl">
-                <p className="text-brand-300 text-sm font-medium">
-                  💡 Exemple : Si nous récupérons 10 000€ pour vous, notre commission est de 2 000€.
-                  Vous empêchez 8 000€ nets que vous n'auriez jamais récupérés sans nous.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* FAQ tarifs */}
         <div className="max-w-3xl mx-auto mb-16">
           <h2 className="font-display text-2xl font-700 text-white mb-6 text-center">Questions fréquentes sur les tarifs</h2>
@@ -145,12 +121,7 @@ export default function TarifsPage() {
                 q: "Y a-t-il un engagement minimum ?",
                 a: "Non, aucun engagement. Vous pouvez annuler votre abonnement à tout moment depuis vos paramètres.",
               },
-              {
-                q: "Comment est calculée la commission ?",
-                a: "La commission de 20% s'applique uniquement sur les montants réellement encaissés auprès des transporteurs, pas sur les montants estimés.",
-              },
-              {
-                q: "Y a-t-il une période d'essai gratuite ?",
+              {                q: "Y a-t-il une période d'essai gratuite ?",
                 a: "Vous pouvez tester Claim.e gratuitement avec votre premier import CSV. Aucune carte bancaire requise pour commencer.",
               },
               {

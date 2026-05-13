@@ -18,7 +18,16 @@ export default function TarifsPage() {
               Claim<span className="text-brand-400">.e</span>
             </span>
           </Link>
-          <Link href="/" className="btn-ghost text-sm">← Retour à l'accueil</Link>
+          <div className="flex items-center gap-1">
+  <a href="/#fonctionnalites" className="btn-ghost text-sm">Fonctionnalités</a>
+  <a href="/#comment-ca-marche" className="btn-ghost text-sm">Comment ça marche</a>
+  <Link href="/a-propos" className="btn-ghost text-sm">À propos</Link>
+  <Link href="/tarifs" className="btn-ghost text-sm">Tarifs</Link>
+</div>
+<div className="flex items-center gap-3">
+  <Link href="/login" className="btn-ghost text-sm">Connexion</Link>
+  <Link href="/signup" className="btn-primary text-sm">Commencer</Link>
+</div>
         </div>
       </header>
 

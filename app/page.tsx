@@ -166,12 +166,30 @@ function Pricing() {
           {[
             {
               name: "Starter", price: "99.99€", period: "/mois", desc: "Pour les PME qui débutent",
-              features: ["Jusqu'à 500 livraisons/mois", "Détection automatique d'anomalies", "Dashboard en temps réel", "Export des réclamations", "Support email"],
+              features: [
+                { text: "Jusqu'à 500 livraisons/mois", included: true },
+                { text: "Détection automatique d'anomalies", included: true },
+                { text: "Dashboard en temps réel", included: true },
+                { text: "Export PDF des rapports", included: true },
+                { text: "Support email", included: true },
+                { text: "Envoi automatique des réclamations", included: false },
+                { text: "Intégration API transporteurs", included: false },
+                { text: "Support prioritaire 24/7", included: false },
+              ],
               cta: "Commencer", highlighted: false,
             },
             {
               name: "Pro", price: "179.99€", period: "/mois", desc: "Pour les équipes logistiques",
-              features: ["Livraisons illimitées", "Détection automatique d'anomalies", "Dashboard en temps réel", "Export des réclamations", "Envoi automatique des réclamations", "Suivi des remboursements", "Intégration API transporteurs", "Support prioritaire 24/7"],
+              features: [
+                { text: "Livraisons illimitées", included: true },
+                { text: "Détection automatique d'anomalies", included: true },
+                { text: "Dashboard en temps réel", included: true },
+                { text: "Export PDF des rapports", included: true },
+                { text: "Envoi automatique des réclamations", included: true },
+                { text: "Intégration API transporteurs", included: true },
+                { text: "Tableau de bord multi-sites", included: true },
+                { text: "Support prioritaire 24/7", included: true },
+              ],
               cta: "Démarrer en Pro", highlighted: true,
             },
           ].map(({ name, price, period, desc, features, cta, highlighted }) => (
@@ -185,9 +203,12 @@ function Pricing() {
               </div>
               <p className="text-slate-500 text-sm mb-6">{desc}</p>
               <ul className="space-y-3 mb-8">
-                {features.map((f) => (
-                  <li key={f} className="flex items-center gap-2.5 text-sm text-slate-300">
-                    <span className="text-emerald-400">✓</span> {f}
+                {features.map(({ text, included }) => (
+                  <li key={text} className={`flex items-center gap-2.5 text-sm ${included ? "text-slate-300" : "text-slate-600"}`}>
+                    <span className={included ? "text-emerald-400" : "text-slate-700"}>
+                      {included ? "✓" : "✕"}
+                    </span>
+                    {text}
                   </li>
                 ))}
               </ul>

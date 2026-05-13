@@ -1,4 +1,7 @@
+"use client";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
 
 function Logo({ size = 32 }: { size?: number }) {
   return (
@@ -17,6 +20,15 @@ function Logo({ size = 32 }: { size?: number }) {
 }
 
 function Navbar() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const supabase = createClient();
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setIsLoggedIn(!!session);
+    });
+  }, []);
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 bg-surface/80 backdrop-blur-xl">
       <div className="max-w-6xl mx-auto px-6 flex items-center justify-between h-16">
@@ -27,14 +39,20 @@ function Navbar() {
           </span>
         </div>
         <div className="hidden md:flex items-center gap-1">
-<a href="#fonctionnalites" className="btn-ghost text-sm">Fonctionnalités</a>
-<a href="#comment-ca-marche" className="btn-ghost text-sm">Comment ça marche</a>
-<Link href="/a-propos" className="btn-ghost text-sm">À propos</Link>
-<Link href="/tarifs" className="btn-ghost text-sm">Tarifs</Link>
+          <a href="#fonctionnalites" className="btn-ghost text-sm">Fonctionnalités</a>
+          <a href="#comment-ca-marche" className="btn-ghost text-sm">Comment ça marche</a>
+          <Link href="/a-propos" className="btn-ghost text-sm">À propos</Link>
+          <Link href="/tarifs" className="btn-ghost text-sm">Tarifs</Link>
         </div>
         <div className="flex items-center gap-3">
-          <Link href="/login" className="btn-ghost text-sm">Connexion</Link>
-          <Link href="/signup" className="btn-primary text-sm">Commencer</Link>
+          {isLoggedIn ? (
+            <Link href="/dashboard" className="btn-primary text-sm">📦 Mon Dashboard</Link>
+          ) : (
+            <>
+              <Link href="/login" className="btn-ghost text-sm">Connexion</Link>
+              <Link href="/signup" className="btn-primary text-sm">Commencer</Link>
+            </>
+          )}
         </div>
       </div>
     </nav>
@@ -160,7 +178,7 @@ function Pricing() {
         <div className="text-center mb-14">
           <div className="section-tag mb-6">Tarifs</div>
           <h2 className="font-display text-4xl font-700 text-white tracking-tight mb-4">Transparent et sans risque</h2>
-          <p className="text-slate-400 text-lg">Abonnement mensuel<br /></p>
+          <p className="text-slate-400 text-lg">Abonnement mensuel</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {[
@@ -171,6 +189,7 @@ function Pricing() {
                 { text: "Détection automatique d'anomalies", included: true },
                 { text: "Dashboard en temps réel", included: true },
                 { text: "Export PDF des rapports", included: true },
+                { text: "Support email", included: true },
                 { text: "Envoi automatique des réclamations", included: false },
                 { text: "Intégration API transporteurs", included: false },
                 { text: "Support prioritaire 24/7", included: false },
@@ -186,6 +205,7 @@ function Pricing() {
                 { text: "Export PDF des rapports", included: true },
                 { text: "Envoi automatique des réclamations", included: true },
                 { text: "Intégration API transporteurs", included: true },
+                { text: "Tableau de bord multi-sites", included: true },
                 { text: "Support prioritaire 24/7", included: true },
               ],
               cta: "Démarrer en Pro", highlighted: true,
@@ -232,9 +252,9 @@ function Footer() {
           </div>
           <p className="text-slate-600 text-sm">© 2026 Claim.e · Tous droits réservés</p>
           <div className="flex gap-4 text-xs text-slate-600">
-<Link href="/cgu" className="hover:text-slate-400">CGU</Link>
-<Link href="/confidentialite" className="hover:text-slate-400">Confidentialité</Link>
-<Link href="/mentions-legales" className="hover:text-slate-400">Mentions légales</Link>
+            <Link href="/cgu" className="hover:text-slate-400">CGU</Link>
+            <Link href="/confidentialite" className="hover:text-slate-400">Confidentialité</Link>
+            <Link href="/mentions-legales" className="hover:text-slate-400">Mentions légales</Link>
           </div>
         </div>
       </div>

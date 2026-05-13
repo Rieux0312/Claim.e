@@ -53,7 +53,6 @@ export default function TarifsPage() {
                 { text: "Détection automatique d'anomalies", included: true },
                 { text: "Dashboard en temps réel", included: true },
                 { text: "Export PDF des rapports", included: true },
-                { text: "Support email", included: true },
                 { text: "Envoi automatique des réclamations", included: false },
                 { text: "Intégration API transporteurs", included: false },
                 { text: "Support prioritaire 24/7", included: false },
@@ -92,7 +91,6 @@ export default function TarifsPage() {
                 { text: "Export PDF des rapports", included: true },
                 { text: "Envoi automatique des réclamations", included: true },
                 { text: "Intégration API transporteurs", included: true },
-                { text: "Tableau de bord multi-sites", included: true },
                 { text: "Support prioritaire 24/7", included: true },
               ].map(({ text, included }) => (
                 <li key={text} className={`flex items-center gap-2.5 text-sm ${included ? "text-slate-300" : "text-slate-600"}`}>

@@ -320,11 +320,12 @@ export default function DashboardClient({ user, initialDeliveries, initialAnomal
                 <path d="M2 12l10 5 10-5" />
               </svg>
             </div>
-            <span className="font-display font-800 text-lg text-white">Claim<span className="text-brand-400">.e</span></span>
+            <Link href="/" className="font-display font-800 text-lg text-white hover:opacity-80 transition-opacity">Claim<span className="text-brand-400">.e</span></Link>
           </div>
           <div className="flex items-center gap-2">
-            <Link href="/dashboard" className="btn-ghost text-sm">📦 Dashboard</Link>
-            <Link href="/settings" className="btn-ghost text-sm">⚙️ Paramètres</Link>
+<Link href="/dashboard" className="btn-ghost text-sm">📦 Dashboard</Link>
+<Link href="/settings" className="btn-ghost text-sm">⚙️ Paramètres</Link>
+<Link href="/tarifs" className="btn-ghost text-sm">💳 Tarifs</Link>
             <div className="w-px h-5 bg-border mx-1" />
             <div className="hidden sm:block text-right">
               <p className="text-sm font-semibold text-white leading-tight">{user.company_name}</p>

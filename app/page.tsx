@@ -171,7 +171,7 @@ function Pricing() {
             },
             {
               name: "Pro", price: "179.99€", period: "/mois", desc: "Pour les équipes logistiques",
-              features: ["Livraisons illimitées", "Envoi automatique des réclamations", "Suivi des remboursements", "Intégration API transporteurs", "Support prioritaire 24/7"],
+              features: ["Livraisons illimitées", "Détection automatique d'anomalies", "Dashboard en temps réel", "Export des réclamations", "Envoi automatique des réclamations", "Suivi des remboursements", "Intégration API transporteurs", "Support prioritaire 24/7"],
               cta: "Démarrer en Pro", highlighted: true,
             },
           ].map(({ name, price, period, desc, features, cta, highlighted }) => (

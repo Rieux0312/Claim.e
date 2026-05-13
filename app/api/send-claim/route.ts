@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import { createClient } from "@/lib/supabase/server";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend("re_DyerHmDs_E65sZ1AoUxBadFbT9t38CapC");
 
 const CARRIER_EMAILS: Record<string, string> = {
   colissimo: "reclamations@laposte.fr",
@@ -77,7 +77,7 @@ const typeLabels: Record<string, string> = {
     // En test : envoi à votre email
     // En production : remplacez user.email par carrierEmail
     const { error: emailError } = await resend.emails.send({
-      from: "Claim.e <onboarding@resend.dev>",
+      from: "Claim.e <reclamations@claim-e.fr>",
       to: user.email!,
       subject: `Réclamation — ${typeLabel} — Commande ${delivery.order_id}`,
       html: `

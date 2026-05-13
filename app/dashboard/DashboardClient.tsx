@@ -148,7 +148,7 @@ export default function DashboardClient({ user, initialDeliveries, initialAnomal
         const vals = line.split(",").map((v) => v.trim());
         return Object.fromEntries(headers.map((h, i) => [h, vals[i] ?? ""]));
       });
-      const deliveryInserts = rows.map((r) => ({
+      const deliveryInserts = rows.filter((r) => r.expected_date && r.expected_date.trim() !== "").map((r) => ({
         order_id: r.order_id || `ORD-${Date.now()}`,
         tracking: r.tracking || "",
         expected_date: r.expected_date,

@@ -160,7 +160,7 @@ function Pricing() {
         <div className="text-center mb-14">
           <div className="section-tag mb-6">Tarifs</div>
           <h2 className="font-display text-4xl font-700 text-white tracking-tight mb-4">Transparent et sans risque</h2>
-          <p className="text-slate-400 text-lg">Abonnement mensuel + 20% sur l'argent récupéré.<br />Vous ne payez rien si on ne récupère rien.</p>
+          <p className="text-slate-400 text-lg">Abonnement mensuel<br /></p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {[
@@ -211,7 +211,7 @@ function Footer() {
             <Logo size={28} />
             <span className="font-display font-800 text-white">Claim<span className="text-brand-400">.e</span></span>
           </div>
-          <p className="text-slate-600 text-sm">© 2024 Claim.e · Tous droits réservés</p>
+          <p className="text-slate-600 text-sm">© 2026 Claim.e · Tous droits réservés</p>
           <div className="flex gap-4 text-xs text-slate-600">
 <Link href="/cgu" className="hover:text-slate-400">CGU</Link>
 <Link href="/confidentialite" className="hover:text-slate-400">Confidentialité</Link>

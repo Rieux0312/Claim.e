@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import { createClient } from "@/lib/supabase/server";
 
-const resend = new Resend("re_DyerHmDs_E65sZ1AoUxBadFbT9t38CapC");
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 const CARRIER_EMAILS: Record<string, string> = {
   colissimo: "e-recours@laposte.fr",
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
 
     const { data: anomaly, error: anomalyError } = await supabase
       .from("anomalies")
-      .select("*, delivery:delivery_id(*)")
+      .select("*, delivery:deliveries(*)")
       .eq("id", anomalyId)
       .eq("user_id", user.id)
       .single();
@@ -93,7 +93,7 @@ const typeLabels: Record<string, string> = {
       damaged: "colis endommagé",
       double_billing: "double facturation",
       overcharge: "surfacturation",
-    };;
+    };
 
     const typeLabel = typeLabels[anomaly.type] ?? anomaly.type;
 

@@ -1,6 +1,23 @@
+"use client";
 import Link from "next/link";
+import { useState, useEffect } from "react";
+import { createClient } from "@/lib/supabase/client";
 
 export default function TarifsPage() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const supabase = createClient();
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setIsLoggedIn(!!session);
+    });
+  }, []);
+
+  async function logout() {
+    await supabase.auth.signOut();
+    setIsLoggedIn(false);
+  }
+
   return (
     <div className="min-h-screen bg-surface">
       {/* Header */}
@@ -18,16 +35,26 @@ export default function TarifsPage() {
               Claim<span className="text-brand-400">.e</span>
             </span>
           </Link>
-          <div className="flex items-center gap-1">
-  <a href="/#fonctionnalites" className="btn-ghost text-sm">Fonctionnalités</a>
-  <a href="/#comment-ca-marche" className="btn-ghost text-sm">Comment ça marche</a>
-  <Link href="/a-propos" className="btn-ghost text-sm">À propos</Link>
-  <Link href="/tarifs" className="btn-ghost text-sm">Tarifs</Link>
-</div>
-<div className="flex items-center gap-3">
-  <Link href="/login" className="btn-ghost text-sm">Connexion</Link>
-  <Link href="/signup" className="btn-primary text-sm">Commencer</Link>
-</div>
+          <div className="hidden md:flex items-center gap-1">
+            <a href="/#fonctionnalites" className="btn-ghost text-sm">Fonctionnalités</a>
+            <a href="/#comment-ca-marche" className="btn-ghost text-sm">Comment ça marche</a>
+            <Link href="/a-propos" className="btn-ghost text-sm">À propos</Link>
+            <Link href="/tarifs" className="btn-ghost text-sm">Tarifs</Link>
+            <Link href="/faq" className="btn-ghost text-sm">F.A.Q.</Link>
+          </div>
+          <div className="flex items-center gap-3">
+            {isLoggedIn ? (
+              <>
+                <Link href="/dashboard" className="btn-primary text-sm">📦 Mon Dashboard</Link>
+                <button onClick={logout} className="btn-ghost text-sm">Déconnexion</button>
+              </>
+            ) : (
+              <>
+                <Link href="/login" className="btn-ghost text-sm">Connexion</Link>
+                <Link href="/signup" className="btn-primary text-sm">Commencer</Link>
+              </>
+            )}
+          </div>
         </div>
       </header>
 

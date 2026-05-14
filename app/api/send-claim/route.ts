@@ -5,13 +5,13 @@ import { createClient } from "@/lib/supabase/server";
 const resend = new Resend("re_DyerHmDs_E65sZ1AoUxBadFbT9t38CapC");
 
 const CARRIER_EMAILS: Record<string, string> = {
-  colissimo: "reclamations@laposte.fr",
-  dhl: "reclamations@dhl.fr",
-  fedex: "reclamations@fedex.fr",
-  ups: "reclamations@ups.fr",
-  chronopost: "reclamations@chronopost.fr",
-  gls: "reclamations@gls-group.eu",
-  default: "reclamations@transporteur.fr",
+  colissimo: "e-recours@laposte.fr",
+  chronopost: "service.client@chronopost.fr",
+  gls: "servicedestinataire@gls-france.com",
+  dpd: "information@dpd.fr",
+  mondialrelay: "suividecolis@mondialrelay.fr",
+  tnt: "fr-litiges-tnt@fedex.com",
+  default: "reclamations@claim-e.fr",
 };
 
 function detectCarrier(tracking: string): string {
@@ -86,10 +86,8 @@ cc: user.email!,
           
           <div style="background: #1a56ff; padding: 24px; border-radius: 12px 12px 0 0;">
             <h1 style="color: white; margin: 0; font-size: 20px;">Claim.e — Réclamation officielle</h1>
-            <p style="color: rgba(255,255,255,0.7); margin: 4px 0 0; font-size: 13px;">
-              Destinataire réel en production : ${carrierEmail}
-            </p>
-          </div>
+          
+            </div>
 
           <div style="background: #f8fafc; padding: 24px; border: 1px solid #e2e8f0; border-top: none; border-radius: 0 0 12px 12px;">
             

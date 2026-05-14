@@ -61,9 +61,11 @@ export default function TarifsPage() {
                 { text: "Jusqu'à 500 livraisons/mois", included: true },
                 { text: "Détection automatique d'anomalies", included: true },
                 { text: "Dashboard en temps réel", included: true },
+                { text: "Import CSV manuel", included: true },
                 { text: "Export PDF des rapports", included: true },
+                { text: "Connexion automatique (Shopify, Sendcloud…)", included: false },
+                { text: "Webhook universel (WooCommerce, PrestaShop…)", included: false },
                 { text: "Envoi automatique des réclamations", included: false },
-                { text: "Intégration API transporteurs", included: false },
                 { text: "Support prioritaire 24/7", included: false },
               ].map(({ text, included }) => (
                 <li key={text} className={`flex items-center gap-2.5 text-sm ${included ? "text-slate-300" : "text-slate-600"}`}>
@@ -98,8 +100,10 @@ export default function TarifsPage() {
                 { text: "Détection automatique d'anomalies", included: true },
                 { text: "Dashboard en temps réel", included: true },
                 { text: "Export PDF des rapports", included: true },
+                { text: "Connexion Shopify & Sendcloud automatique", included: true },
+                { text: "Webhook universel (WooCommerce, PrestaShop…)", included: true },
+                { text: "Synchronisation quotidienne automatique", included: true },
                 { text: "Envoi automatique des réclamations", included: true },
-                { text: "Intégration API transporteurs", included: true },
                 { text: "Support prioritaire 24/7", included: true },
               ].map(({ text, included }) => (
                 <li key={text} className={`flex items-center gap-2.5 text-sm ${included ? "text-slate-300" : "text-slate-600"}`}>
@@ -128,8 +132,13 @@ export default function TarifsPage() {
                 q: "Y a-t-il un engagement minimum ?",
                 a: "Non, aucun engagement. Vous pouvez annuler votre abonnement à tout moment depuis vos paramètres.",
               },
-              {                q: "Y a-t-il une période d'essai gratuite ?",
+              {
+                q: "Y a-t-il une période d'essai gratuite ?",
                 a: "Vous pouvez tester Claim.e gratuitement avec votre premier import CSV. Aucune carte bancaire requise pour commencer.",
+              },
+              {
+                q: "Qu'est-ce que le Webhook universel inclus dans le plan Pro ?",
+                a: "C'est une URL unique générée pour votre compte. Vous la collez dans votre boutique (WooCommerce, PrestaShop, Make, Zapier…) et chaque nouvelle commande expédiée arrive automatiquement dans Claim.e — sans import manuel.",
               },
               {
                 q: "Quels moyens de paiement acceptez-vous ?",

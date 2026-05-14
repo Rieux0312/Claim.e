@@ -77,3 +77,19 @@ CREATE POLICY "anomalies_select" ON public.anomalies FOR SELECT USING (auth.uid(
 CREATE POLICY "anomalies_insert" ON public.anomalies FOR INSERT WITH CHECK (auth.uid() = user_id);
 CREATE POLICY "anomalies_update" ON public.anomalies FOR UPDATE USING (auth.uid() = user_id);
 CREATE POLICY "anomalies_delete" ON public.anomalies FOR DELETE USING (auth.uid() = user_id);
+
+-- ═══════════════════════════════════════════════
+-- Migration v2 : Clés API transporteurs + synchro automatique
+-- À exécuter une seule fois dans le SQL Editor
+-- ═══════════════════════════════════════════════
+ALTER TABLE public.users
+  ADD COLUMN IF NOT EXISTS carrier_api_keys JSONB NOT NULL DEFAULT '{}'::jsonb,
+  ADD COLUMN IF NOT EXISTS integrations      JSONB NOT NULL DEFAULT '{}'::jsonb,
+  ADD COLUMN IF NOT EXISTS last_sync_at      TIMESTAMPTZ,
+  ADD COLUMN IF NOT EXISTS webhook_secret    TEXT;
+
+-- Index unique pour éviter les doublons lors de la synchro API
+-- (les imports CSV sans tracking ne sont pas concernés)
+CREATE UNIQUE INDEX IF NOT EXISTS deliveries_user_tracking_unique
+  ON public.deliveries (user_id, tracking)
+  WHERE tracking IS NOT NULL AND tracking <> '';

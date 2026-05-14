@@ -151,8 +151,8 @@ function HowItWorks() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[
-            { num: "01", title: "Importez vos données", desc: "Exportez vos livraisons depuis votre transporteur et importez en CSV en quelques secondes.", detail: "Compatible : Colissimo, DHL, FedEx, UPS…" },
-            { num: "02", title: "Détection automatique", desc: "Notre moteur analyse chaque livraison et identifie toutes les anomalies récupérables.", detail: "Analyse en temps réel · 98% de taux de détection" },
+            { num: "01", title: "Connectez votre boutique", desc: "Shopify, WooCommerce, PrestaShop, Sendcloud — une simple connexion et vos commandes arrivent automatiquement. Import CSV disponible pour les autres.", detail: "Webhook universel · Shopify · Sendcloud · CSV" },
+            { num: "02", title: "Détection automatique", desc: "Notre moteur analyse chaque livraison dès réception et identifie retards, colis perdus et SLA non respectés.", detail: "Analyse en temps réel · 98% de taux de détection" },
             { num: "03", title: "Réclamations & remboursements", desc: "Claim.e génère les réclamations et suit les remboursements jusqu'au paiement.", detail: "Suivi automatique jusqu'au remboursement" },
           ].map(({ num, title, desc, detail }) => (
             <div key={num} className="glass-card p-7 relative overflow-hidden group hover:border-brand-500/30 transition-all duration-300">
@@ -188,9 +188,11 @@ function Pricing() {
                 { text: "Jusqu'à 500 livraisons/mois", included: true },
                 { text: "Détection automatique d'anomalies", included: true },
                 { text: "Dashboard en temps réel", included: true },
+                { text: "Import CSV manuel", included: true },
                 { text: "Export PDF des rapports", included: true },
+                { text: "Connexion automatique (Shopify, Sendcloud…)", included: false },
+                { text: "Webhook universel (WooCommerce, PrestaShop…)", included: false },
                 { text: "Envoi automatique des réclamations", included: false },
-                { text: "Intégration API transporteurs", included: false },
                 { text: "Support prioritaire 24/7", included: false },
               ],
               cta: "Commencer", highlighted: false,
@@ -201,9 +203,10 @@ function Pricing() {
                 { text: "Livraisons illimitées", included: true },
                 { text: "Détection automatique d'anomalies", included: true },
                 { text: "Dashboard en temps réel", included: true },
-                { text: "Export PDF des rapports", included: true },
+                { text: "Connexion Shopify & Sendcloud automatique", included: true },
+                { text: "Webhook universel (WooCommerce, PrestaShop…)", included: true },
+                { text: "Synchronisation quotidienne automatique", included: true },
                 { text: "Envoi automatique des réclamations", included: true },
-                { text: "Intégration API transporteurs", included: true },
                 { text: "Support prioritaire 24/7", included: true },
               ],
               cta: "Démarrer en Pro", highlighted: true,

@@ -153,6 +153,7 @@ export default function DashboardClient({ user, initialDeliveries, initialAnomal
         tracking: r.tracking || "",
         expected_date: r.expected_date,
         actual_date: r.actual_date || null,
+        carrier: r.carrier || r.transporteur || r.transporter || null,
         status: r.anomaly_type === "lost" ? "lost" as const :
                 r.anomaly_type && r.anomaly_type !== "delay" ? "pending" as const :
                 inferStatus(r.expected_date, r.actual_date || undefined),

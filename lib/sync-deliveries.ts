@@ -88,7 +88,7 @@ export async function fetchShopify(
     `&fields=id,name,fulfillments,created_at`;
 
   while (url) {
-    const res = await fetch(url, { headers });
+    const res: Response = await fetch(url, { headers });
     if (!res.ok) throw new Error(`Shopify HTTP ${res.status} — vérifiez le domaine et le token`);
 
     const data = await res.json() as { orders?: ShopifyOrder[] };

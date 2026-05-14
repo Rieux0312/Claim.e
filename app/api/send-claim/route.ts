@@ -15,10 +15,33 @@ const CARRIER_EMAILS: Record<string, string> = {
 };
 
 function detectCarrier(tracking: string): string {
-  if (tracking.startsWith("FR")) return "colissimo";
-  if (tracking.startsWith("JD")) return "dhl";
-  if (tracking.startsWith("7")) return "fedex";
-  if (tracking.startsWith("1Z")) return "ups";
+  const t = tracking.toUpperCase().trim();
+
+  // UPS
+  if (t.startsWith("1Z")) return "ups";
+
+  // DHL
+  if (t.startsWith("JD")) return "dhl";
+
+  // FedEx / TNT
+  if (/^\d{12,14}$/.test(t) && t.startsWith("7")) return "fedex";
+  if (/^\d{9,10}$/.test(t)) return "tnt";
+
+  // GLS
+  if (t.startsWith("GL")) return "gls";
+
+  // DPD (14 chiffres uniquement)
+  if (/^\d{14}$/.test(t)) return "dpd";
+
+  // Chronopost (2 lettres + 9 chiffres + 2 lettres)
+  if (/^[A-Z]{2}\d{9}[A-Z]{2}$/.test(t)) return "chronopost";
+
+  // Colissimo (commence par FR + chiffres + FR)
+  if (t.startsWith("FR") && t.endsWith("FR")) return "colissimo";
+
+  // Mondial Relay (alphanumérique long)
+  if (/^[A-Z0-9]{15,}$/.test(t)) return "mondialrelay";
+
   return "default";
 }
 

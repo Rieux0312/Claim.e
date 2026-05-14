@@ -163,7 +163,7 @@ export async function fetchSendcloud(
     `?updated_after=${since.toISOString()}&limit=100`;
 
   while (url) {
-    const res = await fetch(url, {
+    const res: Response = await fetch(url, {
       headers: {
         Authorization: `Basic ${Buffer.from(`${publicKey}:${secretKey}`).toString("base64")}`,
         Accept: "application/json",

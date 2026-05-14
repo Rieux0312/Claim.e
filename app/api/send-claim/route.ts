@@ -78,7 +78,8 @@ const typeLabels: Record<string, string> = {
     // En production : remplacez user.email par carrierEmail
     const { error: emailError } = await resend.emails.send({
       from: "Claim.e <reclamations@claim-e.fr>",
-      to: user.email!,
+to: carrierEmail,
+cc: user.email!,
       subject: `Réclamation — ${typeLabel} — Commande ${delivery.order_id}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">

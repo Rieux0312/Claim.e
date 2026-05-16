@@ -54,13 +54,13 @@ function Navbar() {
 
 function Box3D() {
   return (
-    <div className="relative w-full max-w-lg flex items-center justify-center">
+    <div className="relative w-full flex items-center justify-center" style={{ minHeight: 400 }}>
       {/* Glow ambiance */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-brand-500/10 blur-3xl rounded-full" />
+      <div className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-brand-500/10 blur-3xl rounded-full pointer-events-none" />
 
-      <div className="relative flex items-center gap-0">
-        {/* Carton isométrique blanc */}
-        <svg viewBox="0 0 320 310" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-72 h-auto drop-shadow-2xl">
+      {/* Carton isométrique blanc */}
+      <div className="relative" style={{ width: 340 }}>
+        <svg viewBox="0 0 320 310" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto drop-shadow-2xl">
           <defs>
             <linearGradient id="box-top" x1="60" y1="60" x2="260" y2="160" gradientUnits="userSpaceOnUse">
               <stop stopColor="#ffffff" />
@@ -77,28 +77,27 @@ function Box3D() {
           </defs>
 
           {/* Ombre portée */}
-          <ellipse cx="160" cy="295" rx="100" ry="10" fill="#000" opacity="0.12" />
+          <ellipse cx="160" cy="298" rx="105" ry="10" fill="#000" opacity="0.14" />
 
           {/* Face du dessus */}
-          <path d="M160 60 L260 115 L160 170 L60 115 Z" fill="url(#box-top)" stroke="#c8d4e4" strokeWidth="0.8" />
-          {/* Rabats dessus — ligne de fermeture */}
-          <path d="M160 60 L160 170" stroke="#c0cce0" strokeWidth="1" strokeDasharray="4 3" />
-          <path d="M60 115 L260 115" stroke="#c0cce0" strokeWidth="0.8" strokeDasharray="4 3" />
+          <path d="M160 55 L265 112 L160 170 L55 112 Z" fill="url(#box-top)" stroke="#c8d4e4" strokeWidth="0.8" />
+          <path d="M160 55 L160 170" stroke="#c0cce0" strokeWidth="1" strokeDasharray="4 3" />
+          <path d="M55 112 L265 112" stroke="#c0cce0" strokeWidth="0.8" strokeDasharray="4 3" />
 
           {/* Face gauche */}
-          <path d="M60 115 L160 170 L160 280 L60 225 Z" fill="url(#box-left)" stroke="#b0bdd4" strokeWidth="0.8" />
+          <path d="M55 112 L160 170 L160 282 L55 224 Z" fill="url(#box-left)" stroke="#b0bdd4" strokeWidth="0.8" />
           {/* Face droite */}
-          <path d="M160 170 L260 115 L260 225 L160 280 Z" fill="url(#box-right)" stroke="#b8c8e0" strokeWidth="0.8" />
+          <path d="M160 170 L265 112 L265 224 L160 282 Z" fill="url(#box-right)" stroke="#b8c8e0" strokeWidth="0.8" />
 
           {/* Ruban scotch vertical — face droite */}
-          <path d="M207 143 L213 140 L213 253 L207 256 Z" fill="#a0b4cc" opacity="0.4" />
+          <path d="M208 140 L215 137 L215 256 L208 259 Z" fill="#a0b4cc" opacity="0.4" />
           {/* Ruban scotch horizontal — face droite */}
-          <path d="M160 196 L260 143 L260 151 L160 204 Z" fill="#a0b4cc" opacity="0.3" />
+          <path d="M160 194 L265 140 L265 149 L160 203 Z" fill="#a0b4cc" opacity="0.3" />
           {/* Ruban scotch vertical — face gauche */}
-          <path d="M113 140 L119 143 L119 256 L113 253 Z" fill="#9aacc0" opacity="0.35" />
+          <path d="M110 137 L117 140 L117 259 L110 256 Z" fill="#9aacc0" opacity="0.35" />
 
-          {/* Logo Claim.e sur la face droite (projection isométrique) */}
-          <g transform="translate(195, 170) scale(0.55) rotate(-30)">
+          {/* Logo Claim.e sur la face droite */}
+          <g transform="translate(182, 158) scale(0.7) rotate(-27)">
             <svg viewBox="0 0 56 56" width="56" height="56">
               <defs>
                 <linearGradient id="logo-proj" x1="4" y1="8" x2="52" y2="50" gradientUnits="userSpaceOnUse">
@@ -115,33 +114,32 @@ function Box3D() {
           </g>
         </svg>
 
-        {/* Carte flottante "Réclamation réussie" */}
-        <div className="absolute -right-4 top-12 w-52 bg-[#0f1729]/95 backdrop-blur border border-white/10 rounded-2xl p-4 shadow-2xl">
-          <div className="flex items-center gap-2 mb-3">
-            <div className="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center flex-shrink-0">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+        {/* Carte flottante — positionnée en haut à droite, hors du carton */}
+        <div className="absolute -top-4 -right-48 w-44 bg-[#0f1729]/95 backdrop-blur border border-white/10 rounded-2xl p-4 shadow-2xl">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-5 h-5 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center flex-shrink-0">
+              <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
                 <path d="M2 6l3 3 5-5" stroke="#10b981" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
-            <span className="text-white text-xs font-semibold">Réclamation réussie</span>
+            <span className="text-white text-[11px] font-semibold">Réclamation réussie</span>
           </div>
-          <p className="text-slate-400 text-[10px] mb-2">Remboursement obtenu</p>
-          <p className="text-2xl font-display font-800 text-white mb-3">+€1 250,00</p>
-          <div className="flex items-center justify-between mb-1.5">
+          <p className="text-slate-400 text-[10px] mb-1">Remboursement obtenu</p>
+          <p className="text-xl font-display font-800 text-white mb-2">+€1 250,00</p>
+          <div className="flex items-center justify-between mb-1">
             <span className="text-slate-500 text-[10px]">Évolution</span>
             <span className="text-emerald-400 text-[10px] font-semibold">▲ +12%</span>
           </div>
-          {/* Mini graphe montant */}
-          <svg viewBox="0 0 180 40" className="w-full h-8">
+          <svg viewBox="0 0 140 36" className="w-full h-7">
             <defs>
-              <linearGradient id="graph-grad" x1="0" y1="0" x2="0" y2="1">
-                <stop stopColor="#06b6d4" stopOpacity="0.4" />
-                <stop offset="1" stopColor="#1a56ff" stopOpacity="0.05" />
+              <linearGradient id="graph-fill" x1="0" y1="0" x2="0" y2="1">
+                <stop stopColor="#06b6d4" stopOpacity="0.35" />
+                <stop offset="1" stopColor="#1a56ff" stopOpacity="0.03" />
               </linearGradient>
             </defs>
-            <path d="M0 38 L20 32 L45 28 L70 22 L95 16 L120 10 L145 6 L180 2" stroke="url(#claim-e-grad)" strokeWidth="2" fill="none" strokeLinecap="round" />
-            <path d="M0 38 L20 32 L45 28 L70 22 L95 16 L120 10 L145 6 L180 2 L180 40 L0 40 Z" fill="url(#graph-grad)" />
-            <circle cx="180" cy="2" r="3" fill="#06b6d4" />
+            <path d="M0 34 L16 28 L35 24 L55 18 L75 13 L95 8 L115 4 L140 1" stroke="#06b6d4" strokeWidth="1.8" fill="none" strokeLinecap="round" />
+            <path d="M0 34 L16 28 L35 24 L55 18 L75 13 L95 8 L115 4 L140 1 L140 36 L0 36 Z" fill="url(#graph-fill)" />
+            <circle cx="140" cy="1" r="2.5" fill="#06b6d4" />
           </svg>
         </div>
       </div>
@@ -155,38 +153,30 @@ function Hero() {
       <div className="absolute inset-0 bg-grid opacity-40" />
       <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] rounded-full bg-brand-500/5 blur-3xl" />
       <div className="absolute top-1/2 right-1/4 w-[400px] h-[400px] rounded-full bg-brand-300/5 blur-3xl" />
-      <div className="relative max-w-6xl mx-auto px-6 py-20 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <div className="relative max-w-7xl mx-auto px-6 py-20 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
 
         {/* Texte — colonne gauche */}
         <div className="flex flex-col items-start">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-400 text-xs font-semibold uppercase tracking-wider mb-8">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-400 text-sm font-semibold uppercase tracking-wider mb-8">
             <span className="w-1.5 h-1.5 rounded-full bg-brand-400 animate-pulse" />
             Audit logistique automatisé
           </div>
-          <h1 className="font-display text-4xl md:text-5xl font-800 text-white leading-tight tracking-tight mb-6">
+          <h1 className="font-display text-5xl md:text-6xl font-800 text-white leading-[1.1] tracking-tight mb-7">
             Récupérez l'argent{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-cyan-400">
               perdu sur vos livraisons
             </span>
           </h1>
-          <p className="text-lg text-slate-400 mb-10 leading-relaxed">
+          <p className="text-xl text-slate-400 mb-10 leading-relaxed max-w-lg">
             Claim.e détecte automatiquement les erreurs de vos transporteurs — retards, colis perdus, SLA non respectés — et récupère l'argent pour vous.
           </p>
-          <div className="flex items-center gap-4 mb-10 flex-nowrap">
-            <Link href="/signup" className="btn-primary px-6 py-3 text-sm whitespace-nowrap">
+          <div className="flex items-center gap-4 flex-nowrap">
+            <Link href="/signup" className="btn-primary px-8 py-3.5 text-base whitespace-nowrap">
               Analyser mes livraisons →
             </Link>
-            <a href="#comment-ca-marche" className="btn-secondary px-6 py-3 text-sm whitespace-nowrap">
+            <a href="#comment-ca-marche" className="btn-secondary px-8 py-3.5 text-base whitespace-nowrap">
               Voir comment ça marche
             </a>
-          </div>
-          <div className="grid grid-cols-3 gap-4 w-full max-w-sm">
-            {[["2,4M€+", "Récupérés"], ["98%", "Taux de détection"], ["48h", "Délai moyen"]].map(([val, label]) => (
-              <div key={label} className="glass-card p-3 text-center">
-                <p className="font-display text-xl font-700 text-white mb-0.5">{val}</p>
-                <p className="text-xs text-slate-500">{label}</p>
-              </div>
-            ))}
           </div>
         </div>
 

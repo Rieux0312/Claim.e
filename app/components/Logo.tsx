@@ -7,10 +7,10 @@ export default function Logo({ size = 32 }: { size?: number }) {
           <stop offset="1" stopColor="#1a56ff" />
         </linearGradient>
       </defs>
-      {/* Arc circulaire ~300° sens horaire, de 1-o'clock jusqu'en haut avec arrowhead pointant à droite */}
-      <path d="M 45 18 A 20 20 0 1 1 28 8" stroke="url(#claim-e-grad)" strokeWidth="5.5" strokeLinecap="round" fill="none" />
-      {/* Arrowhead pointant à droite */}
-      <polygon points="34,8 27,4.5 27,11.5" fill="url(#claim-e-grad)" />
+      {/* Arc ~300° sens horaire de 1h (38,11) à 11h (18,11) — ouverture centrée en haut */}
+      <path d="M 38 11 A 20 20 0 1 1 18 11" stroke="url(#claim-e-grad)" strokeWidth="5.5" strokeLinecap="round" fill="none" />
+      {/* Flèche à 11h pointant vers 12h (direction clockwise) */}
+      <polygon points="22,9 14,9 18,15" fill="url(#claim-e-grad)" />
       {/* Cube 3D — face du dessus */}
       <path d="M28 21 L36 25.5 L28 30 L20 25.5 Z" fill="url(#claim-e-grad)" opacity="0.95" />
       {/* Cube 3D — face gauche */}

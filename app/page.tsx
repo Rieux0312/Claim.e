@@ -7,17 +7,11 @@ function Logo({ size = 32 }: { size?: number }) {
   return (
     <div style={{ width: size, height: size }} className="flex-shrink-0">
       <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" width={size} height={size}>
-        <circle cx="20" cy="20" r="19" stroke="url(#logo-gradient)" strokeWidth="2" fill="none" />
-        <path d="M28 14c-1.8-2.4-4.6-4-7.8-4C14.5 10 10 14.5 10 20s4.5 10 10.2 10c3.2 0 6-1.6 7.8-4" stroke="url(#logo-gradient)" strokeWidth="2.2" strokeLinecap="round" fill="none" />
-        <path d="M26 11l2 3-3 1" stroke="#14b6a6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-        <rect x="16" y="17" width="8" height="6" rx="1" fill="url(#logo-gradient)" opacity="0.9" />
-        <path d="M16 19l4-2 4 2" stroke="white" strokeWidth="1" fill="none" opacity="0.6" />
-        <defs>
-          <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#14b6a6" />
-            <stop offset="1" stopColor="#06b6d4" />
-          </linearGradient>
-        </defs>
+        <path d="M29 13c-2.2-3-5.6-5-9.5-5C12 8 7 13.4 7 20s5 12 12.5 12c3.9 0 7.3-1.8 9.5-4.8"
+              stroke="#4d7eff" strokeWidth="3" strokeLinecap="round" fill="none" />
+        <path d="M26 8.5l3.5 4.5-4.5 1.5" stroke="#4d7eff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+        <rect x="14" y="16.5" width="12" height="8" rx="1.5" fill="#4d7eff" opacity="0.9" />
+        <path d="M14 19.5l6-2.5 6 2.5" stroke="white" strokeWidth="1.2" fill="none" opacity="0.55" />
       </svg>
     </div>
   );
@@ -73,59 +67,93 @@ function Navbar() {
 
 function Box3D() {
   return (
-    <svg viewBox="0 0 360 320" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full max-w-sm drop-shadow-2xl">
-      {/* Glow */}
-      <ellipse cx="180" cy="290" rx="120" ry="18" fill="#1a56ff" opacity="0.18" />
-      {/* Face droite */}
-      <path d="M180 160 L300 100 L300 220 L180 280 Z" fill="#0f1e40" />
-      <path d="M180 160 L300 100 L300 220 L180 280 Z" fill="url(#box-right)" opacity="0.9" />
-      {/* Face gauche */}
-      <path d="M60 100 L180 160 L180 280 L60 220 Z" fill="#0a1530" />
-      <path d="M60 100 L180 160 L180 280 L60 220 Z" fill="url(#box-left)" opacity="0.9" />
-      {/* Face du dessus */}
-      <path d="M180 40 L300 100 L180 160 L60 100 Z" fill="url(#box-top)" />
-      {/* Ligne centrale haut */}
-      <line x1="180" y1="40" x2="180" y2="160" stroke="white" strokeOpacity="0.08" strokeWidth="1" />
-      <line x1="60" y1="100" x2="300" y2="100" stroke="white" strokeOpacity="0.08" strokeWidth="1" />
-      {/* Ruban horizontal gauche */}
-      <path d="M60 145 L180 205 L180 220 L60 160 Z" fill="white" opacity="0.06" />
-      {/* Ruban horizontal droite */}
-      <path d="M180 205 L300 145 L300 160 L180 220 Z" fill="white" opacity="0.04" />
-      {/* Ruban vertical dessus */}
-      <path d="M165 40 L180 40 L180 160 L165 153 Z" fill="white" opacity="0.07" />
-      <path d="M180 40 L195 40 L195 153 L180 160 Z" fill="white" opacity="0.05" />
-      {/* Arêtes */}
-      <path d="M180 40 L300 100 L180 160 L60 100 Z" stroke="white" strokeOpacity="0.15" strokeWidth="1" fill="none" />
-      <path d="M180 160 L180 280" stroke="white" strokeOpacity="0.1" strokeWidth="1" />
-      <path d="M60 100 L60 220" stroke="white" strokeOpacity="0.1" strokeWidth="1" />
-      <path d="M300 100 L300 220" stroke="white" strokeOpacity="0.1" strokeWidth="1" />
-      <path d="M60 220 L180 280 L300 220" stroke="white" strokeOpacity="0.1" strokeWidth="1" fill="none" />
-      {/* Badge réclamation */}
-      <g transform="translate(230, 55)">
-        <rect x="0" y="0" width="88" height="32" rx="8" fill="#1a2236" stroke="#1a56ff" strokeOpacity="0.4" strokeWidth="1" />
-        <circle cx="12" cy="16" r="5" fill="#1a56ff" opacity="0.8" />
-        <text x="22" y="20" fill="white" fontSize="9" fontFamily="Sora, sans-serif" opacity="0.9">✓ Réclamation</text>
-      </g>
-      {/* Badge tracking */}
-      <g transform="translate(18, 165)">
-        <rect x="0" y="0" width="80" height="28" rx="7" fill="#1a2236" stroke="#4d7eff" strokeOpacity="0.3" strokeWidth="1" />
-        <text x="10" y="18" fill="#4d7eff" fontSize="9" fontFamily="Sora, sans-serif">🔍 Suivi live</text>
-      </g>
-      <defs>
-        <linearGradient id="box-top" x1="60" y1="100" x2="300" y2="100" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#2a4a8a" />
-          <stop offset="1" stopColor="#1a3570" />
-        </linearGradient>
-        <linearGradient id="box-left" x1="60" y1="100" x2="180" y2="280" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#0d1f3c" />
-          <stop offset="1" stopColor="#091529" />
-        </linearGradient>
-        <linearGradient id="box-right" x1="300" y1="100" x2="180" y2="280" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#122545" />
-          <stop offset="1" stopColor="#0a1a33" />
-        </linearGradient>
-      </defs>
-    </svg>
+    <div className="relative w-full max-w-md">
+      <div className="absolute inset-0 bg-brand-500/10 blur-3xl rounded-full scale-75" />
+      <svg viewBox="0 0 400 380" fill="none" xmlns="http://www.w3.org/2000/svg" className="relative w-full">
+        {/* Ombre sol */}
+        <ellipse cx="200" cy="348" rx="125" ry="16" fill="#1a56ff" opacity="0.2" />
+
+        {/* Face gauche */}
+        <path d="M80 130 L200 185 L200 305 L80 250 Z" fill="url(#bl)" />
+        {/* Face droite */}
+        <path d="M200 185 L320 130 L320 250 L200 305 Z" fill="url(#br)" />
+        {/* Face du dessus */}
+        <path d="M200 75 L320 130 L200 185 L80 130 Z" fill="url(#bt)" />
+        {/* Reflet haut */}
+        <path d="M200 75 L320 130 L200 185 L80 130 Z" fill="url(#bs)" />
+
+        {/* Ruban vertical — dessus */}
+        <path d="M194 75 L200 75 L200 185 L194 182 Z" fill="white" opacity="0.09" />
+        <path d="M200 75 L206 75 L206 182 L200 185 Z" fill="white" opacity="0.07" />
+        {/* Ruban vertical — face gauche */}
+        <path d="M133 108 L140 112 L140 232 L133 228 Z" fill="white" opacity="0.05" />
+        {/* Ruban vertical — face droite */}
+        <path d="M260 112 L267 108 L267 228 L260 232 Z" fill="white" opacity="0.04" />
+        {/* Ruban horizontal — face gauche */}
+        <path d="M80 170 L200 225 L200 236 L80 181 Z" fill="white" opacity="0.06" />
+        {/* Ruban horizontal — face droite */}
+        <path d="M200 225 L320 170 L320 181 L200 236 Z" fill="white" opacity="0.04" />
+
+        {/* Arêtes */}
+        <path d="M200 75 L320 130 L200 185 L80 130 Z" stroke="white" strokeOpacity="0.18" strokeWidth="0.8" fill="none" />
+        <path d="M200 185 L200 305" stroke="white" strokeOpacity="0.12" strokeWidth="0.8" />
+        <path d="M80 130 L80 250" stroke="white" strokeOpacity="0.12" strokeWidth="0.8" />
+        <path d="M320 130 L320 250" stroke="white" strokeOpacity="0.12" strokeWidth="0.8" />
+        <path d="M80 250 L200 305 L320 250" stroke="white" strokeOpacity="0.12" strokeWidth="0.8" fill="none" />
+
+        {/* Logo Claim.E projeté sur la face du dessus */}
+        <g transform="matrix(0.866,-0.433,-0.866,-0.433,200,130)" opacity="0.85">
+          {/* Arc C */}
+          <path d="M18 10c-1.5-2-3.8-3.3-6.4-3.3C6.7 6.7 3 10.4 3 15s3.7 8.3 8.6 8.3c2.6 0 5-1.2 6.4-3.2"
+                stroke="#4d7eff" strokeWidth="2.2" strokeLinecap="round" fill="none" />
+          {/* Flèche */}
+          <path d="M16 7.5l2.5 2.5-2.5 1" stroke="#4d7eff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+          {/* Boîte */}
+          <rect x="7" y="12.5" width="9" height="5.5" rx="1" fill="#4d7eff" opacity="0.7" />
+          <path d="M7 14.5l4.5-1.8 4.5 1.8" stroke="white" strokeWidth="0.9" fill="none" opacity="0.5" />
+        </g>
+
+        {/* Badge +€1 250 */}
+        <g transform="translate(258, 60)">
+          <rect x="0" y="0" width="108" height="40" rx="10" fill="#0d1e40" stroke="#1a56ff" strokeOpacity="0.55" strokeWidth="1" />
+          <circle cx="16" cy="20" r="8" fill="#1a56ff" opacity="0.75" />
+          <text x="16" y="24" textAnchor="middle" fill="white" fontSize="11" fontFamily="Sora,sans-serif" fontWeight="600">✓</text>
+          <text x="30" y="24" fill="white" fontSize="11" fontFamily="Sora,sans-serif" fontWeight="600">+€1 250</text>
+        </g>
+
+        {/* Badge suivi */}
+        <g transform="translate(16, 195)">
+          <rect x="0" y="0" width="100" height="36" rx="9" fill="#0d1e40" stroke="#4d7eff" strokeOpacity="0.45" strokeWidth="1" />
+          <text x="14" y="23" fill="#85a8ff" fontSize="11" fontFamily="Sora,sans-serif">📦 Suivi live</text>
+        </g>
+
+        {/* Badge anomalie */}
+        <g transform="translate(24, 248)">
+          <rect x="0" y="0" width="110" height="34" rx="9" fill="#0d1e40" stroke="#ff6b6b" strokeOpacity="0.35" strokeWidth="1" />
+          <text x="12" y="22" fill="#fca5a5" fontSize="10" fontFamily="Sora,sans-serif">⚠ Retard détecté</text>
+        </g>
+
+        <defs>
+          <linearGradient id="bt" x1="80" y1="75" x2="320" y2="185" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#1e3f7a" />
+            <stop offset="1" stopColor="#163060" />
+          </linearGradient>
+          <linearGradient id="bs" x1="80" y1="75" x2="200" y2="185" gradientUnits="userSpaceOnUse">
+            <stop stopColor="white" stopOpacity="0.13" />
+            <stop offset="0.5" stopColor="white" stopOpacity="0.04" />
+            <stop offset="1" stopColor="white" stopOpacity="0" />
+          </linearGradient>
+          <linearGradient id="bl" x1="80" y1="130" x2="200" y2="305" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#0e2245" />
+            <stop offset="1" stopColor="#08172e" />
+          </linearGradient>
+          <linearGradient id="br" x1="320" y1="130" x2="200" y2="305" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#112a50" />
+            <stop offset="1" stopColor="#0a1d38" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
   );
 }
 
@@ -143,8 +171,8 @@ function Hero() {
             <span className="w-1.5 h-1.5 rounded-full bg-brand-400 animate-pulse" />
             Audit logistique automatisé
           </div>
-          <h1 className="font-display text-5xl md:text-6xl font-800 text-white leading-tight tracking-tight mb-6">
-            Récupérez l'argent<br />
+          <h1 className="font-display text-4xl md:text-5xl font-800 text-white leading-tight tracking-tight mb-6">
+            Récupérez l'argent{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-cyan-400">
               perdu sur vos livraisons
             </span>

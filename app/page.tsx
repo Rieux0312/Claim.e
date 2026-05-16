@@ -71,15 +71,74 @@ function Navbar() {
   );
 }
 
+function Box3D() {
+  return (
+    <svg viewBox="0 0 360 320" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full max-w-sm drop-shadow-2xl">
+      {/* Glow */}
+      <ellipse cx="180" cy="290" rx="120" ry="18" fill="#1a56ff" opacity="0.18" />
+      {/* Face droite */}
+      <path d="M180 160 L300 100 L300 220 L180 280 Z" fill="#0f1e40" />
+      <path d="M180 160 L300 100 L300 220 L180 280 Z" fill="url(#box-right)" opacity="0.9" />
+      {/* Face gauche */}
+      <path d="M60 100 L180 160 L180 280 L60 220 Z" fill="#0a1530" />
+      <path d="M60 100 L180 160 L180 280 L60 220 Z" fill="url(#box-left)" opacity="0.9" />
+      {/* Face du dessus */}
+      <path d="M180 40 L300 100 L180 160 L60 100 Z" fill="url(#box-top)" />
+      {/* Ligne centrale haut */}
+      <line x1="180" y1="40" x2="180" y2="160" stroke="white" strokeOpacity="0.08" strokeWidth="1" />
+      <line x1="60" y1="100" x2="300" y2="100" stroke="white" strokeOpacity="0.08" strokeWidth="1" />
+      {/* Ruban horizontal gauche */}
+      <path d="M60 145 L180 205 L180 220 L60 160 Z" fill="white" opacity="0.06" />
+      {/* Ruban horizontal droite */}
+      <path d="M180 205 L300 145 L300 160 L180 220 Z" fill="white" opacity="0.04" />
+      {/* Ruban vertical dessus */}
+      <path d="M165 40 L180 40 L180 160 L165 153 Z" fill="white" opacity="0.07" />
+      <path d="M180 40 L195 40 L195 153 L180 160 Z" fill="white" opacity="0.05" />
+      {/* Arêtes */}
+      <path d="M180 40 L300 100 L180 160 L60 100 Z" stroke="white" strokeOpacity="0.15" strokeWidth="1" fill="none" />
+      <path d="M180 160 L180 280" stroke="white" strokeOpacity="0.1" strokeWidth="1" />
+      <path d="M60 100 L60 220" stroke="white" strokeOpacity="0.1" strokeWidth="1" />
+      <path d="M300 100 L300 220" stroke="white" strokeOpacity="0.1" strokeWidth="1" />
+      <path d="M60 220 L180 280 L300 220" stroke="white" strokeOpacity="0.1" strokeWidth="1" fill="none" />
+      {/* Badge réclamation */}
+      <g transform="translate(230, 55)">
+        <rect x="0" y="0" width="88" height="32" rx="8" fill="#1a2236" stroke="#1a56ff" strokeOpacity="0.4" strokeWidth="1" />
+        <circle cx="12" cy="16" r="5" fill="#1a56ff" opacity="0.8" />
+        <text x="22" y="20" fill="white" fontSize="9" fontFamily="Sora, sans-serif" opacity="0.9">✓ Réclamation</text>
+      </g>
+      {/* Badge tracking */}
+      <g transform="translate(18, 165)">
+        <rect x="0" y="0" width="80" height="28" rx="7" fill="#1a2236" stroke="#4d7eff" strokeOpacity="0.3" strokeWidth="1" />
+        <text x="10" y="18" fill="#4d7eff" fontSize="9" fontFamily="Sora, sans-serif">🔍 Suivi live</text>
+      </g>
+      <defs>
+        <linearGradient id="box-top" x1="60" y1="100" x2="300" y2="100" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#2a4a8a" />
+          <stop offset="1" stopColor="#1a3570" />
+        </linearGradient>
+        <linearGradient id="box-left" x1="60" y1="100" x2="180" y2="280" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#0d1f3c" />
+          <stop offset="1" stopColor="#091529" />
+        </linearGradient>
+        <linearGradient id="box-right" x1="300" y1="100" x2="180" y2="280" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#122545" />
+          <stop offset="1" stopColor="#0a1a33" />
+        </linearGradient>
+      </defs>
+    </svg>
+  );
+}
+
 function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
-      <div className="absolute inset-0 bg-grid opacity-30" />
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-brand-500/5 blur-3xl" />
-      <div className="absolute top-1/2 right-0 w-[400px] h-[400px] rounded-full bg-accent-cyan/5 blur-3xl" />
-      <div className="relative max-w-6xl mx-auto px-6 py-20 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        {/* Left */}
-        <div>
+      <div className="absolute inset-0 bg-grid opacity-40" />
+      <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] rounded-full bg-brand-500/5 blur-3xl" />
+      <div className="absolute top-1/2 right-1/4 w-[400px] h-[400px] rounded-full bg-brand-300/5 blur-3xl" />
+      <div className="relative max-w-6xl mx-auto px-6 py-20 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+        {/* Texte — colonne gauche */}
+        <div className="flex flex-col items-start">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-400 text-xs font-semibold uppercase tracking-wider mb-8">
             <span className="w-1.5 h-1.5 rounded-full bg-brand-400 animate-pulse" />
             Audit logistique automatisé
@@ -90,19 +149,18 @@ function Hero() {
               perdu sur vos livraisons
             </span>
           </h1>
-          <p className="text-lg text-slate-400 max-w-xl mb-10 leading-relaxed">
-            Claim.e détecte automatiquement les erreurs de vos transporteurs — retards, colis perdus,
-            SLA non respectés — et récupère l'argent pour vous.
+          <p className="text-lg text-slate-400 mb-10 leading-relaxed">
+            Claim.e détecte automatiquement les erreurs de vos transporteurs — retards, colis perdus, SLA non respectés — et récupère l'argent pour vous.
           </p>
-          <div className="flex flex-wrap gap-4 mb-10">
-            <Link href="/signup" className="btn-primary px-7 py-3.5 text-base">
+          <div className="flex items-center gap-4 mb-10 flex-nowrap">
+            <Link href="/signup" className="btn-primary px-6 py-3 text-sm whitespace-nowrap">
               Analyser mes livraisons →
             </Link>
-            <a href="#comment-ca-marche" className="btn-secondary px-7 py-3.5 text-base">
+            <a href="#comment-ca-marche" className="btn-secondary px-6 py-3 text-sm whitespace-nowrap">
               Voir comment ça marche
             </a>
           </div>
-          <div className="grid grid-cols-3 gap-4 max-w-sm">
+          <div className="grid grid-cols-3 gap-4 w-full max-w-sm">
             {[["2,4M€+", "Récupérés"], ["98%", "Taux de détection"], ["48h", "Délai moyen"]].map(([val, label]) => (
               <div key={label} className="glass-card p-3 text-center">
                 <p className="font-display text-xl font-700 text-white mb-0.5">{val}</p>
@@ -111,33 +169,12 @@ function Hero() {
             ))}
           </div>
         </div>
-        {/* Right — carte flottante */}
-        <div className="hidden lg:flex justify-center">
-          <div className="relative">
-            <div className="glass-card p-6 w-72 shadow-glow">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-8 h-8 rounded-full bg-brand-500/20 flex items-center justify-center">
-                  <span className="text-brand-400 text-sm">✓</span>
-                </div>
-                <div>
-                  <p className="text-white text-sm font-semibold">Réclamation réussie</p>
-                  <p className="text-slate-500 text-xs">Remboursement obtenu</p>
-                </div>
-              </div>
-              <div className="text-3xl font-800 text-white mb-1">+ €1 250,00</div>
-              <div className="text-xs text-brand-400 mb-4">Évolution ce mois</div>
-              <div className="h-12 flex items-end gap-1">
-                {[30, 50, 40, 70, 55, 80, 95].map((h, i) => (
-                  <div key={i} className="flex-1 rounded-sm bg-gradient-to-t from-brand-500 to-cyan-400 opacity-80" style={{ height: `${h}%` }} />
-                ))}
-              </div>
-            </div>
-            {/* Badge flottant */}
-            <div className="absolute -top-4 -right-4 glass-card px-3 py-2 text-xs text-brand-300 font-semibold border-brand-500/30">
-              🔍 Détection automatique
-            </div>
-          </div>
+
+        {/* Boîte 3D — colonne droite */}
+        <div className="hidden lg:flex items-center justify-center">
+          <Box3D />
         </div>
+
       </div>
     </section>
   );

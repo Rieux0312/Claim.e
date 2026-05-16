@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+import Logo from "@/app/components/Logo";
 
 const CARRIERS = [
   { id: "colissimo",     name: "Colissimo",     emoji: "📮", hint: "Clé API La Poste Developer (X-Okapi-Key)" },
@@ -205,11 +206,7 @@ export default function SettingsPage() {
       <header className="sticky top-0 z-40 border-b border-border bg-surface/90 backdrop-blur-xl">
         <div className="max-w-6xl mx-auto px-6 flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-brand-500 flex items-center justify-center">
-              <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 2L2 7l10 5 10-5-10-5z" /><path d="M2 17l10 5 10-5" /><path d="M2 12l10 5 10-5" />
-              </svg>
-            </div>
+            <Logo size={32} />
             <span className="font-display font-800 text-lg text-white">
               Claim<span className="text-brand-400">.e</span>
             </span>

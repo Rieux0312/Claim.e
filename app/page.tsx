@@ -2,20 +2,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-
-function Logo({ size = 32 }: { size?: number }) {
-  return (
-    <div style={{ width: size, height: size }} className="flex-shrink-0">
-      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" width={size} height={size}>
-        <path d="M29 13c-2.2-3-5.6-5-9.5-5C12 8 7 13.4 7 20s5 12 12.5 12c3.9 0 7.3-1.8 9.5-4.8"
-              stroke="#4d7eff" strokeWidth="3" strokeLinecap="round" fill="none" />
-        <path d="M26 8.5l3.5 4.5-4.5 1.5" stroke="#4d7eff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-        <rect x="14" y="16.5" width="12" height="8" rx="1.5" fill="#4d7eff" opacity="0.9" />
-        <path d="M14 19.5l6-2.5 6 2.5" stroke="white" strokeWidth="1.2" fill="none" opacity="0.55" />
-      </svg>
-    </div>
-  );
-}
+import Logo from "@/app/components/Logo";
 
 function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -67,92 +54,97 @@ function Navbar() {
 
 function Box3D() {
   return (
-    <div className="relative w-full max-w-md">
-      <div className="absolute inset-0 bg-brand-500/10 blur-3xl rounded-full scale-75" />
-      <svg viewBox="0 0 400 380" fill="none" xmlns="http://www.w3.org/2000/svg" className="relative w-full">
-        {/* Ombre sol */}
-        <ellipse cx="200" cy="348" rx="125" ry="16" fill="#1a56ff" opacity="0.2" />
+    <div className="relative w-full max-w-lg flex items-center justify-center">
+      {/* Glow ambiance */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-brand-500/10 blur-3xl rounded-full" />
 
-        {/* Face gauche */}
-        <path d="M80 130 L200 185 L200 305 L80 250 Z" fill="url(#bl)" />
-        {/* Face droite */}
-        <path d="M200 185 L320 130 L320 250 L200 305 Z" fill="url(#br)" />
-        {/* Face du dessus */}
-        <path d="M200 75 L320 130 L200 185 L80 130 Z" fill="url(#bt)" />
-        {/* Reflet haut */}
-        <path d="M200 75 L320 130 L200 185 L80 130 Z" fill="url(#bs)" />
+      <div className="relative flex items-center gap-0">
+        {/* Carton isométrique blanc */}
+        <svg viewBox="0 0 320 310" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-72 h-auto drop-shadow-2xl">
+          <defs>
+            <linearGradient id="box-top" x1="60" y1="60" x2="260" y2="160" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#ffffff" />
+              <stop offset="1" stopColor="#e8edf5" />
+            </linearGradient>
+            <linearGradient id="box-left" x1="60" y1="160" x2="160" y2="290" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#d0d8e8" />
+              <stop offset="1" stopColor="#b8c4d8" />
+            </linearGradient>
+            <linearGradient id="box-right" x1="260" y1="160" x2="160" y2="290" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#e0e8f4" />
+              <stop offset="1" stopColor="#c8d4e8" />
+            </linearGradient>
+          </defs>
 
-        {/* Ruban vertical — dessus */}
-        <path d="M194 75 L200 75 L200 185 L194 182 Z" fill="white" opacity="0.09" />
-        <path d="M200 75 L206 75 L206 182 L200 185 Z" fill="white" opacity="0.07" />
-        {/* Ruban vertical — face gauche */}
-        <path d="M133 108 L140 112 L140 232 L133 228 Z" fill="white" opacity="0.05" />
-        {/* Ruban vertical — face droite */}
-        <path d="M260 112 L267 108 L267 228 L260 232 Z" fill="white" opacity="0.04" />
-        {/* Ruban horizontal — face gauche */}
-        <path d="M80 170 L200 225 L200 236 L80 181 Z" fill="white" opacity="0.06" />
-        {/* Ruban horizontal — face droite */}
-        <path d="M200 225 L320 170 L320 181 L200 236 Z" fill="white" opacity="0.04" />
+          {/* Ombre portée */}
+          <ellipse cx="160" cy="295" rx="100" ry="10" fill="#000" opacity="0.12" />
 
-        {/* Arêtes */}
-        <path d="M200 75 L320 130 L200 185 L80 130 Z" stroke="white" strokeOpacity="0.18" strokeWidth="0.8" fill="none" />
-        <path d="M200 185 L200 305" stroke="white" strokeOpacity="0.12" strokeWidth="0.8" />
-        <path d="M80 130 L80 250" stroke="white" strokeOpacity="0.12" strokeWidth="0.8" />
-        <path d="M320 130 L320 250" stroke="white" strokeOpacity="0.12" strokeWidth="0.8" />
-        <path d="M80 250 L200 305 L320 250" stroke="white" strokeOpacity="0.12" strokeWidth="0.8" fill="none" />
+          {/* Face du dessus */}
+          <path d="M160 60 L260 115 L160 170 L60 115 Z" fill="url(#box-top)" stroke="#c8d4e4" strokeWidth="0.8" />
+          {/* Rabats dessus — ligne de fermeture */}
+          <path d="M160 60 L160 170" stroke="#c0cce0" strokeWidth="1" strokeDasharray="4 3" />
+          <path d="M60 115 L260 115" stroke="#c0cce0" strokeWidth="0.8" strokeDasharray="4 3" />
 
-        {/* Logo Claim.E projeté sur la face du dessus */}
-        <g transform="matrix(0.866,-0.433,-0.866,-0.433,200,130)" opacity="0.85">
-          {/* Arc C */}
-          <path d="M18 10c-1.5-2-3.8-3.3-6.4-3.3C6.7 6.7 3 10.4 3 15s3.7 8.3 8.6 8.3c2.6 0 5-1.2 6.4-3.2"
-                stroke="#4d7eff" strokeWidth="2.2" strokeLinecap="round" fill="none" />
-          {/* Flèche */}
-          <path d="M16 7.5l2.5 2.5-2.5 1" stroke="#4d7eff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-          {/* Boîte */}
-          <rect x="7" y="12.5" width="9" height="5.5" rx="1" fill="#4d7eff" opacity="0.7" />
-          <path d="M7 14.5l4.5-1.8 4.5 1.8" stroke="white" strokeWidth="0.9" fill="none" opacity="0.5" />
-        </g>
+          {/* Face gauche */}
+          <path d="M60 115 L160 170 L160 280 L60 225 Z" fill="url(#box-left)" stroke="#b0bdd4" strokeWidth="0.8" />
+          {/* Face droite */}
+          <path d="M160 170 L260 115 L260 225 L160 280 Z" fill="url(#box-right)" stroke="#b8c8e0" strokeWidth="0.8" />
 
-        {/* Badge +€1 250 */}
-        <g transform="translate(258, 60)">
-          <rect x="0" y="0" width="108" height="40" rx="10" fill="#0d1e40" stroke="#1a56ff" strokeOpacity="0.55" strokeWidth="1" />
-          <circle cx="16" cy="20" r="8" fill="#1a56ff" opacity="0.75" />
-          <text x="16" y="24" textAnchor="middle" fill="white" fontSize="11" fontFamily="Sora,sans-serif" fontWeight="600">✓</text>
-          <text x="30" y="24" fill="white" fontSize="11" fontFamily="Sora,sans-serif" fontWeight="600">+€1 250</text>
-        </g>
+          {/* Ruban scotch vertical — face droite */}
+          <path d="M207 143 L213 140 L213 253 L207 256 Z" fill="#a0b4cc" opacity="0.4" />
+          {/* Ruban scotch horizontal — face droite */}
+          <path d="M160 196 L260 143 L260 151 L160 204 Z" fill="#a0b4cc" opacity="0.3" />
+          {/* Ruban scotch vertical — face gauche */}
+          <path d="M113 140 L119 143 L119 256 L113 253 Z" fill="#9aacc0" opacity="0.35" />
 
-        {/* Badge suivi */}
-        <g transform="translate(16, 195)">
-          <rect x="0" y="0" width="100" height="36" rx="9" fill="#0d1e40" stroke="#4d7eff" strokeOpacity="0.45" strokeWidth="1" />
-          <text x="14" y="23" fill="#85a8ff" fontSize="11" fontFamily="Sora,sans-serif">📦 Suivi live</text>
-        </g>
+          {/* Logo Claim.e sur la face droite (projection isométrique) */}
+          <g transform="translate(195, 170) scale(0.55) rotate(-30)">
+            <svg viewBox="0 0 56 56" width="56" height="56">
+              <defs>
+                <linearGradient id="logo-proj" x1="4" y1="8" x2="52" y2="50" gradientUnits="userSpaceOnUse">
+                  <stop stopColor="#06b6d4" />
+                  <stop offset="1" stopColor="#1a56ff" />
+                </linearGradient>
+              </defs>
+              <path d="M 45 18 A 20 20 0 1 1 28 8" stroke="url(#logo-proj)" strokeWidth="5.5" strokeLinecap="round" fill="none" />
+              <polygon points="34,8 27,4.5 27,11.5" fill="url(#logo-proj)" />
+              <path d="M28 21 L36 25.5 L28 30 L20 25.5 Z" fill="url(#logo-proj)" opacity="0.95" />
+              <path d="M20 25.5 L28 30 L28 39 L20 34.5 Z" fill="#1a3a9f" />
+              <path d="M28 30 L36 25.5 L36 34.5 L28 39 Z" fill="#2045c0" />
+            </svg>
+          </g>
+        </svg>
 
-        {/* Badge anomalie */}
-        <g transform="translate(24, 248)">
-          <rect x="0" y="0" width="110" height="34" rx="9" fill="#0d1e40" stroke="#ff6b6b" strokeOpacity="0.35" strokeWidth="1" />
-          <text x="12" y="22" fill="#fca5a5" fontSize="10" fontFamily="Sora,sans-serif">⚠ Retard détecté</text>
-        </g>
-
-        <defs>
-          <linearGradient id="bt" x1="80" y1="75" x2="320" y2="185" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#1e3f7a" />
-            <stop offset="1" stopColor="#163060" />
-          </linearGradient>
-          <linearGradient id="bs" x1="80" y1="75" x2="200" y2="185" gradientUnits="userSpaceOnUse">
-            <stop stopColor="white" stopOpacity="0.13" />
-            <stop offset="0.5" stopColor="white" stopOpacity="0.04" />
-            <stop offset="1" stopColor="white" stopOpacity="0" />
-          </linearGradient>
-          <linearGradient id="bl" x1="80" y1="130" x2="200" y2="305" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#0e2245" />
-            <stop offset="1" stopColor="#08172e" />
-          </linearGradient>
-          <linearGradient id="br" x1="320" y1="130" x2="200" y2="305" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#112a50" />
-            <stop offset="1" stopColor="#0a1d38" />
-          </linearGradient>
-        </defs>
-      </svg>
+        {/* Carte flottante "Réclamation réussie" */}
+        <div className="absolute -right-4 top-12 w-52 bg-[#0f1729]/95 backdrop-blur border border-white/10 rounded-2xl p-4 shadow-2xl">
+          <div className="flex items-center gap-2 mb-3">
+            <div className="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center flex-shrink-0">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M2 6l3 3 5-5" stroke="#10b981" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+            <span className="text-white text-xs font-semibold">Réclamation réussie</span>
+          </div>
+          <p className="text-slate-400 text-[10px] mb-2">Remboursement obtenu</p>
+          <p className="text-2xl font-display font-800 text-white mb-3">+€1 250,00</p>
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-slate-500 text-[10px]">Évolution</span>
+            <span className="text-emerald-400 text-[10px] font-semibold">▲ +12%</span>
+          </div>
+          {/* Mini graphe montant */}
+          <svg viewBox="0 0 180 40" className="w-full h-8">
+            <defs>
+              <linearGradient id="graph-grad" x1="0" y1="0" x2="0" y2="1">
+                <stop stopColor="#06b6d4" stopOpacity="0.4" />
+                <stop offset="1" stopColor="#1a56ff" stopOpacity="0.05" />
+              </linearGradient>
+            </defs>
+            <path d="M0 38 L20 32 L45 28 L70 22 L95 16 L120 10 L145 6 L180 2" stroke="url(#claim-e-grad)" strokeWidth="2" fill="none" strokeLinecap="round" />
+            <path d="M0 38 L20 32 L45 28 L70 22 L95 16 L120 10 L145 6 L180 2 L180 40 L0 40 Z" fill="url(#graph-grad)" />
+            <circle cx="180" cy="2" r="3" fill="#06b6d4" />
+          </svg>
+        </div>
+      </div>
     </div>
   );
 }

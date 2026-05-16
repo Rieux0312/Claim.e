@@ -3,6 +3,7 @@ import { useState, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+import Logo from "@/app/components/Logo";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
@@ -313,16 +314,10 @@ export default function DashboardClient({ user, initialDeliveries, initialAnomal
       <Toasts toasts={toasts} />
       <header className="sticky top-0 z-40 border-b border-border bg-surface/90 backdrop-blur-xl">
         <div className="max-w-6xl mx-auto px-6 flex items-center justify-between h-16">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-brand-500 flex items-center justify-center">
-              <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                <path d="M2 17l10 5 10-5" />
-                <path d="M2 12l10 5 10-5" />
-              </svg>
-            </div>
-            <Link href="/" className="font-display font-800 text-lg text-white hover:opacity-80 transition-opacity">Claim<span className="text-brand-400">.e</span></Link>
-          </div>
+          <Link href="/" className="flex items-center gap-2.5">
+            <Logo size={32} />
+            <span className="font-display font-800 text-lg text-white hover:opacity-80 transition-opacity">Claim<span className="text-brand-400">.e</span></span>
+          </Link>
           <div className="flex items-center gap-2">
 <Link href="/dashboard" className="btn-ghost text-sm">📦 Dashboard</Link>
 <Link href="/settings" className="btn-ghost text-sm">⚙️ Paramètres</Link>

@@ -82,35 +82,33 @@ function Hero() {
         <div>
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-400 text-xs font-semibold uppercase tracking-wider mb-8">
             <span className="w-1.5 h-1.5 rounded-full bg-brand-400 animate-pulse" />
-            Plateforme d'audit logistique
+            Audit logistique automatisé
           </div>
           <h1 className="font-display text-5xl md:text-6xl font-800 text-white leading-tight tracking-tight mb-6">
-            Nous réclamons.<br />
+            Récupérez l'argent<br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-cyan-400">
-              Vous êtes remboursé.
+              perdu sur vos livraisons
             </span>
           </h1>
-          <p className="text-lg text-slate-400 max-w-xl mb-4 leading-relaxed">
-            Claim.E gère pour vous les litiges de livraison et récupère chaque euro qui vous revient. Zéro perte, plus de sérénité.
+          <p className="text-lg text-slate-400 max-w-xl mb-10 leading-relaxed">
+            Claim.e détecte automatiquement les erreurs de vos transporteurs — retards, colis perdus,
+            SLA non respectés — et récupère l'argent pour vous.
           </p>
-          <p className="text-sm text-slate-500 mb-8">Déjà adopté par des centaines d'e-commerçants</p>
-          <div className="flex flex-wrap gap-4 mb-8">
+          <div className="flex flex-wrap gap-4 mb-10">
             <Link href="/signup" className="btn-primary px-7 py-3.5 text-base">
-              Essayer gratuitement
+              Analyser mes livraisons →
             </Link>
             <a href="#comment-ca-marche" className="btn-secondary px-7 py-3.5 text-base">
               Voir comment ça marche
             </a>
           </div>
-          <div className="flex items-center gap-6 text-sm text-slate-500">
-            <div className="flex items-center gap-1.5">
-              <span className="text-yellow-400">★★★★★</span>
-              <span>4.8/5 sur Google</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="text-green-400">★★★★★</span>
-              <span>4.8/5 sur Trustpilot</span>
-            </div>
+          <div className="grid grid-cols-3 gap-4 max-w-sm">
+            {[["2,4M€+", "Récupérés"], ["98%", "Taux de détection"], ["48h", "Délai moyen"]].map(([val, label]) => (
+              <div key={label} className="glass-card p-3 text-center">
+                <p className="font-display text-xl font-700 text-white mb-0.5">{val}</p>
+                <p className="text-xs text-slate-500">{label}</p>
+              </div>
+            ))}
           </div>
         </div>
         {/* Right — carte flottante */}
@@ -183,10 +181,9 @@ function Features() {
 
 function HowItWorks() {
   const steps = [
-    { num: "01", title: "Connexion", desc: "Connectez votre boutique en quelques clics. Shopify, WooCommerce, Sendcloud ou webhook universel." },
-    { num: "02", title: "Détection", desc: "Nous analysons vos livraisons et trouvons les litiges automatiquement." },
-    { num: "03", title: "Réclamation", desc: "Nous ouvrons et suivons les réclamations auprès des transporteurs." },
-    { num: "04", title: "Remboursement", desc: "Vous recevez votre argent sur votre compte. Zéro effort." },
+    { num: "01", title: "Connectez votre boutique", desc: "Shopify, WooCommerce, PrestaShop, Sendcloud — une simple connexion et vos commandes arrivent automatiquement. Import CSV disponible pour les autres.", detail: "Webhook universel · Shopify · Sendcloud · CSV" },
+    { num: "02", title: "Détection automatique", desc: "Notre moteur analyse chaque livraison dès réception et identifie retards, colis perdus et SLA non respectés.", detail: "Analyse en temps réel · 98% de taux de détection" },
+    { num: "03", title: "Réclamations & remboursements", desc: "Claim.e génère les réclamations et suit les remboursements jusqu'au paiement.", detail: "Suivi automatique jusqu'au remboursement" },
   ];
 
   return (
@@ -196,21 +193,19 @@ function HowItWorks() {
         <div className="text-center mb-14">
           <div className="section-tag mb-6">Comment ça marche</div>
           <h2 className="font-display text-4xl font-700 text-white tracking-tight mb-4">
-            4 étapes, zéro effort.
+            Récupérez de l'argent<br />en 3 étapes simples
           </h2>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {steps.map(({ num, title, desc }, i) => (
-            <div key={num} className="glass-card p-6 relative overflow-hidden group hover:border-brand-500/30 transition-all duration-300">
-              <div className="absolute top-3 right-3 font-display text-5xl font-800 text-white/[0.03] select-none">{num}</div>
-              {i < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-8 -right-2.5 z-10 text-brand-500/40 text-lg">→</div>
-              )}
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500/20 to-cyan-500/10 border border-brand-500/20 flex items-center justify-center mb-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {steps.map(({ num, title, desc, detail }) => (
+            <div key={num} className="glass-card p-7 relative overflow-hidden group hover:border-brand-500/30 transition-all duration-300">
+              <div className="absolute top-4 right-4 font-display text-6xl font-800 text-white/[0.03] select-none">{num}</div>
+              <div className="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center mb-5">
                 <span className="font-display font-700 text-brand-400 text-sm">{num}</span>
               </div>
-              <h3 className="font-display font-700 text-white mb-2">{title}</h3>
-              <p className="text-slate-500 text-sm leading-relaxed">{desc}</p>
+              <h3 className="font-display font-700 text-white text-lg mb-3">{title}</h3>
+              <p className="text-slate-400 text-sm leading-relaxed mb-4">{desc}</p>
+              <p className="text-xs text-brand-400/70 font-medium">{detail}</p>
             </div>
           ))}
         </div>

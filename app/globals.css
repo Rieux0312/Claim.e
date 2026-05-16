@@ -129,8 +129,8 @@ select option {
 .animate-fade-in { animation: fadeIn 0.3s ease both; }
 .spinner {
   width: 16px; height: 16px;
-  border: 2px solid rgba(20,182,166,0.2);
-  border-top-color: #14b6a6;
+  border: 2px solid rgba(26,86,255,0.2);
+  border-top-color: #1a56ff;
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
   display: inline-block;

@@ -55,66 +55,78 @@ function Navbar() {
 function Box3D() {
   return (
     <div className="relative w-full flex items-center justify-center" style={{ minHeight: 400 }}>
-      {/* Glow ambiance */}
-      <div className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-brand-500/10 blur-3xl rounded-full pointer-events-none" />
+      <div className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-brand-500/15 blur-3xl rounded-full pointer-events-none" />
 
-      {/* Carton isométrique blanc */}
       <div className="relative" style={{ width: 340 }}>
-        <svg viewBox="0 0 320 310" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto drop-shadow-2xl">
+        <svg viewBox="0 0 320 310" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto">
           <defs>
-            <linearGradient id="box-top" x1="60" y1="60" x2="260" y2="160" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#ffffff" />
-              <stop offset="1" stopColor="#e8edf5" />
+            {/* Face avant — couleur du site */}
+            <linearGradient id="bf" x1="20" y1="70" x2="235" y2="275" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#1c2f50" />
+              <stop offset="1" stopColor="#0f1a2e" />
             </linearGradient>
-            <linearGradient id="box-left" x1="60" y1="160" x2="160" y2="290" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#d0d8e8" />
-              <stop offset="1" stopColor="#b8c4d8" />
+            {/* Face du dessus — plus claire */}
+            <linearGradient id="bt" x1="20" y1="30" x2="285" y2="70" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#2a4268" />
+              <stop offset="1" stopColor="#1a3050" />
             </linearGradient>
-            <linearGradient id="box-right" x1="260" y1="160" x2="160" y2="290" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#e0e8f4" />
-              <stop offset="1" stopColor="#c8d4e8" />
+            {/* Face droite — plus sombre */}
+            <linearGradient id="br" x1="235" y1="70" x2="285" y2="275" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#0c1624" />
+              <stop offset="1" stopColor="#080e1a" />
+            </linearGradient>
+            {/* Glow bord brand */}
+            <linearGradient id="bedge" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop stopColor="#06b6d4" />
+              <stop offset="1" stopColor="#1a56ff" />
+            </linearGradient>
+            <linearGradient id="logo-f" x1="4" y1="8" x2="52" y2="50" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#06b6d4" />
+              <stop offset="1" stopColor="#1a56ff" />
             </linearGradient>
           </defs>
 
-          {/* Ombre portée */}
-          <ellipse cx="160" cy="298" rx="105" ry="10" fill="#000" opacity="0.14" />
+          {/* Ombre sol */}
+          <ellipse cx="152" cy="300" rx="118" ry="11" fill="#000" opacity="0.30" />
 
+          {/* ── Faces ── */}
+          {/* Face avant (gauche — principale) */}
+          <path d="M20 70 L235 70 L235 275 L20 275 Z" fill="url(#bf)" />
           {/* Face du dessus */}
-          <path d="M160 55 L265 112 L160 170 L55 112 Z" fill="url(#box-top)" stroke="#c8d4e4" strokeWidth="0.8" />
-          <path d="M160 55 L160 170" stroke="#c0cce0" strokeWidth="1" strokeDasharray="4 3" />
-          <path d="M55 112 L265 112" stroke="#c0cce0" strokeWidth="0.8" strokeDasharray="4 3" />
-
-          {/* Face gauche */}
-          <path d="M55 112 L160 170 L160 282 L55 224 Z" fill="url(#box-left)" stroke="#b0bdd4" strokeWidth="0.8" />
+          <path d="M20 70 L70 30 L285 30 L235 70 Z" fill="url(#bt)" />
           {/* Face droite */}
-          <path d="M160 170 L265 112 L265 224 L160 282 Z" fill="url(#box-right)" stroke="#b8c8e0" strokeWidth="0.8" />
+          <path d="M235 70 L285 30 L285 195 L235 275 Z" fill="url(#br)" />
 
-          {/* Ruban scotch vertical — face droite */}
-          <path d="M208 140 L215 137 L215 256 L208 259 Z" fill="#a0b4cc" opacity="0.4" />
-          {/* Ruban scotch horizontal — face droite */}
-          <path d="M160 194 L265 140 L265 149 L160 203 Z" fill="#a0b4cc" opacity="0.3" />
-          {/* Ruban scotch vertical — face gauche */}
-          <path d="M110 137 L117 140 L117 259 L110 256 Z" fill="#9aacc0" opacity="0.35" />
+          {/* ── Arêtes ── */}
+          <path d="M20 70 L235 70 L235 275 L20 275 Z" stroke="rgba(255,255,255,0.07)" strokeWidth="1" fill="none" />
+          <path d="M20 70 L70 30 L285 30 L235 70" stroke="rgba(255,255,255,0.09)" strokeWidth="1" fill="none" />
+          <path d="M235 70 L285 30 L285 195 L235 275" stroke="rgba(255,255,255,0.05)" strokeWidth="1" fill="none" />
 
-          {/* Logo Claim.e sur la face droite */}
-          <g transform="translate(182, 158) scale(0.7) rotate(-27)">
+          {/* Liseré brand en haut de la face avant */}
+          <path d="M20 70 L235 70" stroke="url(#bedge)" strokeWidth="2.5" strokeLinecap="round" />
+          {/* Liseré brand bord gauche */}
+          <path d="M20 70 L20 275" stroke="rgba(6,182,212,0.25)" strokeWidth="1.5" />
+
+          {/* Reflet léger coin supérieur-gauche face avant */}
+          <path d="M20 70 L90 70 L90 100 L20 100 Z" fill="white" opacity="0.025" />
+
+          {/* ── Logo Claim.e — face avant, côté gauche centré ── */}
+          <g transform="translate(42, 128) scale(1.5)">
             <svg viewBox="0 0 56 56" width="56" height="56">
-              <defs>
-                <linearGradient id="logo-proj" x1="4" y1="8" x2="52" y2="50" gradientUnits="userSpaceOnUse">
-                  <stop stopColor="#06b6d4" />
-                  <stop offset="1" stopColor="#1a56ff" />
-                </linearGradient>
-              </defs>
-              <path d="M 45 18 A 20 20 0 1 1 28 8" stroke="url(#logo-proj)" strokeWidth="5.5" strokeLinecap="round" fill="none" />
-              <polygon points="34,8 27,4.5 27,11.5" fill="url(#logo-proj)" />
-              <path d="M28 21 L36 25.5 L28 30 L20 25.5 Z" fill="url(#logo-proj)" opacity="0.95" />
+              <path d="M 45 38 A 20 20 0 1 1 45 18" stroke="url(#logo-f)" strokeWidth="5.5" strokeLinecap="round" fill="none" />
+              <polygon points="48,23 40,17 47,13" fill="url(#logo-f)" />
+              <path d="M28 21 L36 25.5 L28 30 L20 25.5 Z" fill="url(#logo-f)" opacity="0.95" />
               <path d="M20 25.5 L28 30 L28 39 L20 34.5 Z" fill="#1a3a9f" />
               <path d="M28 30 L36 25.5 L36 34.5 L28 39 Z" fill="#2045c0" />
+              <path d="M28 21 L36 25.5 L28 30 L20 25.5 Z" fill="white" opacity="0.18" />
             </svg>
           </g>
+
+          {/* Nom sous le logo */}
+          <text x="70" y="248" textAnchor="middle" fill="white" fillOpacity="0.35" fontSize="11" fontFamily="Sora,sans-serif" fontWeight="700" letterSpacing="3">CLAIM.E</text>
         </svg>
 
-        {/* Carte flottante — positionnée en haut à droite, hors du carton */}
+        {/* Carte flottante */}
         <div className="absolute -top-4 -right-48 w-44 bg-[#0f1729]/95 backdrop-blur border border-white/10 rounded-2xl p-4 shadow-2xl">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-5 h-5 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center flex-shrink-0">
@@ -132,13 +144,13 @@ function Box3D() {
           </div>
           <svg viewBox="0 0 140 36" className="w-full h-7">
             <defs>
-              <linearGradient id="graph-fill" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="gf" x1="0" y1="0" x2="0" y2="1">
                 <stop stopColor="#06b6d4" stopOpacity="0.35" />
                 <stop offset="1" stopColor="#1a56ff" stopOpacity="0.03" />
               </linearGradient>
             </defs>
             <path d="M0 34 L16 28 L35 24 L55 18 L75 13 L95 8 L115 4 L140 1" stroke="#06b6d4" strokeWidth="1.8" fill="none" strokeLinecap="round" />
-            <path d="M0 34 L16 28 L35 24 L55 18 L75 13 L95 8 L115 4 L140 1 L140 36 L0 36 Z" fill="url(#graph-fill)" />
+            <path d="M0 34 L16 28 L35 24 L55 18 L75 13 L95 8 L115 4 L140 1 L140 36 L0 36 Z" fill="url(#gf)" />
             <circle cx="140" cy="1" r="2.5" fill="#06b6d4" />
           </svg>
         </div>

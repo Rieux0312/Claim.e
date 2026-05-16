@@ -72,9 +72,9 @@ export default function FaqPage() {
           <div className="hidden md:flex items-center gap-1">
             <a href="/#fonctionnalites" className="btn-ghost text-sm">Fonctionnalités</a>
             <a href="/#comment-ca-marche" className="btn-ghost text-sm">Comment ça marche</a>
-            <Link href="/a-propos" className="btn-ghost text-sm">À propos</Link>
             <Link href="/tarifs" className="btn-ghost text-sm">Tarifs</Link>
             <Link href="/faq" className="btn-ghost text-sm">F.A.Q.</Link>
+            <Link href="/a-propos" className="btn-ghost text-sm">À propos</Link>
           </div>
           <div className="flex items-center gap-3">
             {isLoggedIn ? (

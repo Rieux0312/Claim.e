@@ -25,7 +25,7 @@ function Navbar() {
         <Link href="/" className="flex items-center gap-2.5">
           <Logo size={32} />
           <span className="font-display font-700 text-lg text-white tracking-tight">
-            Claim<span className="text-brand-400">.E</span>
+            Claim<span className="text-brand-400">.e</span>
           </span>
         </Link>
         <div className="hidden md:flex items-center gap-1">
@@ -123,7 +123,7 @@ function Box3D() {
           </g>
 
           {/* Nom sous le logo */}
-          <text x="70" y="248" textAnchor="middle" fill="white" fillOpacity="0.35" fontSize="11" fontFamily="Sora,sans-serif" fontWeight="700" letterSpacing="3">CLAIM.E</text>
+          <text x="70" y="248" textAnchor="middle" fill="white" fillOpacity="0.35" fontSize="11" fontFamily="Sora,sans-serif" fontWeight="700" letterSpacing="3">CLAIM.e</text>
         </svg>
 
         {/* Carte flottante */}
@@ -291,7 +291,7 @@ function Anomalies() {
         <div className="text-center mb-10">
           <div className="section-tag mb-6">Anomalies détectées</div>
           <h2 className="font-display text-3xl font-700 text-white mb-3">Toutes les erreurs que vous ratez actuellement</h2>
-          <p className="text-slate-400 max-w-lg mx-auto text-sm">Claim.E analyse automatiquement 8 types d'anomalies sur chaque livraison.</p>
+          <p className="text-slate-400 max-w-lg mx-auto text-sm">Claim.e analyse automatiquement 8 types d'anomalies sur chaque livraison.</p>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {types.map(({ icon, label }) => (
@@ -382,7 +382,7 @@ function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
           <Link href="/" className="flex items-center gap-2.5">
             <Logo size={28} />
-            <span className="font-display font-700 text-white">Claim<span className="text-brand-400">.E</span></span>
+            <span className="font-display font-700 text-white">Claim<span className="text-brand-400">.e</span></span>
           </Link>
           <p className="text-slate-600 text-sm text-center max-w-sm">Protégeons vos revenus. Chaque livraison compte.</p>
           <div className="flex gap-4 text-xs text-slate-600">
@@ -391,7 +391,7 @@ function Footer() {
             <Link href="/mentions-legales" className="hover:text-slate-400 transition-colors">Mentions légales</Link>
           </div>
         </div>
-        <p className="text-center text-xs text-slate-700">© 2026 Claim.E · Tous droits réservés</p>
+        <p className="text-center text-xs text-slate-700">© 2026 Claim.e · Tous droits réservés</p>
       </div>
     </footer>
   );

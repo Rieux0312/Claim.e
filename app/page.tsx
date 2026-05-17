@@ -127,32 +127,33 @@ function Box3D() {
           <text x="70" y="248" textAnchor="middle" fill="white" fillOpacity="0.35" fontSize="11" fontFamily="Sora,sans-serif" fontWeight="700" letterSpacing="3">CLAIM.e</text>
         </svg>
 
-        {/* Carte flottante */}
-        <div className="absolute -top-4 -right-48 w-44 bg-[#0f1729]/95 backdrop-blur border border-white/10 rounded-2xl p-4 shadow-2xl">
-          <div className="flex items-center gap-2 mb-2">
-            <div className="w-5 h-5 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center flex-shrink-0">
-              <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
+        {/* Carte flottante — superposée sur le carton, bas droite */}
+        <div className="absolute bottom-6 right-4 z-10 w-56 bg-[#0b1525]/90 backdrop-blur-md border border-white/15 rounded-2xl p-5 shadow-2xl">
+          <div className="flex items-center gap-2 mb-3">
+            <div className="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center flex-shrink-0">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                 <path d="M2 6l3 3 5-5" stroke="#10b981" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
-            <span className="text-white text-[11px] font-semibold">Réclamation réussie</span>
+            <span className="text-white text-xs font-semibold">Réclamation réussie</span>
           </div>
-          <p className="text-slate-400 text-[10px] mb-1">Remboursement obtenu</p>
-          <p className="text-xl font-display font-800 text-white mb-2">+€1 250,00</p>
-          <div className="flex items-center justify-between mb-1">
-            <span className="text-slate-500 text-[10px]">Évolution</span>
-            <span className="text-emerald-400 text-[10px] font-semibold">▲ +12%</span>
+          <p className="text-slate-400 text-xs mb-1">Remboursement obtenu</p>
+          <p className="text-2xl font-display font-800 text-white mb-3">+€1 250,00</p>
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-slate-500 text-xs">Évolution</span>
+            <span className="text-emerald-400 text-xs font-semibold">▲ +12%</span>
           </div>
-          <svg viewBox="0 0 140 36" className="w-full h-7">
+          <svg viewBox="0 0 200 52" className="w-full h-12">
             <defs>
               <linearGradient id="gf" x1="0" y1="0" x2="0" y2="1">
-                <stop stopColor="#06b6d4" stopOpacity="0.35" />
+                <stop stopColor="#06b6d4" stopOpacity="0.4" />
                 <stop offset="1" stopColor="#1a56ff" stopOpacity="0.03" />
               </linearGradient>
             </defs>
-            <path d="M0 34 L16 28 L35 24 L55 18 L75 13 L95 8 L115 4 L140 1" stroke="#06b6d4" strokeWidth="1.8" fill="none" strokeLinecap="round" />
-            <path d="M0 34 L16 28 L35 24 L55 18 L75 13 L95 8 L115 4 L140 1 L140 36 L0 36 Z" fill="url(#gf)" />
-            <circle cx="140" cy="1" r="2.5" fill="#06b6d4" />
+            <path d="M0 50 L22 42 L50 36 L80 28 L108 20 L135 12 L163 6 L200 1" stroke="#06b6d4" strokeWidth="2.2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M0 50 L22 42 L50 36 L80 28 L108 20 L135 12 L163 6 L200 1 L200 52 L0 52 Z" fill="url(#gf)" />
+            <circle cx="200" cy="1" r="3.5" fill="#06b6d4" />
+            <circle cx="200" cy="1" r="6" fill="#06b6d4" fillOpacity="0.2" />
           </svg>
         </div>
       </div>

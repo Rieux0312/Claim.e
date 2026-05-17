@@ -1,325 +1,548 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 import Logo from "@/app/components/Logo";
 
+// ── Hooks ──────────────────────────────────────────────────────────────────
+
+function useCountUp(target: number, duration = 1800, enabled = true) {
+  const [v, setValue] = useState(0);
+  useEffect(() => {
+    if (!enabled) { setValue(0); return; }
+    let raf: number;
+    let start: number | null = null;
+    const tick = (t: number) => {
+      if (!start) start = t;
+      const k = Math.min(1, (t - start) / duration);
+      const eased = 1 - Math.pow(1 - k, 3);
+      setValue(target * eased);
+      if (k < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [target, duration, enabled]);
+  return v;
+}
+
+function useRevealAll() {
+  useEffect(() => {
+    const els = document.querySelectorAll<HTMLElement>(".reveal");
+    if (!("IntersectionObserver" in window)) {
+      els.forEach((el) => el.classList.add("in"));
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+        });
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+}
+
+function formatEUR(n: number) {
+  return Math.round(n).toLocaleString("fr-FR");
+}
+
+// ── Navbar ─────────────────────────────────────────────────────────────────
+
+const NAV_LINKS = [
+  { href: "#fonctionnalites",  label: "Fonctionnalités" },
+  { href: "#comment-ca-marche", label: "Comment ça marche" },
+  { href: "#tarifs",           label: "Tarifs" },
+  { href: "/faq",              label: "F.A.Q." },
+  { href: "/a-propos",         label: "À propos" },
+];
+
 function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled]     = useState(false);
+  const [menuOpen, setMenuOpen]     = useState(false);
   const supabase = createClient();
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setIsLoggedIn(!!session);
-    });
+    supabase.auth.getSession().then(({ data: { session } }) => setIsLoggedIn(!!session));
+  }, []);
+
+  useEffect(() => {
+    const on = () => setScrolled(window.scrollY > 8);
+    on();
+    window.addEventListener("scroll", on, { passive: true });
+    return () => window.removeEventListener("scroll", on);
   }, []);
 
   async function logout() {
     await supabase.auth.signOut();
     setIsLoggedIn(false);
+    setMenuOpen(false);
   }
 
-  const navLinks = [
-    { href: "#fonctionnalites", label: "Fonctionnalités", external: true },
-    { href: "#comment-ca-marche", label: "Comment ça marche", external: true },
-    { href: "/tarifs", label: "Tarifs", external: false },
-    { href: "/faq", label: "F.A.Q.", external: false },
-    { href: "/a-propos", label: "À propos", external: false },
-  ];
-
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 bg-surface/90 backdrop-blur-xl">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
+    <nav className="nav" data-scrolled={scrolled ? "1" : "0"}>
+      <div className="wrap nav-inner">
 
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5 shrink-0">
-          <Logo size={32} />
-          <span className="font-display font-700 text-lg text-white tracking-tight">
-            Claim<span className="text-brand-400">.e</span>
-          </span>
+        <Link href="/" className="logo-link">
+          <Logo size={28} />
+          <span>Claim<span style={{ opacity: 0.5 }}>.</span>e</span>
         </Link>
 
-        {/* Desktop nav */}
-        <div className="hidden md:flex items-center gap-1">
-          {navLinks.map(({ href, label, external }) =>
-            external
-              ? <a key={href} href={href} className="btn-ghost text-sm">{label}</a>
-              : <Link key={href} href={href} className="btn-ghost text-sm">{label}</Link>
+        {/* Desktop links */}
+        <div className="nav-links">
+          {NAV_LINKS.map(({ href, label }) =>
+            href.startsWith("#") ? (
+              <a key={href} href={href}>{label}</a>
+            ) : (
+              <Link key={href} href={href}>{label}</Link>
+            )
           )}
         </div>
 
-        {/* Right side */}
-        <div className="flex items-center gap-2">
+        {/* CTA + hamburger */}
+        <div className="nav-cta">
           {isLoggedIn ? (
             <>
-              <Link href="/dashboard" className="btn-primary text-xs sm:text-sm px-3 sm:px-5">📦 <span className="hidden sm:inline">Mon </span>Dashboard</Link>
-              <button onClick={logout} className="hidden md:flex btn-ghost text-sm">Déconnexion</button>
+              <Link href="/dashboard" className="btn btn-primary">
+                📦 <span className="hidden sm:inline">Mon </span>Dashboard
+              </Link>
+              <button
+                onClick={logout}
+                className="btn btn-ghost"
+                style={{ display: "none" }}
+                ref={(el) => { if (el) el.style.display = ""; }}
+              >
+                Déconnexion
+              </button>
             </>
           ) : (
             <>
-              <Link href="/login" className="btn-ghost text-xs sm:text-sm px-2 sm:px-3">Se connecter</Link>
-              <Link href="/signup" className="btn-primary text-xs sm:text-sm px-3 sm:px-5">Essayer</Link>
+              <Link href="/login" className="btn btn-ghost hidden sm:inline-flex">Se connecter</Link>
+              <Link href="/signup" className="btn btn-primary">Essayer<span className="arr">→</span></Link>
             </>
           )}
 
-          {/* Hamburger — mobile only */}
+          {/* Hamburger — mobile uniquement */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden flex flex-col justify-center items-center w-9 h-9 rounded-xl hover:bg-white/5 transition-colors ml-1 gap-1.5"
             aria-label="Menu"
+            style={{
+              display: "none",
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              padding: "8px",
+              marginLeft: "4px",
+            }}
+            className="md:hidden"
+            ref={(el) => { if (el) el.style.display = "flex"; }}
           >
-            <span className={`block w-5 h-0.5 bg-slate-300 rounded-full transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-2" : ""}`} />
-            <span className={`block w-5 h-0.5 bg-slate-300 rounded-full transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`} />
-            <span className={`block w-5 h-0.5 bg-slate-300 rounded-full transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`} />
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <rect
+                x="2" y={menuOpen ? "10" : "4"} width="18" height="2" rx="1" fill="#cbd5e1"
+                style={{ transition: "all .3s", transform: menuOpen ? "rotate(45deg)" : "none", transformOrigin: "center" }}
+              />
+              <rect
+                x="2" y="10" width="18" height="2" rx="1" fill="#cbd5e1"
+                style={{ opacity: menuOpen ? 0 : 1, transition: "opacity .2s" }}
+              />
+              <rect
+                x="2" y={menuOpen ? "10" : "16"} width="18" height="2" rx="1" fill="#cbd5e1"
+                style={{ transition: "all .3s", transform: menuOpen ? "rotate(-45deg)" : "none", transformOrigin: "center" }}
+              />
+            </svg>
           </button>
         </div>
       </div>
 
-      {/* Mobile menu */}
-      {menuOpen && (
-        <div className="md:hidden border-t border-border/50 bg-surface/95 backdrop-blur-xl px-4 py-3 flex flex-col gap-1">
-          {navLinks.map(({ href, label, external }) =>
-            external ? (
+      {/* Mobile dropdown */}
+      <div
+        style={{
+          overflow: "hidden",
+          maxHeight: menuOpen ? "400px" : "0",
+          opacity: menuOpen ? 1 : 0,
+          transition: "max-height .3s ease, opacity .3s ease",
+        }}
+        className="md:hidden"
+      >
+        <div style={{ borderTop: "1px solid rgba(255,255,255,.05)", background: "rgba(10,15,30,.97)", padding: "8px 16px 12px" }}>
+          {NAV_LINKS.map(({ href, label }) =>
+            href.startsWith("#") ? (
               <a
-                key={href}
-                href={href}
+                key={href} href={href}
                 onClick={() => setMenuOpen(false)}
-                className="flex items-center px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 font-medium text-sm transition-all"
+                style={{ display: "flex", alignItems: "center", padding: "12px 16px", borderRadius: "12px", color: "#cbd5e1", fontWeight: 500, fontSize: "14px", textDecoration: "none", transition: "background .2s, color .2s" }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,.05)"; (e.currentTarget as HTMLElement).style.color = "#fff"; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = ""; (e.currentTarget as HTMLElement).style.color = "#cbd5e1"; }}
               >
                 {label}
               </a>
             ) : (
               <Link
-                key={href}
-                href={href}
+                key={href} href={href}
                 onClick={() => setMenuOpen(false)}
-                className="flex items-center px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 font-medium text-sm transition-all"
+                style={{ display: "flex", alignItems: "center", padding: "12px 16px", borderRadius: "12px", color: "#cbd5e1", fontWeight: 500, fontSize: "14px", textDecoration: "none" }}
               >
                 {label}
               </Link>
             )
           )}
+          {!isLoggedIn && (
+            <Link
+              href="/login"
+              onClick={() => setMenuOpen(false)}
+              style={{ display: "flex", alignItems: "center", padding: "12px 16px", borderRadius: "12px", color: "#94a3b8", fontWeight: 500, fontSize: "14px", textDecoration: "none" }}
+            >
+              Se connecter
+            </Link>
+          )}
+          {isLoggedIn && (
+            <button
+              onClick={logout}
+              style={{ display: "flex", alignItems: "center", width: "100%", padding: "12px 16px", borderRadius: "12px", color: "#94a3b8", fontWeight: 500, fontSize: "14px", background: "none", border: "none", cursor: "pointer", textAlign: "left" }}
+            >
+              Déconnexion
+            </button>
+          )}
         </div>
-      )}
+      </div>
     </nav>
   );
 }
 
+// ── FloatingCard ────────────────────────────────────────────────────────────
+
+function FloatingCard() {
+  const [phase, setPhase] = useState(0);
+  const amount = useCountUp(phase >= 1 ? 1250 : 0, 1600, phase >= 1);
+
+  useEffect(() => {
+    const t = setTimeout(() => setPhase(1), 700);
+    return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    if (phase < 1) return;
+    const t = setTimeout(() => {
+      setPhase(0);
+      setTimeout(() => setPhase(1), 700);
+    }, 6500);
+    return () => clearTimeout(t);
+  }, [phase]);
+
+  const sparkPath = "M0 50 L22 42 L50 36 L80 28 L108 20 L135 12 L163 6 L200 1";
+
+  return (
+    <div className="float-card">
+      <div className="fc-status">
+        <span className="fc-check">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M2 6l3 3 5-5" stroke="#10b981" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </span>
+        <span>Réclamation réussie</span>
+      </div>
+      <p className="fc-label">Remboursement obtenu</p>
+      <p className="fc-amount-line">
+        <span className="sign">+</span>
+        <span>€</span>
+        <span>{formatEUR(amount)}</span>
+        <span className="dec">,00</span>
+      </p>
+      <div className="fc-evo">
+        <span className="fc-evo-lbl">Évolution</span>
+        <span className="fc-evo-val">▲ +12%</span>
+      </div>
+      <svg viewBox="0 0 200 52" className="fc-spark-svg" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="gf" x1="0" y1="0" x2="0" y2="1">
+            <stop stopColor="#06b6d4" stopOpacity="0.4" />
+            <stop offset="1" stopColor="#1a56ff" stopOpacity="0.03" />
+          </linearGradient>
+        </defs>
+        <path
+          d={`${sparkPath} L 200 52 L 0 52 Z`} fill="url(#gf)"
+          style={{ opacity: phase >= 1 ? 1 : 0, transition: "opacity .6s .4s" }}
+        />
+        <path
+          d={sparkPath} stroke="#06b6d4" strokeWidth="2.2" fill="none"
+          strokeLinecap="round" strokeLinejoin="round"
+          pathLength={100} strokeDasharray={100}
+          strokeDashoffset={phase >= 1 ? 0 : 100}
+          style={{ transition: "stroke-dashoffset 1.4s cubic-bezier(.3,.7,.2,1) .2s" }}
+        />
+        <circle cx="200" cy="1" r="3.5" fill="#06b6d4"
+          style={{ opacity: phase >= 1 ? 1 : 0, transition: "opacity .4s 1.4s" }} />
+        <circle cx="200" cy="1" r="6" fill="#06b6d4" fillOpacity="0.2"
+          style={{ opacity: phase >= 1 ? 1 : 0, transition: "opacity .4s 1.4s" }}>
+          <animate attributeName="r" values="6;10;6" dur="2s" repeatCount="indefinite" />
+        </circle>
+      </svg>
+    </div>
+  );
+}
+
+// ── Box3D ───────────────────────────────────────────────────────────────────
+
 function Box3D() {
   return (
-    <div className="relative w-full flex items-center justify-center" style={{ minHeight: 400 }}>
-      <div className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-brand-500/15 blur-3xl rounded-full pointer-events-none" />
-
-      <div className="relative" style={{ width: 340 }}>
-        <svg viewBox="0 0 320 310" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto">
+    <div className="box3d-wrap">
+      <div className="box3d-glow" />
+      <div className="box3d-inner">
+        <svg viewBox="0 0 320 310" fill="none" xmlns="http://www.w3.org/2000/svg" className="box3d-svg">
           <defs>
-            {/* Face avant — couleur du site */}
             <linearGradient id="bf" x1="20" y1="70" x2="235" y2="275" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#1c2f50" />
-              <stop offset="1" stopColor="#0f1a2e" />
+              <stop stopColor="#1c2f50" /><stop offset="1" stopColor="#0f1a2e" />
             </linearGradient>
-            {/* Face du dessus — plus claire */}
             <linearGradient id="bt" x1="20" y1="30" x2="285" y2="70" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#2a4268" />
-              <stop offset="1" stopColor="#1a3050" />
+              <stop stopColor="#2a4268" /><stop offset="1" stopColor="#1a3050" />
             </linearGradient>
-            {/* Face droite — plus sombre */}
             <linearGradient id="br" x1="235" y1="70" x2="285" y2="275" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#0c1624" />
-              <stop offset="1" stopColor="#080e1a" />
+              <stop stopColor="#0c1624" /><stop offset="1" stopColor="#080e1a" />
             </linearGradient>
-            {/* Glow bord brand */}
             <linearGradient id="bedge" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop stopColor="#06b6d4" />
-              <stop offset="1" stopColor="#1a56ff" />
+              <stop stopColor="#06b6d4" /><stop offset="1" stopColor="#1a56ff" />
             </linearGradient>
             <linearGradient id="logo-f" x1="4" y1="8" x2="52" y2="50" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#06b6d4" />
-              <stop offset="1" stopColor="#1a56ff" />
+              <stop stopColor="#06b6d4" /><stop offset="1" stopColor="#1a56ff" />
             </linearGradient>
           </defs>
-
-          {/* Ombre sol */}
           <ellipse cx="152" cy="300" rx="118" ry="11" fill="#000" opacity="0.30" />
-
-          {/* ── Faces ── */}
-          {/* Face avant (gauche — principale) */}
           <path d="M20 70 L235 70 L235 275 L20 275 Z" fill="url(#bf)" />
-          {/* Face du dessus */}
           <path d="M20 70 L70 30 L285 30 L235 70 Z" fill="url(#bt)" />
-          {/* Face droite */}
           <path d="M235 70 L285 30 L285 195 L235 275 Z" fill="url(#br)" />
-
-          {/* ── Arêtes ── */}
           <path d="M20 70 L235 70 L235 275 L20 275 Z" stroke="rgba(255,255,255,0.07)" strokeWidth="1" fill="none" />
           <path d="M20 70 L70 30 L285 30 L235 70" stroke="rgba(255,255,255,0.09)" strokeWidth="1" fill="none" />
           <path d="M235 70 L285 30 L285 195 L235 275" stroke="rgba(255,255,255,0.05)" strokeWidth="1" fill="none" />
-
-          {/* Liseré brand en haut de la face avant */}
-          <path d="M20 70 L235 70" stroke="url(#bedge)" strokeWidth="2.5" strokeLinecap="round" />
-          {/* Liseré brand bord gauche */}
+          <path d="M20 70 L235 70" stroke="url(#bedge)" strokeWidth="2.5" strokeLinecap="round">
+            <animate attributeName="stroke-opacity" values=".7;1;.7" dur="3s" repeatCount="indefinite" />
+          </path>
           <path d="M20 70 L20 275" stroke="rgba(6,182,212,0.25)" strokeWidth="1.5" />
-
-          {/* Reflet léger coin supérieur-gauche face avant */}
           <path d="M20 70 L90 70 L90 100 L20 100 Z" fill="white" opacity="0.025" />
-
-          {/* ── Logo Claim.e — face avant, côté gauche centré ── */}
           <g transform="translate(42, 128) scale(1.5)">
-            <svg viewBox="0 0 56 56" width="56" height="56">
-              <path d="M 45 38 A 20 20 0 1 1 45 18" stroke="url(#logo-f)" strokeWidth="5.5" strokeLinecap="round" fill="none" />
-              <polygon points="48,23 40,17 47,13" fill="url(#logo-f)" />
-              <path d="M28 21 L36 25.5 L28 30 L20 25.5 Z" fill="url(#logo-f)" opacity="0.95" />
-              <path d="M20 25.5 L28 30 L28 39 L20 34.5 Z" fill="#1a3a9f" />
-              <path d="M28 30 L36 25.5 L36 34.5 L28 39 Z" fill="#2045c0" />
-              <path d="M28 21 L36 25.5 L28 30 L20 25.5 Z" fill="white" opacity="0.18" />
-            </svg>
+            <path d="M 45 38 A 20 20 0 1 1 45 18" stroke="url(#logo-f)" strokeWidth="5.5" strokeLinecap="round" fill="none" />
+            <polygon points="48,23 40,17 47,13" fill="url(#logo-f)" />
+            <path d="M28 21 L36 25.5 L28 30 L20 25.5 Z" fill="url(#logo-f)" opacity="0.95" />
+            <path d="M20 25.5 L28 30 L28 39 L20 34.5 Z" fill="#1a3a9f" />
+            <path d="M28 30 L36 25.5 L36 34.5 L28 39 Z" fill="#2045c0" />
+            <path d="M28 21 L36 25.5 L28 30 L20 25.5 Z" fill="white" opacity="0.18" />
           </g>
-
-          {/* Nom sous le logo */}
-          <text x="70" y="248" textAnchor="middle" fill="white" fillOpacity="0.35" fontSize="11" fontFamily="Sora,sans-serif" fontWeight="700" letterSpacing="3">CLAIM.e</text>
+          <text x="70" y="248" textAnchor="middle" fill="white" fillOpacity="0.35"
+            fontSize="11" fontFamily="Sora,sans-serif" fontWeight="700" letterSpacing="3">CLAIM.e</text>
         </svg>
+        <FloatingCard />
+      </div>
+    </div>
+  );
+}
 
-        {/* Carte flottante — superposée sur le carton, bas droite */}
-        <div className="absolute bottom-6 -right-8 z-10 w-56 bg-[#0b1525]/90 backdrop-blur-md border border-white/15 rounded-2xl p-5 shadow-2xl">
-          <div className="flex items-center gap-2 mb-3">
-            <div className="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center flex-shrink-0">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <path d="M2 6l3 3 5-5" stroke="#10b981" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </div>
-            <span className="text-white text-xs font-semibold">Réclamation réussie</span>
+// ── Hero ────────────────────────────────────────────────────────────────────
+
+function Hero() {
+  return (
+    <section className="hero">
+      <div className="hero-blob-1" aria-hidden="true" />
+      <div className="hero-blob-2" aria-hidden="true" />
+      <div className="wrap hero-grid">
+        <div>
+          <span className="eyebrow reveal">
+            <i className="dot" />
+            Audit logistique automatisé
+          </span>
+          <h1 className="reveal" data-delay="1">
+            Récupérez l&apos;argent{" "}
+            <span className="em">perdu sur vos livraisons</span>
+          </h1>
+          <p className="lead reveal" data-delay="2">
+            Claim.e détecte automatiquement les erreurs de vos transporteurs —
+            retards, colis perdus, SLA non respectés — et récupère l&apos;argent pour vous.
+          </p>
+          <div className="hero-cta reveal" data-delay="3">
+            <Link href="/signup" className="btn btn-primary btn-lg">
+              Analyser mes livraisons<span className="arr">→</span>
+            </Link>
+            <a href="#comment-ca-marche" className="btn btn-ghost btn-lg">
+              Voir comment ça marche
+            </a>
           </div>
-          <p className="text-slate-400 text-xs mb-1">Remboursement obtenu</p>
-          <p className="text-2xl font-display font-800 text-white mb-3">+€1 250,00</p>
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-slate-500 text-xs">Évolution</span>
-            <span className="text-emerald-400 text-xs font-semibold">▲ +12%</span>
-          </div>
-          <svg viewBox="0 0 200 52" className="w-full h-12">
-            <defs>
-              <linearGradient id="gf" x1="0" y1="0" x2="0" y2="1">
-                <stop stopColor="#06b6d4" stopOpacity="0.4" />
-                <stop offset="1" stopColor="#1a56ff" stopOpacity="0.03" />
-              </linearGradient>
-            </defs>
-            <path d="M0 50 L22 42 L50 36 L80 28 L108 20 L135 12 L163 6 L200 1" stroke="#06b6d4" strokeWidth="2.2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M0 50 L22 42 L50 36 L80 28 L108 20 L135 12 L163 6 L200 1 L200 52 L0 52 Z" fill="url(#gf)" />
-            <circle cx="200" cy="1" r="3.5" fill="#06b6d4" />
-            <circle cx="200" cy="1" r="6" fill="#06b6d4" fillOpacity="0.2" />
-          </svg>
+        </div>
+        <div className="hero-visual">
+          <Box3D />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── Features ────────────────────────────────────────────────────────────────
+
+const FEATURES = [
+  { e: "🔍", t: "Détection automatique",    p: "Nous identifions efficacement les litiges de livraison en temps réel." },
+  { e: "📋", t: "Réclamations gérées",      p: "Nous négocions avec les transporteurs à votre place." },
+  { e: "💶", t: "Remboursements récupérés", p: "Vous recevez ce qui vous revient, simplement." },
+  { e: "🔗", t: "Connexion facile",         p: "Shopify, WooCommerce, Sendcloud ou webhook universel — connecté en minutes." },
+  { e: "📊", t: "Dashboard en temps réel",  p: "Suivez vos anomalies, réclamations et remboursements en un coup d'œil." },
+  { e: "🛡️", t: "Protection continue",     p: "Surveillance 24/7 de toutes vos expéditions sans intervention manuelle." },
+];
+
+function FeatureCard({ e, t, p, delay }: { e: string; t: string; p: string; delay: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  function onMove(ev: React.MouseEvent<HTMLDivElement>) {
+    const r = ref.current?.getBoundingClientRect();
+    if (!r) return;
+    ref.current?.style.setProperty("--mx", `${((ev.clientX - r.left) / r.width) * 100}%`);
+    ref.current?.style.setProperty("--my", `${((ev.clientY - r.top) / r.height) * 100}%`);
+  }
+  return (
+    <div ref={ref} className="feature reveal" data-delay={String(delay)} onMouseMove={onMove}>
+      <div className="feature-emoji">{e}</div>
+      <h3>{t}</h3>
+      <p>{p}</p>
+      <div className="feature-arrow">→</div>
+    </div>
+  );
+}
+
+function Features() {
+  return (
+    <section id="fonctionnalites" className="section">
+      <div className="wrap">
+        <div className="section-head">
+          <p className="section-eyebrow">// Fonctionnalités</p>
+          <h2 className="reveal">Simple, transparent, <span className="em">efficace.</span></h2>
+          <p className="sub reveal" data-delay="1">
+            Tout ce dont vous avez besoin pour récupérer l&apos;argent que vos transporteurs vous doivent.
+          </p>
+        </div>
+        <div className="features">
+          {FEATURES.map((f, i) => <FeatureCard key={f.t} {...f} delay={(i % 3) + 1} />)}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── Step viz components ─────────────────────────────────────────────────────
+
+function VizConnect() {
+  return (
+    <svg viewBox="0 0 300 180" width="100%" height="100%" className="viz-connect">
+      <defs>
+        <linearGradient id="hub-grad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#1a56ff" />
+          <stop offset="100%" stopColor="#06b6d4" />
+        </linearGradient>
+      </defs>
+      {[
+        { x1: 30, y1: 30, x2: 150, y2: 90 },
+        { x1: 270, y1: 30, x2: 150, y2: 90 },
+        { x1: 30, y1: 150, x2: 150, y2: 90 },
+        { x1: 270, y1: 150, x2: 150, y2: 90 },
+      ].map((l, i) => (
+        <line key={i} {...l} stroke="#1a2d45" strokeWidth="1" strokeDasharray="3 3">
+          <animate attributeName="stroke-dashoffset" values="0;-6" dur="1.4s" repeatCount="indefinite" />
+        </line>
+      ))}
+      <circle cx="150" cy="90" r="22" fill="url(#hub-grad)" />
+      <circle cx="150" cy="90" r="22" fill="none" stroke="#06b6d4" strokeWidth="2">
+        <animate attributeName="r" values="22;36;22" dur="2.6s" repeatCount="indefinite" />
+        <animate attributeName="opacity" values=".7;0;.7" dur="2.6s" repeatCount="indefinite" />
+      </circle>
+      <text x="150" y="94" textAnchor="middle" fill="#fff" fontSize="10" fontWeight="800" fontFamily="Sora,sans-serif">e</text>
+      {[
+        { x: 8,   y: 12,  label: "Shopify" },
+        { x: 218, y: 12,  label: "WooCom." },
+        { x: 8,   y: 132, label: "Sendcloud" },
+        { x: 218, y: 132, label: "CSV" },
+      ].map((c, i) => (
+        <g key={i}>
+          <rect x={c.x} y={c.y} width="74" height="36" rx="8" fill="#141f35" stroke="#1a2d45" />
+          <text x={c.x + 37} y={c.y + 22} textAnchor="middle" fill="#cbd5e1" fontSize="11" fontFamily="Sora,sans-serif" fontWeight="500">
+            {c.label}
+          </text>
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+function VizScan() {
+  return (
+    <div className="viz-scan-2">
+      <div className="vs-grid">
+        {Array.from({ length: 35 }).map((_, i) => (
+          <div key={i} className={`vs-cell${[8, 16, 24, 32].includes(i) ? " hit" : ""}`} />
+        ))}
+      </div>
+      <div className="vs-beam" />
+      <div className="vs-label">
+        <span className="vs-pill">3 anomalies détectées</span>
+      </div>
+    </div>
+  );
+}
+
+function VizMail() {
+  return (
+    <div className="viz-mail-2">
+      <div className="vm-stack">
+        <div className="vm-paper vm-p3">Réclamation #2845</div>
+        <div className="vm-paper vm-p2">Réclamation #2846</div>
+        <div className="vm-paper vm-p1">
+          <div className="vm-row"><span /><span /></div>
+          <div className="vm-row narrow"><span /></div>
+          <div className="vm-stamp">PAYÉ</div>
         </div>
       </div>
     </div>
   );
 }
 
-function Hero() {
+// ── Steps ───────────────────────────────────────────────────────────────────
+
+const STEPS: { n: string; title: string; p: string; tags: string[]; viz: React.ReactNode }[] = [
+  {
+    n: "01", title: "Connectez votre boutique",
+    p: "Shopify, WooCommerce, PrestaShop, Sendcloud — une simple connexion et vos commandes arrivent automatiquement. Import CSV disponible pour les autres.",
+    tags: ["Webhook universel", "Shopify", "Sendcloud", "CSV"],
+    viz: <VizConnect />,
+  },
+  {
+    n: "02", title: "Détection automatique",
+    p: "Notre moteur analyse chaque livraison dès réception et identifie retards, colis perdus et SLA non respectés.",
+    tags: ["Analyse en temps réel", "98% de taux de détection"],
+    viz: <VizScan />,
+  },
+  {
+    n: "03", title: "Réclamations & remboursements",
+    p: "Claim.e génère les réclamations et suit les remboursements jusqu'au paiement.",
+    tags: ["Suivi automatique jusqu'au remboursement"],
+    viz: <VizMail />,
+  },
+];
+
+function Steps() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
-      <div className="absolute inset-0 bg-grid opacity-40" />
-      <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] rounded-full bg-brand-500/5 blur-3xl" />
-      <div className="absolute top-1/2 right-1/4 w-[400px] h-[400px] rounded-full bg-brand-300/5 blur-3xl" />
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-20 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-
-        {/* Texte — colonne gauche */}
-        <div className="flex flex-col items-start">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-400 text-xs font-semibold uppercase tracking-wider mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-brand-400 animate-pulse" />
-            Audit logistique automatisé
-          </div>
-          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-800 text-white leading-[1.1] tracking-tight mb-5 md:mb-7">
-            Récupérez l'argent{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-cyan-400">
-              perdu sur vos livraisons
-            </span>
-          </h1>
-          <p className="text-base md:text-xl text-slate-400 mb-8 leading-relaxed max-w-lg">
-            Claim.e détecte automatiquement les erreurs de vos transporteurs — retards, colis perdus, SLA non respectés — et récupère l'argent pour vous.
-          </p>
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
-            <Link href="/signup" className="btn-primary px-6 py-3 text-sm text-center">
-              Analyser mes livraisons →
-            </Link>
-            <a href="#comment-ca-marche" className="btn-secondary px-6 py-3 text-sm text-center">
-              Voir comment ça marche
-            </a>
-          </div>
+    <section id="comment-ca-marche" className="section section-alt">
+      <div className="wrap">
+        <div className="section-head">
+          <p className="section-eyebrow">// Comment ça marche</p>
+          <h2 className="reveal">Récupérez de l&apos;argent <span className="em">en 3 étapes simples</span></h2>
         </div>
-
-        {/* Boîte 3D — colonne droite */}
-        <div className="hidden lg:flex items-center justify-center">
-          <Box3D />
-        </div>
-
-      </div>
-    </section>
-  );
-}
-
-function Features() {
-  const items = [
-    { icon: "🔍", title: "Détection automatique", desc: "Nous identifions efficacement les litiges de livraison en temps réel." },
-    { icon: "📋", title: "Réclamations gérées", desc: "Nous négocions avec les transporteurs à votre place." },
-    { icon: "💶", title: "Remboursements récupérés", desc: "Vous recevez ce qui vous revient, simplement." },
-    { icon: "🔗", title: "Connexion facile", desc: "Shopify, WooCommerce, Sendcloud ou webhook universel — connecté en minutes." },
-    { icon: "📊", title: "Dashboard en temps réel", desc: "Suivez vos anomalies, réclamations et remboursements en un coup d'œil." },
-    { icon: "🛡️", title: "Protection continue", desc: "Surveillance 24/7 de toutes vos expéditions sans intervention manuelle." },
-  ];
-
-  return (
-    <section id="fonctionnalites" className="py-12 md:py-24 px-4 md:px-6">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-10 md:mb-14">
-          <div className="section-tag mb-4 md:mb-6">Fonctionnalités</div>
-          <h2 className="font-display text-2xl md:text-4xl font-700 text-white tracking-tight mb-3 md:mb-4">
-            Simple, transparent, efficace.
-          </h2>
-          <p className="text-slate-400 text-base md:text-lg max-w-xl mx-auto">
-            Tout ce dont vous avez besoin pour récupérer l'argent que vos transporteurs vous doivent.
-          </p>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {items.map(({ icon, title, desc }) => (
-            <div key={title} className="glass-card p-6 hover:border-brand-500/30 transition-all duration-300 group hover:-translate-y-1">
-              <div className="text-2xl mb-4">{icon}</div>
-              <h3 className="font-display font-600 text-white mb-2 group-hover:text-brand-300 transition-colors">{title}</h3>
-              <p className="text-slate-500 text-sm leading-relaxed">{desc}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function HowItWorks() {
-  const steps = [
-    { num: "01", title: "Connectez votre boutique", desc: "Shopify, WooCommerce, PrestaShop, Sendcloud — une simple connexion et vos commandes arrivent automatiquement. Import CSV disponible pour les autres.", detail: "Webhook universel · Shopify · Sendcloud · CSV" },
-    { num: "02", title: "Détection automatique", desc: "Notre moteur analyse chaque livraison dès réception et identifie retards, colis perdus et SLA non respectés.", detail: "Analyse en temps réel · 98% de taux de détection" },
-    { num: "03", title: "Réclamations & remboursements", desc: "Claim.e génère les réclamations et suit les remboursements jusqu'au paiement.", detail: "Suivi automatique jusqu'au remboursement" },
-  ];
-
-  return (
-    <section id="comment-ca-marche" className="py-12 md:py-24 px-4 md:px-6 relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-brand-500/5 to-transparent" />
-      <div className="max-w-5xl mx-auto relative">
-        <div className="text-center mb-10 md:mb-14">
-          <div className="section-tag mb-4 md:mb-6">Comment ça marche</div>
-          <h2 className="font-display text-2xl md:text-4xl font-700 text-white tracking-tight mb-3 md:mb-4">
-            Récupérez de l'argent<br />en 3 étapes simples
-          </h2>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-          {steps.map(({ num, title, desc, detail }) => (
-            <div key={num} className="glass-card p-5 md:p-7 relative overflow-hidden group hover:border-brand-500/30 transition-all duration-300">
-              <div className="absolute top-4 right-4 font-display text-6xl font-800 text-white/[0.03] select-none">{num}</div>
-              <div className="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center mb-5">
-                <span className="font-display font-700 text-brand-400 text-sm">{num}</span>
+        <div className="steps">
+          {STEPS.map((s, i) => (
+            <div key={s.n} className="step reveal" data-delay={String(i + 1)}>
+              <div className="step-num">{s.n}</div>
+              <div className="step-viz">{s.viz}</div>
+              <h3>{s.title}</h3>
+              <p>{s.p}</p>
+              <div className="step-tags">
+                {s.tags.map((t) => <span key={t} className="tag">{t}</span>)}
               </div>
-              <h3 className="font-display font-700 text-white text-lg mb-3">{title}</h3>
-              <p className="text-slate-400 text-sm leading-relaxed mb-4">{desc}</p>
-              <p className="text-xs text-brand-400/70 font-medium">{detail}</p>
             </div>
           ))}
         </div>
@@ -327,32 +550,37 @@ function HowItWorks() {
     </section>
   );
 }
+
+// ── Anomalies ───────────────────────────────────────────────────────────────
+
+const ANOMALY_ITEMS = [
+  { e: "⏱",  t: "Retard de livraison" },
+  { e: "📦", t: "Colis perdu" },
+  { e: "💸", t: "Surfacturation" },
+  { e: "⚠️", t: "SLA non respecté" },
+  { e: "🔄", t: "Livraison partielle" },
+  { e: "🏷",  t: "Erreur de facturation" },
+  { e: "💥", t: "Colis endommagé" },
+  { e: "📋", t: "Erreur de tracking" },
+];
 
 function Anomalies() {
-  const types = [
-    { icon: "⏱", label: "Retard de livraison" },
-    { icon: "📦", label: "Colis perdu" },
-    { icon: "💸", label: "Surfacturation" },
-    { icon: "⚠️", label: "SLA non respecté" },
-    { icon: "🔄", label: "Livraison partielle" },
-    { icon: "🏷", label: "Erreur de facturation" },
-    { icon: "💥", label: "Colis endommagé" },
-    { icon: "📋", label: "Erreur de tracking" },
-  ];
-
   return (
-    <section className="py-10 md:py-16 px-4 md:px-6">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-7 md:mb-10">
-          <div className="section-tag mb-4 md:mb-6">Anomalies détectées</div>
-          <h2 className="font-display text-xl md:text-3xl font-700 text-white mb-3">Toutes les erreurs que vous ratez actuellement</h2>
-          <p className="text-slate-400 max-w-lg mx-auto text-sm">Claim.e analyse automatiquement 8 types d'anomalies sur chaque livraison.</p>
+    <section id="anomalies" className="section">
+      <div className="wrap">
+        <div className="section-head">
+          <p className="section-eyebrow">// Anomalies détectées</p>
+          <h2 className="reveal">Toutes les erreurs que vous ratez <span className="em">actuellement</span></h2>
+          <p className="sub reveal" data-delay="1">
+            Claim.e analyse automatiquement 8 types d&apos;anomalies sur chaque livraison.
+          </p>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          {types.map(({ icon, label }) => (
-            <div key={label} className="glass-card p-4 flex items-center gap-3 hover:border-brand-500/30 transition-all duration-200 group">
-              <span className="text-xl">{icon}</span>
-              <span className="text-slate-300 text-sm font-medium group-hover:text-white transition-colors">{label}</span>
+        <div className="anomalies-grid">
+          {ANOMALY_ITEMS.map((it, i) => (
+            <div key={it.t} className="anomaly reveal" data-delay={String((i % 4) + 1)}>
+              <span className="anomaly-emoji">{it.e}</span>
+              <span className="anomaly-label">{it.t}</span>
+              <span className="anomaly-pulse" />
             </div>
           ))}
         </div>
@@ -360,106 +588,136 @@ function Anomalies() {
     </section>
   );
 }
+
+// ── Pricing ─────────────────────────────────────────────────────────────────
+
+function Check({ on = true }: { on?: boolean }) {
+  return on ? (
+    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+      <circle cx="8" cy="8" r="8" fill="rgba(6,182,212,.18)" />
+      <path d="M4.5 8.3 6.7 10.5 11.5 5.5" fill="none" stroke="#06b6d4" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  ) : (
+    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+      <circle cx="8" cy="8" r="8" fill="rgba(255,255,255,.06)" />
+      <path d="M5 5 L11 11 M11 5 L5 11" fill="none" stroke="#64748b" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+const STARTER_FEATS: [boolean, string][] = [
+  [true,  "Jusqu'à 500 livraisons/mois"],
+  [true,  "Détection automatique d'anomalies"],
+  [true,  "Dashboard en temps réel"],
+  [true,  "Import CSV manuel"],
+  [true,  "Export PDF des rapports"],
+  [false, "Connexion automatique (Shopify, Sendcloud…)"],
+  [false, "Webhook universel (WooCommerce, PrestaShop…)"],
+  [false, "Envoi automatique des réclamations"],
+  [false, "Support prioritaire 24/7"],
+];
+
+const PRO_FEATS: [boolean, string][] = [
+  [true, "Livraisons illimitées"],
+  [true, "Détection automatique d'anomalies"],
+  [true, "Dashboard en temps réel"],
+  [true, "Connexion Shopify & Sendcloud automatique"],
+  [true, "Webhook universel (WooCommerce, PrestaShop…)"],
+  [true, "Synchronisation quotidienne automatique"],
+  [true, "Envoi automatique des réclamations"],
+  [true, "Support prioritaire 24/7"],
+];
 
 function Pricing() {
   return (
-    <section id="tarifs" className="py-12 md:py-24 px-4 md:px-6">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-10 md:mb-14">
-          <div className="section-tag mb-4 md:mb-6">Tarifs</div>
-          <h2 className="font-display text-2xl md:text-4xl font-700 text-white tracking-tight mb-3 md:mb-4">Transparent et sans risque</h2>
-          <p className="text-slate-400">Sans engagement, annulable à tout moment.</p>
+    <section id="tarifs" className="section section-alt">
+      <div className="wrap">
+        <div className="section-head">
+          <p className="section-eyebrow">// Tarifs</p>
+          <h2 className="reveal">Transparent et <span className="em">sans risque</span></h2>
+          <p className="sub reveal" data-delay="1">Sans engagement, annulable à tout moment.</p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {[
-            {
-              name: "Starter", price: "99.99€", desc: "Pour les PME qui débutent",
-              features: [
-                { text: "Jusqu'à 500 livraisons/mois", ok: true },
-                { text: "Détection automatique d'anomalies", ok: true },
-                { text: "Dashboard en temps réel", ok: true },
-                { text: "Import CSV manuel", ok: true },
-                { text: "Export PDF des rapports", ok: true },
-                { text: "Connexion automatique (Shopify, Sendcloud…)", ok: false },
-                { text: "Webhook universel (WooCommerce, PrestaShop…)", ok: false },
-                { text: "Envoi automatique des réclamations", ok: false },
-                { text: "Support prioritaire 24/7", ok: false },
-              ],
-              cta: "Commencer", highlighted: false,
-            },
-            {
-              name: "Pro", price: "179.99€", desc: "Pour les équipes logistiques",
-              features: [
-                { text: "Livraisons illimitées", ok: true },
-                { text: "Détection automatique d'anomalies", ok: true },
-                { text: "Dashboard en temps réel", ok: true },
-                { text: "Connexion Shopify & Sendcloud automatique", ok: true },
-                { text: "Webhook universel (WooCommerce, PrestaShop…)", ok: true },
-                { text: "Synchronisation quotidienne automatique", ok: true },
-                { text: "Envoi automatique des réclamations", ok: true },
-                { text: "Support prioritaire 24/7", ok: true },
-              ],
-              cta: "Démarrer en Pro", highlighted: true,
-            },
-          ].map(({ name, price, desc, features, cta, highlighted }) => (
-            <div key={name} className={`glass-card p-5 md:p-8 relative overflow-hidden ${highlighted ? "border-brand-500/40" : ""}`}>
-              {highlighted && <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-brand-500 to-transparent" />}
-              {highlighted && <div className="absolute top-4 right-4 px-2.5 py-0.5 rounded-full bg-brand-500 text-white text-xs font-semibold">Populaire</div>}
-              <p className={`text-xs font-semibold uppercase tracking-wider mb-4 ${highlighted ? "text-brand-400" : "text-slate-500"}`}>{name}</p>
-              <div className="flex items-baseline gap-1 mb-2">
-                <span className="font-display text-3xl md:text-4xl font-800 text-white">{price}</span>
-                <span className="text-slate-500 text-sm">/mois</span>
-              </div>
-              <p className="text-slate-500 text-sm mb-6">{desc}</p>
-              <ul className="space-y-3 mb-8">
-                {features.map(({ text, ok }) => (
-                  <li key={text} className={`flex items-center gap-2.5 text-sm ${ok ? "text-slate-300" : "text-slate-600"}`}>
-                    <span className={ok ? "text-brand-400" : "text-slate-700"}>{ok ? "✓" : "✕"}</span>
-                    {text}
-                  </li>
-                ))}
-              </ul>
-              <Link href="/signup" className={highlighted ? "btn-primary w-full justify-center py-3" : "btn-secondary w-full justify-center py-3"}>
-                {cta}
-              </Link>
+        <div className="pricing">
+
+          {/* Starter */}
+          <div className="plan reveal" data-delay="1">
+            <h3>Starter</h3>
+            <p className="tag-line">Pour les PME qui débutent</p>
+            <div className="price">
+              <span className="price-amount">99<span className="em">,99</span></span>
+              <span className="per">€/mois</span>
             </div>
-          ))}
+            <ul>
+              {STARTER_FEATS.map(([on, l]) => (
+                <li key={l} data-on={on ? "1" : "0"}><Check on={on} />{l}</li>
+              ))}
+            </ul>
+            <Link href="/signup" className="btn btn-ghost">Commencer</Link>
+          </div>
+
+          {/* Pro */}
+          <div className="plan featured reveal" data-delay="2">
+            <span className="plan-badge">Populaire</span>
+            <h3>Pro</h3>
+            <p className="tag-line">Pour les équipes logistiques</p>
+            <div className="price">
+              <span className="price-amount">179<span className="em">,99</span></span>
+              <span className="per">€/mois</span>
+            </div>
+            <ul>
+              {PRO_FEATS.map(([, l]) => (
+                <li key={l} data-on="1"><Check on={true} />{l}</li>
+              ))}
+            </ul>
+            <Link href="/signup" className="btn btn-primary">Démarrer en Pro<span className="arr">→</span></Link>
+          </div>
+
         </div>
       </div>
     </section>
   );
 }
 
+// ── Footer ──────────────────────────────────────────────────────────────────
+
 function Footer() {
   return (
-    <footer className="border-t border-border py-8 md:py-12 px-4 md:px-6">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6 mb-6 md:mb-8">
-          <Link href="/" className="flex items-center gap-2.5">
-            <Logo size={28} />
-            <span className="font-display font-700 text-white">Claim<span className="text-brand-400">.e</span></span>
-          </Link>
-          <p className="text-slate-600 text-sm text-center max-w-sm">Protégeons vos revenus. Chaque livraison compte.</p>
-          <div className="flex gap-4 text-xs text-slate-600">
-            <Link href="/cgu" className="hover:text-slate-400 transition-colors">CGU</Link>
-            <Link href="/confidentialite" className="hover:text-slate-400 transition-colors">Confidentialité</Link>
-            <Link href="/mentions-legales" className="hover:text-slate-400 transition-colors">Mentions légales</Link>
+    <footer className="footer">
+      <div className="wrap">
+        <div className="footer-top">
+          <div>
+            <Link href="/" className="footer-brand">
+              <Logo size={28} />
+              <span>Claim<span style={{ opacity: 0.5 }}>.</span>e</span>
+            </Link>
+            <p className="footer-tag">Protégeons vos revenus. <em>Chaque livraison compte.</em></p>
+          </div>
+          <div className="footer-links">
+            <Link href="/cgu">CGU</Link>
+            <Link href="/confidentialite">Confidentialité</Link>
+            <Link href="/mentions-legales">Mentions légales</Link>
           </div>
         </div>
-        <p className="text-center text-xs text-slate-700">© 2026 Claim.e · Tous droits réservés</p>
+        <div className="footer-bottom">
+          <span>© 2026 Claim.e · Tous droits réservés</span>
+          <span>Fait en France · Hébergé sur Vercel</span>
+        </div>
       </div>
     </footer>
   );
 }
 
+// ── Root ────────────────────────────────────────────────────────────────────
+
 export default function HomePage() {
+  useRevealAll();
   return (
     <>
       <Navbar />
       <main>
         <Hero />
         <Features />
-        <HowItWorks />
+        <Steps />
         <Anomalies />
         <Pricing />
       </main>

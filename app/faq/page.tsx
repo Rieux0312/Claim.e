@@ -76,26 +76,26 @@ export default function FaqPage() {
             <Link href="/faq" className="btn-ghost text-sm">F.A.Q.</Link>
             <Link href="/a-propos" className="btn-ghost text-sm">À propos</Link>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             {isLoggedIn ? (
               <>
-                <Link href="/dashboard" className="btn-primary text-sm">📦 Mon Dashboard</Link>
-                <button onClick={logout} className="btn-ghost text-sm">Déconnexion</button>
+                <Link href="/dashboard" className="btn-primary text-xs sm:text-sm px-3 sm:px-5">📦 <span className="hidden sm:inline">Mon </span>Dashboard</Link>
+                <button onClick={logout} className="hidden sm:flex btn-ghost text-sm">Déconnexion</button>
               </>
             ) : (
               <>
-                <Link href="/login" className="btn-ghost text-sm">Connexion</Link>
-                <Link href="/signup" className="btn-primary text-sm">Commencer</Link>
+                <Link href="/login" className="hidden sm:flex btn-ghost text-sm">Connexion</Link>
+                <Link href="/signup" className="btn-primary text-xs sm:text-sm px-3 sm:px-5">Commencer</Link>
               </>
             )}
           </div>
         </div>
       </header>
 
-      <main className="max-w-3xl mx-auto px-6 py-16">
-        <div className="text-center mb-14">
-          <div className="section-tag mb-6">F.A.Q.</div>
-          <h1 className="font-display text-4xl md:text-5xl font-700 text-white tracking-tight mb-4">
+      <main className="max-w-3xl mx-auto px-4 md:px-6 py-10 md:py-16">
+        <div className="text-center mb-10 md:mb-14">
+          <div className="section-tag mb-4 md:mb-6">F.A.Q.</div>
+          <h1 className="font-display text-3xl md:text-5xl font-700 text-white tracking-tight mb-4">
             Questions fréquentes
           </h1>
           <p className="text-slate-400 text-lg">Tout ce que vous devez savoir sur Claim.e</p>
@@ -123,7 +123,7 @@ export default function FaqPage() {
           ))}
         </div>
 
-        <div className="text-center mt-14">
+        <div className="text-center mt-10 md:mt-14">
           <p className="text-slate-400 text-sm mb-4">Vous avez une autre question ?</p>
           <a href="mailto:contact@claim-e.fr" className="btn-secondary px-6 py-2.5 text-sm">
             Nous contacter
@@ -131,7 +131,7 @@ export default function FaqPage() {
         </div>
       </main>
 
-      <footer className="border-t border-border py-8 px-6 mt-16">
+      <footer className="border-t border-border py-6 md:py-8 px-4 md:px-6 mt-10 md:mt-16">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-600">
           <p>© 2026 Claim.e · Tous droits réservés</p>
           <div className="flex gap-4">

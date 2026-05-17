@@ -37,27 +37,27 @@ export default function TarifsPage() {
             <Link href="/faq" className="btn-ghost text-sm">F.A.Q.</Link>
             <Link href="/a-propos" className="btn-ghost text-sm">À propos</Link>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             {isLoggedIn ? (
               <>
-                <Link href="/dashboard" className="btn-primary text-sm">📦 Mon Dashboard</Link>
-                <button onClick={logout} className="btn-ghost text-sm">Déconnexion</button>
+                <Link href="/dashboard" className="btn-primary text-xs sm:text-sm px-3 sm:px-5">📦 <span className="hidden sm:inline">Mon </span>Dashboard</Link>
+                <button onClick={logout} className="hidden sm:flex btn-ghost text-sm">Déconnexion</button>
               </>
             ) : (
               <>
-                <Link href="/login" className="btn-ghost text-sm">Connexion</Link>
-                <Link href="/signup" className="btn-primary text-sm">Commencer</Link>
+                <Link href="/login" className="hidden sm:flex btn-ghost text-sm">Connexion</Link>
+                <Link href="/signup" className="btn-primary text-xs sm:text-sm px-3 sm:px-5">Commencer</Link>
               </>
             )}
           </div>
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-6 py-16">
+      <main className="max-w-5xl mx-auto px-4 md:px-6 py-10 md:py-16">
 
         {/* Hero */}
-        <div className="text-center mb-16">
-          <div className="section-tag mb-6">Tarifs</div>
+        <div className="text-center mb-10 md:mb-16">
+          <div className="section-tag mb-4 md:mb-6">Tarifs</div>
           <h1 className="font-display text-4xl md:text-5xl font-700 text-white tracking-tight mb-6">
             Transparent et sans risque
           </h1>
@@ -68,12 +68,12 @@ export default function TarifsPage() {
         </div>
 
         {/* Plans */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16 max-w-3xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10 md:mb-16 max-w-3xl mx-auto">
           {/* Starter */}
-          <div className="glass-card p-8">
+          <div className="glass-card p-5 md:p-8">
             <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-4">Starter</p>
             <div className="flex items-baseline gap-1 mb-2">
-              <span className="font-display text-5xl font-800 text-white">99.99€</span>
+              <span className="font-display text-4xl md:text-5xl font-800 text-white">99.99€</span>
               <span className="text-slate-500 text-sm">/mois</span>
             </div>
             <p className="text-slate-500 text-sm mb-6">Pour les PME qui débutent</p>
@@ -104,14 +104,14 @@ export default function TarifsPage() {
           </div>
 
           {/* Pro */}
-          <div className="glass-card p-8 border-brand-500/40 relative overflow-hidden">
+          <div className="glass-card p-5 md:p-8 border-brand-500/40 relative overflow-hidden">
             <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-brand-500 to-transparent" />
             <div className="absolute top-4 right-4 px-2.5 py-0.5 rounded-full bg-brand-500 text-white text-xs font-semibold">
               Populaire
             </div>
             <p className="text-xs font-semibold text-brand-400 uppercase tracking-wider mb-4">Pro</p>
             <div className="flex items-baseline gap-1 mb-2">
-              <span className="font-display text-5xl font-800 text-white">179.99€</span>
+              <span className="font-display text-4xl md:text-5xl font-800 text-white">179.99€</span>
               <span className="text-slate-500 text-sm">/mois</span>
             </div>
             <p className="text-slate-500 text-sm mb-6">Pour les équipes logistiques</p>
@@ -191,7 +191,7 @@ export default function TarifsPage() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-border py-8 px-6 mt-16">
+      <footer className="border-t border-border py-6 md:py-8 px-4 md:px-6 mt-10 md:mt-16">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-600">
           <p>© 2024 Claim.e · Tous droits réservés</p>
           <div className="flex gap-4">

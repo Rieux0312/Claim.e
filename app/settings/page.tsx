@@ -211,16 +211,16 @@ export default function SettingsPage() {
               Claim<span className="text-brand-400">.e</span>
             </span>
           </Link>
-          <div className="flex items-center gap-2">
-            <Link href="/dashboard" className="btn-ghost text-sm">📦 Dashboard</Link>
-            <Link href="/settings" className="btn-ghost text-sm">⚙️ Paramètres</Link>
-            <div className="w-px h-5 bg-border mx-1" />
-            <button onClick={logout} className="btn-ghost text-sm">Déconnexion</button>
+          <div className="flex items-center gap-1 md:gap-2">
+            <Link href="/dashboard" className="hidden sm:flex btn-ghost text-sm">📦 Dashboard</Link>
+            <Link href="/settings" className="hidden sm:flex btn-ghost text-sm">⚙️ Paramètres</Link>
+            <div className="hidden sm:block w-px h-5 bg-border mx-1" />
+            <button onClick={logout} className="hidden sm:flex btn-ghost text-sm">Déconnexion</button>
           </div>
         </div>
       </header>
 
-      <main className="max-w-2xl mx-auto px-6 py-10 space-y-6">
+      <main className="max-w-2xl mx-auto px-4 md:px-6 py-8 md:py-10 space-y-6">
 
         <div>
           <h1 className="font-display text-2xl font-700 text-white mb-1">Paramètres du compte</h1>

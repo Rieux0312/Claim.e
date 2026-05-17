@@ -31,28 +31,28 @@ export default function AProposPage() {
             <Link href="/faq" className="btn-ghost text-sm">F.A.Q.</Link>
             <Link href="/a-propos" className="btn-ghost text-sm">À propos</Link>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             {isLoggedIn ? (
               <>
-                <Link href="/dashboard" className="btn-primary text-sm">📦 Mon Dashboard</Link>
-                <button onClick={() => { createClient().auth.signOut(); setIsLoggedIn(false); }} className="btn-ghost text-sm">Déconnexion</button>
+                <Link href="/dashboard" className="btn-primary text-xs sm:text-sm px-3 sm:px-5">📦 <span className="hidden sm:inline">Mon </span>Dashboard</Link>
+                <button onClick={() => { createClient().auth.signOut(); setIsLoggedIn(false); }} className="hidden sm:flex btn-ghost text-sm">Déconnexion</button>
               </>
             ) : (
               <>
-                <Link href="/login" className="btn-ghost text-sm">Connexion</Link>
-                <Link href="/signup" className="btn-primary text-sm">Commencer</Link>
+                <Link href="/login" className="hidden sm:flex btn-ghost text-sm">Connexion</Link>
+                <Link href="/signup" className="btn-primary text-xs sm:text-sm px-3 sm:px-5">Commencer</Link>
               </>
             )}
           </div>
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-6 py-16">
+      <main className="max-w-5xl mx-auto px-4 md:px-6 py-10 md:py-16">
 
         {/* Hero */}
-        <div className="text-center mb-16">
-          <div className="section-tag mb-6">À propos</div>
-          <h1 className="font-display text-4xl md:text-5xl font-700 text-white tracking-tight mb-6">
+        <div className="text-center mb-10 md:mb-16">
+          <div className="section-tag mb-4 md:mb-6">À propos</div>
+          <h1 className="font-display text-3xl md:text-5xl font-700 text-white tracking-tight mb-4 md:mb-6">
             Nous aidons les entreprises à<br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-cyan-400">
               récupérer l'argent qu'elles perdent
@@ -178,7 +178,7 @@ export default function AProposPage() {
       </main>
 
       {/* Footer simple */}
-      <footer className="border-t border-border py-8 px-6 mt-16">
+      <footer className="border-t border-border py-6 md:py-8 px-4 md:px-6 mt-10 md:mt-16">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-600">
           <p>© 2024 Claim.e · Tous droits réservés</p>
           <div className="flex gap-4">

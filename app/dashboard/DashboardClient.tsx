@@ -318,24 +318,24 @@ export default function DashboardClient({ user, initialDeliveries, initialAnomal
             <Logo size={32} />
             <span className="font-display font-800 text-lg text-white hover:opacity-80 transition-opacity">Claim<span className="text-brand-400">.e</span></span>
           </Link>
-          <div className="flex items-center gap-2">
-<Link href="/dashboard" className="btn-ghost text-sm">📦 Dashboard</Link>
-<Link href="/settings" className="btn-ghost text-sm">⚙️ Paramètres</Link>
-<Link href="/tarifs" className="btn-ghost text-sm">💳 Tarifs</Link>
-            <div className="w-px h-5 bg-border mx-1" />
-            <div className="hidden sm:block text-right">
+          <div className="flex items-center gap-1 md:gap-2">
+            <Link href="/dashboard" className="hidden sm:flex btn-ghost text-sm">📦 Dashboard</Link>
+            <Link href="/settings" className="hidden sm:flex btn-ghost text-sm">⚙️ Paramètres</Link>
+            <Link href="/tarifs" className="hidden sm:flex btn-ghost text-sm">💳 Tarifs</Link>
+            <div className="hidden sm:block w-px h-5 bg-border mx-1" />
+            <div className="hidden md:block text-right">
               <p className="text-sm font-semibold text-white leading-tight">{user.company_name}</p>
               <p className="text-xs text-slate-500 leading-tight">{user.email}</p>
             </div>
             <div className="w-8 h-8 rounded-full bg-brand-500/20 border border-brand-500/30 flex items-center justify-center text-brand-400 font-700 text-sm">
               {user.company_name[0]?.toUpperCase()}
             </div>
-            <button onClick={logout} className="btn-ghost text-sm">Déconnexion</button>
+            <button onClick={logout} className="hidden sm:flex btn-ghost text-sm">Déconnexion</button>
           </div>
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto px-6 py-8 space-y-6">
+      <main className="max-w-6xl mx-auto px-4 md:px-6 py-6 md:py-8 space-y-6">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="font-display text-2xl font-700 text-white mb-1">Tableau de bord</h1>

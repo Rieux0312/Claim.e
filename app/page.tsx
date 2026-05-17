@@ -35,16 +35,16 @@ function Navbar() {
           <Link href="/faq" className="btn-ghost text-sm">F.A.Q.</Link>
           <Link href="/a-propos" className="btn-ghost text-sm">À propos</Link>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           {isLoggedIn ? (
             <>
-              <Link href="/dashboard" className="btn-primary text-sm">📦 Mon Dashboard</Link>
-              <button onClick={logout} className="btn-ghost text-sm">Déconnexion</button>
+              <Link href="/dashboard" className="btn-primary text-xs sm:text-sm px-3 sm:px-5">📦 <span className="hidden sm:inline">Mon </span>Dashboard</Link>
+              <button onClick={logout} className="hidden sm:flex btn-ghost text-sm">Déconnexion</button>
             </>
           ) : (
             <>
-              <Link href="/login" className="btn-ghost text-sm">Se connecter</Link>
-              <Link href="/signup" className="btn-primary text-sm">Essayer gratuitement</Link>
+              <Link href="/login" className="hidden sm:flex btn-ghost text-sm">Se connecter</Link>
+              <Link href="/signup" className="btn-primary text-xs sm:text-sm px-3 sm:px-5">Essayer <span className="hidden sm:inline">gratuitement</span></Link>
             </>
           )}
         </div>
@@ -167,28 +167,28 @@ function Hero() {
       <div className="absolute inset-0 bg-grid opacity-40" />
       <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] rounded-full bg-brand-500/5 blur-3xl" />
       <div className="absolute top-1/2 right-1/4 w-[400px] h-[400px] rounded-full bg-brand-300/5 blur-3xl" />
-      <div className="relative max-w-7xl mx-auto px-6 py-20 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-20 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
 
         {/* Texte — colonne gauche */}
         <div className="flex flex-col items-start">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-400 text-sm font-semibold uppercase tracking-wider mb-8">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-400 text-xs font-semibold uppercase tracking-wider mb-6">
             <span className="w-1.5 h-1.5 rounded-full bg-brand-400 animate-pulse" />
             Audit logistique automatisé
           </div>
-          <h1 className="font-display text-5xl md:text-6xl font-800 text-white leading-[1.1] tracking-tight mb-7">
+          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-800 text-white leading-[1.1] tracking-tight mb-5 md:mb-7">
             Récupérez l'argent{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-cyan-400">
               perdu sur vos livraisons
             </span>
           </h1>
-          <p className="text-xl text-slate-400 mb-10 leading-relaxed max-w-lg">
+          <p className="text-base md:text-xl text-slate-400 mb-8 leading-relaxed max-w-lg">
             Claim.e détecte automatiquement les erreurs de vos transporteurs — retards, colis perdus, SLA non respectés — et récupère l'argent pour vous.
           </p>
-          <div className="flex items-center gap-4 flex-nowrap">
-            <Link href="/signup" className="btn-primary px-8 py-3.5 text-base whitespace-nowrap">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
+            <Link href="/signup" className="btn-primary px-6 py-3 text-sm text-center">
               Analyser mes livraisons →
             </Link>
-            <a href="#comment-ca-marche" className="btn-secondary px-8 py-3.5 text-base whitespace-nowrap">
+            <a href="#comment-ca-marche" className="btn-secondary px-6 py-3 text-sm text-center">
               Voir comment ça marche
             </a>
           </div>
@@ -215,14 +215,14 @@ function Features() {
   ];
 
   return (
-    <section id="fonctionnalites" className="py-24 px-6">
+    <section id="fonctionnalites" className="py-12 md:py-24 px-4 md:px-6">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-14">
-          <div className="section-tag mb-6">Fonctionnalités</div>
-          <h2 className="font-display text-4xl font-700 text-white tracking-tight mb-4">
+        <div className="text-center mb-10 md:mb-14">
+          <div className="section-tag mb-4 md:mb-6">Fonctionnalités</div>
+          <h2 className="font-display text-2xl md:text-4xl font-700 text-white tracking-tight mb-3 md:mb-4">
             Simple, transparent, efficace.
           </h2>
-          <p className="text-slate-400 text-lg max-w-xl mx-auto">
+          <p className="text-slate-400 text-base md:text-lg max-w-xl mx-auto">
             Tout ce dont vous avez besoin pour récupérer l'argent que vos transporteurs vous doivent.
           </p>
         </div>
@@ -248,18 +248,18 @@ function HowItWorks() {
   ];
 
   return (
-    <section id="comment-ca-marche" className="py-24 px-6 relative">
+    <section id="comment-ca-marche" className="py-12 md:py-24 px-4 md:px-6 relative">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-brand-500/5 to-transparent" />
       <div className="max-w-5xl mx-auto relative">
-        <div className="text-center mb-14">
-          <div className="section-tag mb-6">Comment ça marche</div>
-          <h2 className="font-display text-4xl font-700 text-white tracking-tight mb-4">
+        <div className="text-center mb-10 md:mb-14">
+          <div className="section-tag mb-4 md:mb-6">Comment ça marche</div>
+          <h2 className="font-display text-2xl md:text-4xl font-700 text-white tracking-tight mb-3 md:mb-4">
             Récupérez de l'argent<br />en 3 étapes simples
           </h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
           {steps.map(({ num, title, desc, detail }) => (
-            <div key={num} className="glass-card p-7 relative overflow-hidden group hover:border-brand-500/30 transition-all duration-300">
+            <div key={num} className="glass-card p-5 md:p-7 relative overflow-hidden group hover:border-brand-500/30 transition-all duration-300">
               <div className="absolute top-4 right-4 font-display text-6xl font-800 text-white/[0.03] select-none">{num}</div>
               <div className="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center mb-5">
                 <span className="font-display font-700 text-brand-400 text-sm">{num}</span>
@@ -288,11 +288,11 @@ function Anomalies() {
   ];
 
   return (
-    <section className="py-16 px-6">
+    <section className="py-10 md:py-16 px-4 md:px-6">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-10">
-          <div className="section-tag mb-6">Anomalies détectées</div>
-          <h2 className="font-display text-3xl font-700 text-white mb-3">Toutes les erreurs que vous ratez actuellement</h2>
+        <div className="text-center mb-7 md:mb-10">
+          <div className="section-tag mb-4 md:mb-6">Anomalies détectées</div>
+          <h2 className="font-display text-xl md:text-3xl font-700 text-white mb-3">Toutes les erreurs que vous ratez actuellement</h2>
           <p className="text-slate-400 max-w-lg mx-auto text-sm">Claim.e analyse automatiquement 8 types d'anomalies sur chaque livraison.</p>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -310,11 +310,11 @@ function Anomalies() {
 
 function Pricing() {
   return (
-    <section id="tarifs" className="py-24 px-6">
+    <section id="tarifs" className="py-12 md:py-24 px-4 md:px-6">
       <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-14">
-          <div className="section-tag mb-6">Tarifs</div>
-          <h2 className="font-display text-4xl font-700 text-white tracking-tight mb-4">Transparent et sans risque</h2>
+        <div className="text-center mb-10 md:mb-14">
+          <div className="section-tag mb-4 md:mb-6">Tarifs</div>
+          <h2 className="font-display text-2xl md:text-4xl font-700 text-white tracking-tight mb-3 md:mb-4">Transparent et sans risque</h2>
           <p className="text-slate-400">Sans engagement, annulable à tout moment.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -349,12 +349,12 @@ function Pricing() {
               cta: "Démarrer en Pro", highlighted: true,
             },
           ].map(({ name, price, desc, features, cta, highlighted }) => (
-            <div key={name} className={`glass-card p-8 relative overflow-hidden ${highlighted ? "border-brand-500/40" : ""}`}>
+            <div key={name} className={`glass-card p-5 md:p-8 relative overflow-hidden ${highlighted ? "border-brand-500/40" : ""}`}>
               {highlighted && <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-brand-500 to-transparent" />}
               {highlighted && <div className="absolute top-4 right-4 px-2.5 py-0.5 rounded-full bg-brand-500 text-white text-xs font-semibold">Populaire</div>}
               <p className={`text-xs font-semibold uppercase tracking-wider mb-4 ${highlighted ? "text-brand-400" : "text-slate-500"}`}>{name}</p>
               <div className="flex items-baseline gap-1 mb-2">
-                <span className="font-display text-4xl font-800 text-white">{price}</span>
+                <span className="font-display text-3xl md:text-4xl font-800 text-white">{price}</span>
                 <span className="text-slate-500 text-sm">/mois</span>
               </div>
               <p className="text-slate-500 text-sm mb-6">{desc}</p>
@@ -379,9 +379,9 @@ function Pricing() {
 
 function Footer() {
   return (
-    <footer className="border-t border-border py-12 px-6">
+    <footer className="border-t border-border py-8 md:py-12 px-4 md:px-6">
       <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6 mb-6 md:mb-8">
           <Link href="/" className="flex items-center gap-2.5">
             <Logo size={28} />
             <span className="font-display font-700 text-white">Claim<span className="text-brand-400">.e</span></span>

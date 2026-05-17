@@ -1,0 +1,21 @@
+<svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="56" height="56" rx="12" fill="#0a0f1e"/>
+  <defs>
+    <linearGradient id="g" x1="4" y1="8" x2="52" y2="50" gradientUnits="userSpaceOnUse">
+      <stop stopColor="#06b6d4"/>
+      <stop offset="1" stopColor="#1a56ff"/>
+    </linearGradient>
+  </defs>
+  <!-- Arc ~300° de 4h à 2h, ouverture à 3h -->
+  <path d="M 45 38 A 20 20 0 1 1 45 18" stroke="url(#g)" stroke-width="5.5" stroke-linecap="round" fill="none"/>
+  <!-- Flèche à 2h pointant vers 3h -->
+  <polygon points="48,23 40,17 47,13" fill="url(#g)"/>
+  <!-- Cube 3D — face du dessus -->
+  <path d="M28 21 L36 25.5 L28 30 L20 25.5 Z" fill="url(#g)" opacity="0.95"/>
+  <!-- Cube 3D — face gauche -->
+  <path d="M20 25.5 L28 30 L28 39 L20 34.5 Z" fill="#1a3a9f"/>
+  <!-- Cube 3D — face droite -->
+  <path d="M28 30 L36 25.5 L36 34.5 L28 39 Z" fill="#2045c0"/>
+  <!-- Reflet dessus -->
+  <path d="M28 21 L36 25.5 L28 30 L20 25.5 Z" fill="white" opacity="0.18"/>
+</svg>

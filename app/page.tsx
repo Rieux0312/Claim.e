@@ -62,7 +62,6 @@ const NAV_LINKS = [
 function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [scrolled, setScrolled]     = useState(false);
-  const [menuOpen, setMenuOpen]     = useState(false);
   const supabase = createClient();
 
   useEffect(() => {
@@ -79,7 +78,6 @@ function Navbar() {
   async function logout() {
     await supabase.auth.signOut();
     setIsLoggedIn(false);
-    setMenuOpen(false);
   }
 
   return (
@@ -103,110 +101,22 @@ function Navbar() {
           )}
         </div>
 
-        {/* CTA + hamburger */}
+        {/* CTA */}
         <div className="nav-cta">
           {isLoggedIn ? (
             <>
               <Link href="/dashboard" className="btn btn-primary">
                 📦 <span className="hidden sm:inline">Mon </span>Dashboard
               </Link>
-              <button
-                onClick={logout}
-                className="btn btn-ghost"
-                style={{ display: "none" }}
-                ref={(el) => { if (el) el.style.display = ""; }}
-              >
+              <button onClick={logout} className="btn btn-ghost">
                 Déconnexion
               </button>
             </>
           ) : (
             <>
-              <Link href="/login" className="btn btn-ghost hidden sm:inline-flex">Se connecter</Link>
+              <Link href="/login" className="btn btn-ghost">Se connecter</Link>
               <Link href="/signup" className="btn btn-primary">Essayer<span className="arr">→</span></Link>
             </>
-          )}
-
-          {/* Hamburger — mobile uniquement */}
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Menu"
-            style={{
-              display: "none",
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              padding: "8px",
-              marginLeft: "4px",
-            }}
-            className="md:hidden"
-            ref={(el) => { if (el) el.style.display = "flex"; }}
-          >
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-              <rect
-                x="2" y={menuOpen ? "10" : "4"} width="18" height="2" rx="1" fill="#cbd5e1"
-                style={{ transition: "all .3s", transform: menuOpen ? "rotate(45deg)" : "none", transformOrigin: "center" }}
-              />
-              <rect
-                x="2" y="10" width="18" height="2" rx="1" fill="#cbd5e1"
-                style={{ opacity: menuOpen ? 0 : 1, transition: "opacity .2s" }}
-              />
-              <rect
-                x="2" y={menuOpen ? "10" : "16"} width="18" height="2" rx="1" fill="#cbd5e1"
-                style={{ transition: "all .3s", transform: menuOpen ? "rotate(-45deg)" : "none", transformOrigin: "center" }}
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile dropdown */}
-      <div
-        style={{
-          overflow: "hidden",
-          maxHeight: menuOpen ? "400px" : "0",
-          opacity: menuOpen ? 1 : 0,
-          transition: "max-height .3s ease, opacity .3s ease",
-        }}
-        className="md:hidden"
-      >
-        <div style={{ borderTop: "1px solid rgba(255,255,255,.05)", background: "rgba(10,15,30,.97)", padding: "8px 16px 12px" }}>
-          {NAV_LINKS.map(({ href, label }) =>
-            href.startsWith("#") ? (
-              <a
-                key={href} href={href}
-                onClick={() => setMenuOpen(false)}
-                style={{ display: "flex", alignItems: "center", padding: "12px 16px", borderRadius: "12px", color: "#cbd5e1", fontWeight: 500, fontSize: "14px", textDecoration: "none", transition: "background .2s, color .2s" }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,.05)"; (e.currentTarget as HTMLElement).style.color = "#fff"; }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = ""; (e.currentTarget as HTMLElement).style.color = "#cbd5e1"; }}
-              >
-                {label}
-              </a>
-            ) : (
-              <Link
-                key={href} href={href}
-                onClick={() => setMenuOpen(false)}
-                style={{ display: "flex", alignItems: "center", padding: "12px 16px", borderRadius: "12px", color: "#cbd5e1", fontWeight: 500, fontSize: "14px", textDecoration: "none" }}
-              >
-                {label}
-              </Link>
-            )
-          )}
-          {!isLoggedIn && (
-            <Link
-              href="/login"
-              onClick={() => setMenuOpen(false)}
-              style={{ display: "flex", alignItems: "center", padding: "12px 16px", borderRadius: "12px", color: "#94a3b8", fontWeight: 500, fontSize: "14px", textDecoration: "none" }}
-            >
-              Se connecter
-            </Link>
-          )}
-          {isLoggedIn && (
-            <button
-              onClick={logout}
-              style={{ display: "flex", alignItems: "center", width: "100%", padding: "12px 16px", borderRadius: "12px", color: "#94a3b8", fontWeight: 500, fontSize: "14px", background: "none", border: "none", cursor: "pointer", textAlign: "left" }}
-            >
-              Déconnexion
-            </button>
           )}
         </div>
       </div>
@@ -412,7 +322,7 @@ function Features() {
     <section id="fonctionnalites" className="section">
       <div className="wrap">
         <div className="section-head">
-          <p className="section-eyebrow">// Fonctionnalités</p>
+          <div style={{marginBottom:'18px'}}><span className="eyebrow"><i className="dot" />Fonctionnalités</span></div>
           <h2 className="reveal">Simple, transparent, <span className="em">efficace.</span></h2>
           <p className="sub reveal" data-delay="1">
             Tout ce dont vous avez besoin pour récupérer l&apos;argent que vos transporteurs vous doivent.
@@ -530,7 +440,7 @@ function Steps() {
     <section id="comment-ca-marche" className="section section-alt">
       <div className="wrap">
         <div className="section-head">
-          <p className="section-eyebrow">// Comment ça marche</p>
+          <div style={{marginBottom:'18px'}}><span className="eyebrow"><i className="dot" />Comment ça marche</span></div>
           <h2 className="reveal">Récupérez de l&apos;argent <span className="em">en 3 étapes simples</span></h2>
         </div>
         <div className="steps">
@@ -569,7 +479,7 @@ function Anomalies() {
     <section id="anomalies" className="section">
       <div className="wrap">
         <div className="section-head">
-          <p className="section-eyebrow">// Anomalies détectées</p>
+          <div style={{marginBottom:'18px'}}><span className="eyebrow"><i className="dot" />Anomalies détectées</span></div>
           <h2 className="reveal">Toutes les erreurs que vous ratez <span className="em">actuellement</span></h2>
           <p className="sub reveal" data-delay="1">
             Claim.e analyse automatiquement 8 types d&apos;anomalies sur chaque livraison.
@@ -633,7 +543,7 @@ function Pricing() {
     <section id="tarifs" className="section section-alt">
       <div className="wrap">
         <div className="section-head">
-          <p className="section-eyebrow">// Tarifs</p>
+          <div style={{marginBottom:'18px'}}><span className="eyebrow"><i className="dot" />Tarifs</span></div>
           <h2 className="reveal">Transparent et <span className="em">sans risque</span></h2>
           <p className="sub reveal" data-delay="1">Sans engagement, annulable à tout moment.</p>
         </div>
@@ -700,7 +610,6 @@ function Footer() {
         </div>
         <div className="footer-bottom">
           <span>© 2026 Claim.e · Tous droits réservés</span>
-          <span>Fait en France · Hébergé sur Vercel</span>
         </div>
       </div>
     </footer>

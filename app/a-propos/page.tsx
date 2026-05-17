@@ -71,7 +71,7 @@ export default function AProposPage() {
             <p>
               Tout a commencé quand nous avons réalisé qu'une entreprise e-commerce de taille moyenne 
               perdait en moyenne <strong className="text-white">3 à 8% de son budget transport</strong> chaque 
-              mois en anomalies non réclamées — retards, colis perdus, surfacturations.
+              mois en anomalies non réclamées — retards, colis perdus, colis endommagés.
             </p>
             <p>
               Le problème ? Les équipes logistiques n'ont pas le temps de vérifier chaque livraison 

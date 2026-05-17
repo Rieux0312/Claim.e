@@ -127,7 +127,7 @@ export default function AProposPage() {
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
             <Link href="/signup" className="btn-primary px-8 py-3">
-              Commencer gratuitement →
+              Commencer →
             </Link>
             <Link href="/" className="btn-secondary px-8 py-3">
               Voir nos fonctionnalités

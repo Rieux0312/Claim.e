@@ -6,6 +6,7 @@ import Logo from "@/app/components/Logo";
 
 function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const supabase = createClient();
 
   useEffect(() => {
@@ -19,36 +20,88 @@ function Navbar() {
     setIsLoggedIn(false);
   }
 
+  const navLinks = [
+    { href: "#fonctionnalites", label: "Fonctionnalités", external: true },
+    { href: "#comment-ca-marche", label: "Comment ça marche", external: true },
+    { href: "/tarifs", label: "Tarifs", external: false },
+    { href: "/faq", label: "F.A.Q.", external: false },
+    { href: "/a-propos", label: "À propos", external: false },
+  ];
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 bg-surface/90 backdrop-blur-xl">
-      <div className="max-w-6xl mx-auto px-6 flex items-center justify-between h-16">
-        <Link href="/" className="flex items-center gap-2.5">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
+
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-2.5 shrink-0">
           <Logo size={32} />
           <span className="font-display font-700 text-lg text-white tracking-tight">
             Claim<span className="text-brand-400">.e</span>
           </span>
         </Link>
+
+        {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-1">
-          <a href="#fonctionnalites" className="btn-ghost text-sm">Fonctionnalités</a>
-          <a href="#comment-ca-marche" className="btn-ghost text-sm">Comment ça marche</a>
-          <Link href="/tarifs" className="btn-ghost text-sm">Tarifs</Link>
-          <Link href="/faq" className="btn-ghost text-sm">F.A.Q.</Link>
-          <Link href="/a-propos" className="btn-ghost text-sm">À propos</Link>
+          {navLinks.map(({ href, label, external }) =>
+            external
+              ? <a key={href} href={href} className="btn-ghost text-sm">{label}</a>
+              : <Link key={href} href={href} className="btn-ghost text-sm">{label}</Link>
+          )}
         </div>
+
+        {/* Right side */}
         <div className="flex items-center gap-2">
           {isLoggedIn ? (
             <>
               <Link href="/dashboard" className="btn-primary text-xs sm:text-sm px-3 sm:px-5">📦 <span className="hidden sm:inline">Mon </span>Dashboard</Link>
-              <button onClick={logout} className="hidden sm:flex btn-ghost text-sm">Déconnexion</button>
+              <button onClick={logout} className="hidden md:flex btn-ghost text-sm">Déconnexion</button>
             </>
           ) : (
             <>
-              <Link href="/login" className="hidden sm:flex btn-ghost text-sm">Se connecter</Link>
-              <Link href="/signup" className="btn-primary text-xs sm:text-sm px-3 sm:px-5">Essayer <span className="hidden sm:inline">gratuitement</span></Link>
+              <Link href="/login" className="btn-ghost text-xs sm:text-sm px-2 sm:px-3">Se connecter</Link>
+              <Link href="/signup" className="btn-primary text-xs sm:text-sm px-3 sm:px-5">Essayer</Link>
             </>
           )}
+
+          {/* Hamburger — mobile only */}
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="md:hidden flex flex-col justify-center items-center w-9 h-9 rounded-xl hover:bg-white/5 transition-colors ml-1 gap-1.5"
+            aria-label="Menu"
+          >
+            <span className={`block w-5 h-0.5 bg-slate-300 rounded-full transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-2" : ""}`} />
+            <span className={`block w-5 h-0.5 bg-slate-300 rounded-full transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`} />
+            <span className={`block w-5 h-0.5 bg-slate-300 rounded-full transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`} />
+          </button>
         </div>
       </div>
+
+      {/* Mobile menu */}
+      {menuOpen && (
+        <div className="md:hidden border-t border-border/50 bg-surface/95 backdrop-blur-xl px-4 py-3 flex flex-col gap-1">
+          {navLinks.map(({ href, label, external }) =>
+            external ? (
+              <a
+                key={href}
+                href={href}
+                onClick={() => setMenuOpen(false)}
+                className="flex items-center px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 font-medium text-sm transition-all"
+              >
+                {label}
+              </a>
+            ) : (
+              <Link
+                key={href}
+                href={href}
+                onClick={() => setMenuOpen(false)}
+                className="flex items-center px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 font-medium text-sm transition-all"
+              >
+                {label}
+              </Link>
+            )
+          )}
+        </div>
+      )}
     </nav>
   );
 }

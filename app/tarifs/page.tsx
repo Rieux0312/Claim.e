@@ -1,57 +1,11 @@
 "use client";
 import Link from "next/link";
-import { useState, useEffect } from "react";
-import { createClient } from "@/lib/supabase/client";
-import Logo from "@/app/components/Logo";
+import PublicNavbar from "@/app/components/PublicNavbar";
 
 export default function TarifsPage() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const supabase = createClient();
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setIsLoggedIn(!!session);
-    });
-  }, []);
-
-  async function logout() {
-    await supabase.auth.signOut();
-    setIsLoggedIn(false);
-  }
-
   return (
     <div className="min-h-screen bg-surface">
-      {/* Header */}
-      <header className="border-b border-border bg-surface/90 backdrop-blur-xl">
-        <div className="max-w-5xl mx-auto px-6 flex items-center justify-between h-16">
-          <Link href="/" className="flex items-center gap-2.5">
-            <Logo size={32} />
-            <span className="font-display font-800 text-lg text-white">
-              Claim<span className="text-brand-400">.e</span>
-            </span>
-          </Link>
-          <div className="hidden md:flex items-center gap-1">
-            <a href="/#fonctionnalites" className="btn-ghost text-sm">Fonctionnalités</a>
-            <a href="/#comment-ca-marche" className="btn-ghost text-sm">Comment ça marche</a>
-            <Link href="/tarifs" className="btn-ghost text-sm">Tarifs</Link>
-            <Link href="/faq" className="btn-ghost text-sm">F.A.Q.</Link>
-            <Link href="/a-propos" className="btn-ghost text-sm">À propos</Link>
-          </div>
-          <div className="flex items-center gap-2">
-            {isLoggedIn ? (
-              <>
-                <Link href="/dashboard" className="btn-primary text-xs sm:text-sm px-3 sm:px-5">📦 <span className="hidden sm:inline">Mon </span>Dashboard</Link>
-                <button onClick={logout} className="hidden sm:flex btn-ghost text-sm">Déconnexion</button>
-              </>
-            ) : (
-              <>
-                <Link href="/login" className="hidden sm:flex btn-ghost text-sm">Connexion</Link>
-                <Link href="/signup" className="btn-primary text-xs sm:text-sm px-3 sm:px-5">Commencer</Link>
-              </>
-            )}
-          </div>
-        </div>
-      </header>
+      <PublicNavbar />
 
       <main className="max-w-5xl mx-auto px-4 md:px-6 py-10 md:py-16">
 

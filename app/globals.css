@@ -346,7 +346,7 @@ select option {
 /* ── SECTIONS ── */
 .section { padding: 110px 0; position: relative; }
 @media (max-width: 720px) { .section { padding: 72px 0; } }
-.section-alt { background: #0f1729; }
+.section-alt { background: transparent; }
 .section-head { max-width: 760px; margin: 0 auto 64px; text-align: center; }
 @media (max-width: 720px) { .section-head { margin-bottom: 40px; } }
 .section-eyebrow { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: #94a3b8; margin-bottom: 18px; font-weight: 500; }
@@ -471,6 +471,134 @@ select option {
 .footer-links a:hover { color: #fff; }
 .footer-bottom { padding-top: 28px; border-top: 1px solid #1a2d45; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; font-size: 13px; color: #64748b; }
 @media (max-width: 720px) { .footer-bottom { flex-direction: column; align-items: flex-start; gap: 6px; } }
+
+/* ── BODY GRID (subtle background for all pages) ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(148,163,184,.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(148,163,184,.04) 1px, transparent 1px);
+  background-size: 64px 64px;
+  background-position: center;
+  pointer-events: none;
+  z-index: 0;
+  mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, rgba(0,0,0,.4) 70%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, rgba(0,0,0,.4) 70%, transparent 100%);
+}
+body.has-aurora::before { z-index: 1; mix-blend-mode: overlay; opacity: .5; }
+
+/* ── Z-INDEX : contenu landing au-dessus de l'aurora ── */
+.hero, .section, .footer { position: relative; z-index: 2; }
+
+/* ── AURORA BACKGROUND ── */
+.aurora {
+  position: fixed; inset: 0; z-index: 0;
+  pointer-events: none; overflow: hidden;
+}
+.aurora-blob {
+  position: absolute; border-radius: 50%;
+  filter: blur(80px); opacity: .75;
+  will-change: transform; mix-blend-mode: screen;
+}
+.aurora .ab-1 {
+  top: -10%; left: -10%;
+  width: 42vw; height: 42vw; max-width: 620px; max-height: 620px;
+  background: radial-gradient(circle, rgba(26,86,255,.7), rgba(26,86,255,0) 70%);
+  animation: drift1 14s ease-in-out infinite;
+}
+.aurora .ab-2 {
+  top: 10%; right: -10%;
+  width: 38vw; height: 38vw; max-width: 560px; max-height: 560px;
+  background: radial-gradient(circle, rgba(6,182,212,.55), rgba(6,182,212,0) 70%);
+  animation: drift2 16s ease-in-out infinite;
+}
+.aurora .ab-3 {
+  bottom: -15%; left: 18%;
+  width: 46vw; height: 46vw; max-width: 700px; max-height: 700px;
+  background: radial-gradient(circle, rgba(77,126,255,.5), rgba(77,126,255,0) 70%);
+  animation: drift3 18s ease-in-out infinite;
+}
+.aurora .ab-4 {
+  bottom: 8%; right: 12%;
+  width: 30vw; height: 30vw; max-width: 460px; max-height: 460px;
+  background: radial-gradient(circle, rgba(0,56,245,.6), rgba(0,56,245,0) 70%);
+  animation: drift4 12s ease-in-out infinite;
+}
+@keyframes drift1 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  25%  { transform: translate(28vw,8vh) scale(1.2); }
+  50%  { transform: translate(36vw,28vh) scale(.95); }
+  75%  { transform: translate(14vw,38vh) scale(1.1); }
+}
+@keyframes drift2 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  25%  { transform: translate(-18vw,16vh) scale(.85); }
+  50%  { transform: translate(-30vw,4vh) scale(1.2); }
+  75%  { transform: translate(-12vw,-10vh) scale(1); }
+}
+@keyframes drift3 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  25%  { transform: translate(18vw,-16vh) scale(1.15); }
+  50%  { transform: translate(36vw,-8vh) scale(.9); }
+  75%  { transform: translate(8vw,8vh) scale(1.05); }
+}
+@keyframes drift4 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  25%  { transform: translate(-18vw,-22vh) scale(1.15); }
+  50%  { transform: translate(-10vw,-32vh) scale(.85); }
+  75%  { transform: translate(6vw,-14vh) scale(1.1); }
+}
+/* Scan beam */
+.aurora-scan {
+  position: absolute; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(6,182,212,.55), rgba(6,182,212,.9), rgba(6,182,212,.55), transparent);
+  box-shadow: 0 0 16px rgba(6,182,212,.6);
+  animation: scanBeam 7s linear infinite; opacity: 0;
+}
+@keyframes scanBeam {
+  0%   { top: -2%; opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { top: 102%; opacity: 0; }
+}
+/* Data streams */
+.aurora-stream {
+  position: absolute; bottom: -20%; width: 1px; height: 35vh;
+  background: linear-gradient(to top, transparent, rgba(77,126,255,.85), rgba(6,182,212,.95), transparent);
+  box-shadow: 0 0 10px rgba(26,86,255,.6);
+  animation: streamRise linear infinite; opacity: .7;
+}
+@keyframes streamRise {
+  0%   { transform: translateY(0); opacity: 0; }
+  10%  { opacity: .7; }
+  90%  { opacity: .7; }
+  100% { transform: translateY(-180vh); opacity: 0; }
+}
+/* Particles */
+.aurora-particle {
+  position: absolute; border-radius: 50%;
+  background: radial-gradient(circle, rgba(6,182,212,.9), rgba(6,182,212,0) 70%);
+  box-shadow: 0 0 8px rgba(6,182,212,.6);
+  animation: particleDrift ease-in-out infinite; opacity: 0;
+}
+@keyframes particleDrift {
+  0%,100% { transform: translate(0,0); opacity: 0; }
+  10%     { opacity: 1; }
+  50%     { transform: translate(var(--dx,20vw), var(--dy,-20vh)); opacity: .8; }
+  90%     { opacity: .9; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .aurora-blob, .aurora-scan, .aurora-stream, .aurora-particle { animation: none; }
+}
+
+/* ── GRAIN ── */
+body.grain::after {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999;
+  opacity: .045;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  mix-blend-mode: overlay;
+}
 
 /* ── BOUTON DANGER ── */
 .btn.btn-danger { background: rgba(239,68,68,.12); color: #f87171; border-color: rgba(239,68,68,.3); }

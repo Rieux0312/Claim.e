@@ -49,6 +49,69 @@ function formatEUR(n: number) {
   return Math.round(n).toLocaleString("fr-FR");
 }
 
+// ── Aurora background ──────────────────────────────────────────────────────
+
+const PARTICLES = Array.from({ length: 14 }, (_, i) => ({
+  id: i,
+  left: (i * 7.3 + 3) % 100,
+  top: (i * 11.7 + 5) % 100,
+  size: 2 + (i % 3),
+  delay: (i * 0.6) % 8,
+  dur: 10 + (i % 5) * 2.8,
+  dx: -30 + (i * 4.7) % 60,
+  dy: -30 + (i * 3.1) % 60,
+}));
+
+const STREAMS = Array.from({ length: 6 }, (_, i) => ({
+  id: i,
+  left: 6 + i * 16 + (i * 2.3) % 6,
+  delay: (i * 0.8) % 6,
+  dur: 4 + (i % 3) * 1.5,
+}));
+
+function AuroraBg() {
+  return (
+    <div className="aurora" aria-hidden="true">
+      <span className="aurora-blob ab-1" />
+      <span className="aurora-blob ab-2" />
+      <span className="aurora-blob ab-3" />
+      <span className="aurora-blob ab-4" />
+      <span className="aurora-scan" />
+      {STREAMS.map((s) => (
+        <span key={s.id} className="aurora-stream"
+          style={{ left: `${s.left}%`, animationDelay: `${s.delay}s`, animationDuration: `${s.dur}s` }} />
+      ))}
+      {PARTICLES.map((p) => (
+        <span key={p.id} className="aurora-particle"
+          style={{
+            left: `${p.left}%`, top: `${p.top}%`,
+            width: `${p.size}px`, height: `${p.size}px`,
+            animationDelay: `${p.delay}s`, animationDuration: `${p.dur}s`,
+            ["--dx" as string]: `${p.dx}vw`, ["--dy" as string]: `${p.dy}vh`,
+          }} />
+      ))}
+    </div>
+  );
+}
+
+// ── Magnetic button ────────────────────────────────────────────────────────
+
+function MagneticBtn({ className, children, href, ...rest }: { className?: string; children: React.ReactNode; href: string; [k: string]: unknown }) {
+  const ref = useRef<HTMLAnchorElement>(null);
+  function onMove(e: React.MouseEvent<HTMLAnchorElement>) {
+    const r = ref.current?.getBoundingClientRect();
+    if (!r) return;
+    const x = e.clientX - r.left - r.width / 2;
+    const y = e.clientY - r.top - r.height / 2;
+    if (ref.current) ref.current.style.transform = `translate(${x * 0.22}px, ${y * 0.32}px)`;
+  }
+  function onLeave() { if (ref.current) ref.current.style.transform = ""; }
+  return (
+    <Link ref={ref} href={href} className={`btn magnetic ${className ?? ""}`}
+      onMouseMove={onMove} onMouseLeave={onLeave} {...rest}>{children}</Link>
+  );
+}
+
 // ── Navbar ─────────────────────────────────────────────────────────────────
 
 const NAV_LINKS = [
@@ -288,8 +351,6 @@ function Box3D() {
 function Hero() {
   return (
     <section className="hero">
-      <div className="hero-blob-1" aria-hidden="true" />
-      <div className="hero-blob-2" aria-hidden="true" />
       <div className="wrap hero-grid">
         <div>
           <span className="eyebrow reveal">
@@ -653,8 +714,13 @@ function Footer() {
 
 export default function HomePage() {
   useRevealAll();
+  useEffect(() => {
+    document.body.classList.add("has-aurora", "grain");
+    return () => document.body.classList.remove("has-aurora", "grain");
+  }, []);
   return (
     <>
+      <AuroraBg />
       <Navbar />
       <main>
         <Hero />

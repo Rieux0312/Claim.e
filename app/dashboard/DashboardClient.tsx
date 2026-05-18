@@ -322,7 +322,7 @@ export default function DashboardClient({ user, initialDeliveries, initialAnomal
           <div className="flex items-center gap-1 md:gap-2">
             <Link href="/dashboard" className="hidden sm:flex btn btn-ghost text-sm">📦 Dashboard</Link>
             <Link href="/settings" className="hidden sm:flex btn btn-ghost text-sm">⚙️ Paramètres</Link>
-            <Link href="/tarifs" className="hidden sm:flex btn btn-ghost text-sm">💳 Tarifs</Link>
+            <Link href="/#tarifs" className="hidden sm:flex btn btn-ghost text-sm">💳 Tarifs</Link>
             <div className="hidden sm:block w-px h-5 bg-border mx-1" />
             <div className="hidden md:block text-right">
               <p className="text-sm font-semibold text-white leading-tight">{user.company_name}</p>
@@ -350,7 +350,7 @@ export default function DashboardClient({ user, initialDeliveries, initialAnomal
             <p className="px-4 py-1.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">{user.company_name}</p>
             <Link href="/dashboard" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 font-medium text-sm transition-all">📦 Dashboard</Link>
             <Link href="/settings" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 font-medium text-sm transition-all">⚙️ Paramètres</Link>
-            <Link href="/tarifs" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 font-medium text-sm transition-all">💳 Tarifs</Link>
+            <Link href="/#tarifs" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 font-medium text-sm transition-all">💳 Tarifs</Link>
             <div className="h-px bg-border/50 mx-4 my-1" />
             <button onClick={() => { setMenuOpen(false); logout(); }} className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 font-medium text-sm transition-all text-left">Déconnexion</button>
           </div>

@@ -232,7 +232,7 @@ export default function SettingsPage() {
           <div className="border-t border-border/50 bg-surface/98 px-4 py-3 flex flex-col gap-1">
             <Link href="/dashboard" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 font-medium text-sm transition-all">📦 Dashboard</Link>
             <Link href="/settings" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 font-medium text-sm transition-all">⚙️ Paramètres</Link>
-            <Link href="/tarifs" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 font-medium text-sm transition-all">💳 Tarifs</Link>
+            <Link href="/#tarifs" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 font-medium text-sm transition-all">💳 Tarifs</Link>
             <div className="h-px bg-border/50 mx-4 my-1" />
             <button onClick={() => { setMenuOpen(false); logout(); }} className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 font-medium text-sm transition-all text-left">Déconnexion</button>
           </div>

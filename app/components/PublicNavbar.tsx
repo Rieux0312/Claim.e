@@ -7,7 +7,7 @@ import Logo from "@/app/components/Logo";
 const NAV_LINKS = [
   { href: "/#fonctionnalites", label: "Fonctionnalités" },
   { href: "/#comment-ca-marche", label: "Comment ça marche" },
-  { href: "/tarifs", label: "Tarifs" },
+  { href: "/#tarifs", label: "Tarifs" },
   { href: "/faq", label: "F.A.Q." },
   { href: "/a-propos", label: "À propos" },
 ];

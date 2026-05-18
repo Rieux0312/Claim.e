@@ -92,7 +92,7 @@ function Sparkline({ data, color = "#1a56ff", height = 36 }: { data: number[]; c
 }
 
 // ── KPI Card ───────────────────────────────────────────────────────────────
-function KpiCard({ label, value, unit, sub, trend, trendUp = true, accent = "brand", spark, icon }: {
+function KpiCard({ label, value, unit, sub, trend, trendUp, accent = "brand", spark, icon }: {
   label: string; value: number; unit?: "€" | "%"; sub: string; trend?: string;
   trendUp?: boolean; accent?: "brand" | "success" | "warning"; spark?: number[]; icon: React.ReactNode;
 }) {
@@ -139,8 +139,20 @@ function PeriodPicker({ value, onChange }: { value: Period; onChange: (v: Period
   );
 }
 
+// ── Trend helper ──────────────────────────────────────────────────────────
+function computeTrend(spark: number[]): { text: string; up: boolean } | undefined {
+  if (!spark || spark.length < 2) return undefined;
+  if (spark.every((v) => v === 0)) return undefined;
+  const last = spark[spark.length - 1];
+  const prev = spark[spark.length - 2];
+  if (prev === 0 && last === 0) return undefined;
+  if (prev === 0) return { text: "Nouveau", up: true };
+  const pct = ((last - prev) / prev) * 100;
+  return { text: `${pct >= 0 ? "+" : ""}${pct.toFixed(1)}%`, up: pct >= 0 };
+}
+
 // ── Evolution Chart ────────────────────────────────────────────────────────
-type ChartPoint = { label: string; recoverable: number; recovered: number };
+type ChartPoint = { label: string; recoverable: number; recovered: number; deliveryCount: number; periodErrorRate: number };
 function EvolutionChart({ data }: { data: ChartPoint[] }) {
   if (!data || data.length === 0) {
     return (
@@ -449,35 +461,42 @@ export default function DashboardClient({ user, initialDeliveries, initialAnomal
   const recovered   = paid.reduce((s, a) => s + a.estimated_amount, 0);
   const errorRate   = deliveries.length > 0 ? (anomalies.length / deliveries.length) * 100 : 0;
 
-  // ── Chart data (period-aware) ──
+  // ── Chart data (period-aware, toutes variables réelles) ──
   const chartData = useMemo<ChartPoint[]>(() => {
     const TODAY = new Date();
-    const count   = period === "7j" ? 7  : period === "30j" ? 4  : 12;
-    const stepDays= period === "7j" ? 1  : period === "30j" ? 7  : period === "90j" ? 7 : 30;
+    const count    = period === "7j" ? 7 : period === "30j" ? 4 : 12;
+    const stepDays = period === "7j" ? 1 : period === "30j" ? 7 : period === "90j" ? 7 : 30;
     return Array.from({ length: count }, (_, idx) => {
-      const i = count - 1 - idx;
+      const i     = count - 1 - idx;
       const end   = new Date(TODAY.getTime() - i * stepDays * 86400000);
       const start = new Date(end.getTime() - stepDays * 86400000);
-      const inRange = anomalies.filter((a) => {
-        const t = new Date(a.created_at).getTime();
-        return t >= start.getTime() && t <= end.getTime();
-      });
+      const inRangeAnomalies  = anomalies.filter((a) => { const t = new Date(a.created_at).getTime(); return t >= start.getTime() && t <= end.getTime(); });
+      const inRangeDeliveries = deliveries.filter((d) => { const t = new Date(d.created_at).getTime(); return t >= start.getTime() && t <= end.getTime(); });
+      const deliveryCount     = inRangeDeliveries.length;
+      const anomalyCount      = inRangeAnomalies.length;
       const label =
         period === "7j" ? end.toLocaleDateString("fr-FR", { weekday: "short" }) :
         period === "1a" ? end.toLocaleDateString("fr-FR", { month: "short" }) :
         end.toLocaleDateString("fr-FR", { day: "2-digit", month: "short" });
       return {
         label,
-        recoverable: inRange.filter((a) => a.status !== "paid").reduce((s, a) => s + a.estimated_amount, 0),
-        recovered:   inRange.filter((a) => a.status === "paid").reduce((s, a) => s + a.estimated_amount, 0),
+        recoverable:     inRangeAnomalies.filter((a) => a.status !== "paid").reduce((s, a) => s + a.estimated_amount, 0),
+        recovered:       inRangeAnomalies.filter((a) => a.status === "paid").reduce((s, a) => s + a.estimated_amount, 0),
+        deliveryCount,
+        periodErrorRate: deliveryCount > 0 ? (anomalyCount / deliveryCount) * 100 : 0,
       };
     });
-  }, [anomalies, period]);
+  }, [anomalies, deliveries, period]);
 
   const sparkRecoverable = chartData.map((d) => d.recoverable);
   const sparkRecovered   = chartData.map((d) => d.recovered);
-  const sparkDeliveries  = chartData.map((_, i) => deliveries.length * 0.1 + i);
-  const sparkActive      = chartData.map((d, i) => d.recoverable * 0.02 + (i % 3) * 0.5);
+  const sparkDeliveries  = chartData.map((d) => d.deliveryCount);
+  const sparkErrorRate   = chartData.map((d) => d.periodErrorRate);
+
+  const trendRecoverable = computeTrend(sparkRecoverable);
+  const trendRecovered   = computeTrend(sparkRecovered);
+  const trendDeliveries  = computeTrend(sparkDeliveries);
+  const trendErrorRate   = computeTrend(sparkErrorRate);
 
   // ── Filtered rows ──
   const filteredDeliveries = deliveries.filter((d) => {
@@ -579,13 +598,17 @@ export default function DashboardClient({ user, initialDeliveries, initialAnomal
 
         {/* ── KPIs ── */}
         <div className="kpi-grid">
-          <KpiCard label="Récupérable" value={recoverable} unit="€" sub={`${active.length} anomalies actives`} trend="+18,4%" accent="brand" spark={sparkRecoverable}
+          <KpiCard label="Récupérable" value={recoverable} unit="€" sub={`${active.length} anomalie${active.length !== 1 ? "s" : ""} active${active.length !== 1 ? "s" : ""}`}
+            trend={trendRecoverable?.text} trendUp={trendRecoverable?.up} accent="brand" spark={sparkRecoverable}
             icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23" /><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" /></svg>} />
-          <KpiCard label="Récupéré" value={recovered} unit="€" sub={`${paid.length} remboursements`} trend="+12%" accent="success" spark={sparkRecovered}
+          <KpiCard label="Récupéré" value={recovered} unit="€" sub={`${paid.length} remboursement${paid.length !== 1 ? "s" : ""}`}
+            trend={trendRecovered?.text} trendUp={trendRecovered?.up} accent="success" spark={sparkRecovered}
             icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>} />
-          <KpiCard label="Livraisons" value={deliveries.length} sub="Sur 30 jours glissants" trend={`+${Math.max(0, deliveries.length - 5)}`} accent="brand" spark={sparkDeliveries}
+          <KpiCard label="Livraisons" value={deliveries.length} sub="Total analysées"
+            trend={trendDeliveries?.text} trendUp={trendDeliveries?.up} accent="brand" spark={sparkDeliveries}
             icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" /><polyline points="3.27 6.96 12 12.01 20.73 6.96" /><line x1="12" y1="22.08" x2="12" y2="12" /></svg>} />
-          <KpiCard label="Taux d'erreur" value={errorRate} unit="%" sub="Moyenne secteur : 3,2%" trend={errorRate > 3.2 ? "+1,4 pt" : "−0,4 pt"} trendUp={errorRate > 3.2} accent="warning" spark={sparkActive}
+          <KpiCard label="Taux d'erreur" value={errorRate} unit="%" sub="Moyenne secteur : 3,2%"
+            trend={trendErrorRate?.text} trendUp={trendErrorRate ? !trendErrorRate.up : undefined} accent="warning" spark={sparkErrorRate}
             icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" /></svg>} />
         </div>
 

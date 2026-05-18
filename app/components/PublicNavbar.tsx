@@ -31,23 +31,23 @@ export default function PublicNavbar() {
 
   return (
     <header className="border-b border-border bg-surface/90 backdrop-blur-xl sticky top-0 z-50">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
+      <div className="max-w-6xl mx-auto px-6 sm:px-8 flex items-center justify-between h-16 gap-8">
 
         {/* Logo */}
-        <Link href="/" className="logo-link">
+        <Link href="/" className="logo-link shrink-0">
           <Logo size={28} />
           <span>Claim<span style={{ opacity: 0.5 }}>.</span>e</span>
         </Link>
 
         {/* Desktop nav */}
-        <div className="hidden md:flex items-center gap-1">
+        <div className="nav-links hidden md:flex flex-1 justify-center">
           {NAV_LINKS.map(({ href, label }) => (
-            <Link key={href} href={href} className="btn btn-ghost text-sm">{label}</Link>
+            <Link key={href} href={href}>{label}</Link>
           ))}
         </div>
 
         {/* Right side — auth buttons always visible + hamburger */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 shrink-0">
           {isLoggedIn ? (
             <>
               <Link href="/dashboard" className="btn btn-primary text-xs sm:text-sm">

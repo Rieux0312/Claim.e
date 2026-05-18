@@ -321,8 +321,8 @@ function Hero() {
             <span className="em">perdu sur vos livraisons</span>
           </h1>
           <p className="lead reveal" data-delay="2">
-            Claim.e détecte automatiquement les erreurs de vos transporteurs —
-            retards, colis perdus, SLA non respectés — et récupère l&apos;argent pour vous.
+            Claim.e détecte automatiquement les erreurs de vos transporteurs :
+            retards, colis perdus, SLA non respectés, et récupère l&apos;argent pour vous.
           </p>
           <div className="hero-cta reveal" data-delay="3">
             <Link href="/signup" className="btn btn-primary btn-lg">

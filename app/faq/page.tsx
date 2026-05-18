@@ -2,6 +2,8 @@
 import Link from "next/link";
 import { useState } from "react";
 import PublicNavbar from "@/app/components/PublicNavbar";
+import AuroraBg from "@/app/components/AuroraBg";
+import Logo from "@/app/components/Logo";
 
 const FAQ_ITEMS = [
   {
@@ -46,58 +48,103 @@ export default function FaqPage() {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <div className="min-h-screen bg-surface">
+    <>
+      <AuroraBg />
       <PublicNavbar />
 
-      <main className="max-w-3xl mx-auto px-4 md:px-6 py-10 md:py-16">
-        <div className="text-center mb-10 md:mb-14">
-          <div className="section-tag mb-4 md:mb-6">F.A.Q.</div>
-          <h1 className="font-display text-3xl md:text-5xl font-700 text-white tracking-tight mb-4">
-            Questions fréquentes
-          </h1>
-          <p className="text-slate-400 text-lg">Tout ce que vous devez savoir sur Claim.e</p>
-        </div>
-
-        <div className="space-y-3">
-          {FAQ_ITEMS.map(({ q, a }, i) => (
-            <div
-              key={i}
-              className="glass-card overflow-hidden transition-all duration-200"
-            >
-              <button
-                onClick={() => setOpen(open === i ? null : i)}
-                className="w-full flex items-center justify-between p-5 text-left"
-              >
-                <span className="font-display font-600 text-white text-sm pr-4">{q}</span>
-                <span className={`text-brand-400 text-lg flex-shrink-0 transition-transform duration-200 ${open === i ? "rotate-45" : ""}`}>+</span>
-              </button>
-              {open === i && (
-                <div className="px-5 pb-5">
-                  <p className="text-slate-400 text-sm leading-relaxed">{a}</p>
-                </div>
-              )}
+      <main>
+        {/* Hero */}
+        <section className="section" style={{ paddingTop: "5rem", paddingBottom: "3rem" }}>
+          <div className="wrap">
+            <div className="section-head">
+              <div style={{ marginBottom: "18px" }}>
+                <span className="eyebrow"><i className="dot" />F.A.Q.</span>
+              </div>
+              <h1 style={{ fontSize: "clamp(2rem,5vw,3.5rem)", fontWeight: 800, letterSpacing: "-.03em", lineHeight: 1.1, color: "#fff", marginBottom: "1rem" }}>
+                Questions <span className="em">fréquentes</span>
+              </h1>
+              <p className="sub" style={{ maxWidth: "520px", margin: "0 auto" }}>
+                Tout ce que vous devez savoir sur Claim.e
+              </p>
             </div>
-          ))}
-        </div>
+          </div>
+        </section>
 
-        <div className="text-center mt-10 md:mt-14">
-          <p className="text-slate-400 text-sm mb-4">Vous avez une autre question ?</p>
-          <a href="mailto:contact@claim-e.fr" className="btn btn-ghost px-6 py-2.5 text-sm">
-            Nous contacter
-          </a>
-        </div>
+        {/* Accordion */}
+        <section className="section" style={{ paddingTop: 0, paddingBottom: "5rem" }}>
+          <div className="wrap" style={{ maxWidth: "760px" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              {FAQ_ITEMS.map(({ q, a }, i) => (
+                <div
+                  key={i}
+                  style={{
+                    background: "rgba(255,255,255,0.04)",
+                    border: `1px solid ${open === i ? "rgba(26,86,255,0.4)" : "rgba(255,255,255,0.07)"}`,
+                    borderRadius: "16px",
+                    overflow: "hidden",
+                    transition: "border-color .25s",
+                  }}
+                >
+                  <button
+                    onClick={() => setOpen(open === i ? null : i)}
+                    style={{
+                      width: "100%", display: "flex", alignItems: "center",
+                      justifyContent: "space-between", padding: "20px 24px",
+                      textAlign: "left", background: "none", border: "none", cursor: "pointer",
+                    }}
+                  >
+                    <span style={{ fontWeight: 600, color: "#fff", fontSize: "15px", paddingRight: "16px", lineHeight: 1.4 }}>{q}</span>
+                    <span style={{
+                      color: "#06b6d4", fontSize: "22px", flexShrink: 0,
+                      transform: open === i ? "rotate(45deg)" : "none",
+                      transition: "transform .2s",
+                      lineHeight: 1,
+                    }}>+</span>
+                  </button>
+                  {open === i && (
+                    <div style={{ padding: "0 24px 20px" }}>
+                      <p style={{ color: "#94a3b8", fontSize: "14px", lineHeight: 1.7 }}>{a}</p>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Contact CTA */}
+            <div style={{ textAlign: "center", marginTop: "3rem" }}>
+              <p style={{ color: "#64748b", fontSize: "14px", marginBottom: "16px" }}>
+                Vous avez une autre question ?
+              </p>
+              <a href="mailto:contact@claim-e.fr" className="btn btn-ghost">
+                Nous contacter
+              </a>
+            </div>
+          </div>
+        </section>
       </main>
 
-      <footer className="border-t border-border py-6 md:py-8 px-4 md:px-6 mt-10 md:mt-16">
-        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-600">
-          <p>© 2026 Claim.e · Tous droits réservés</p>
-          <div className="flex gap-4">
-            <Link href="/mentions-legales" className="hover:text-slate-400">Mentions légales</Link>
-            <Link href="/cgu" className="hover:text-slate-400">CGU</Link>
-            <Link href="/confidentialite" className="hover:text-slate-400">Confidentialité</Link>
+      {/* Footer */}
+      <footer className="footer">
+        <div className="wrap">
+          <div className="footer-top">
+            <div>
+              <Link href="/" className="footer-brand">
+                <Logo size={28} />
+                <span>Claim<span style={{ opacity: 0.5 }}>.</span>e</span>
+              </Link>
+              <p className="footer-tag">Protégeons vos revenus. <em>Chaque livraison compte.</em></p>
+            </div>
+            <div className="footer-links">
+              <Link href="/cgu">CGU</Link>
+              <Link href="/confidentialite">Confidentialité</Link>
+              <Link href="/mentions-legales">Mentions légales</Link>
+            </div>
+          </div>
+          <div className="footer-bottom">
+            <span>© 2026 Claim.e · Tous droits réservés</span>
           </div>
         </div>
       </footer>
-    </div>
+    </>
   );
 }

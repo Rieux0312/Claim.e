@@ -169,7 +169,10 @@ function Navbar() {
         {/* CTA */}
         <div className="nav-cta">
           {isLoggedIn ? (
-            <Link href="/dashboard" className="btn btn-primary">📦 Dashboard</Link>
+            <>
+              <Link href="/dashboard" className="btn btn-primary">📦 Dashboard</Link>
+              <button onClick={logout} className="btn btn-ghost">Déconnexion</button>
+            </>
           ) : (
             <>
               <Link href="/login" className="btn btn-ghost">Se connecter</Link>

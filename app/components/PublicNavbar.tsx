@@ -44,7 +44,7 @@ export default function PublicNavbar() {
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-1">
           {NAV_LINKS.map(({ href, label }) => (
-            <Link key={href} href={href} className="btn-ghost text-sm">{label}</Link>
+            <Link key={href} href={href} className="btn btn-ghost text-sm">{label}</Link>
           ))}
         </div>
 
@@ -52,15 +52,15 @@ export default function PublicNavbar() {
         <div className="flex items-center gap-2">
           {isLoggedIn ? (
             <>
-              <Link href="/dashboard" className="btn-primary text-xs sm:text-sm px-3 sm:px-5">
+              <Link href="/dashboard" className="btn btn-primary text-xs sm:text-sm">
                 📦 <span className="hidden sm:inline">Mon </span>Dashboard
               </Link>
-              <button onClick={logout} className="hidden md:flex btn-ghost text-sm">Déconnexion</button>
+              <button onClick={logout} className="hidden md:flex btn btn-ghost text-sm">Déconnexion</button>
             </>
           ) : (
             <>
-              <Link href="/login" className="btn-ghost text-xs sm:text-sm px-2 sm:px-3">Se connecter</Link>
-              <Link href="/signup" className="btn-primary text-xs sm:text-sm px-3 sm:px-5">Essayer</Link>
+              <Link href="/login" className="btn btn-ghost text-xs sm:text-sm">Se connecter</Link>
+              <Link href="/signup" className="btn btn-primary text-xs sm:text-sm">Essayer</Link>
             </>
           )}
 

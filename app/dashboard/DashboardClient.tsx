@@ -319,9 +319,9 @@ export default function DashboardClient({ user, initialDeliveries, initialAnomal
             <span className="font-display font-800 text-lg text-white hover:opacity-80 transition-opacity">Claim<span className="text-brand-400">.e</span></span>
           </Link>
           <div className="flex items-center gap-1 md:gap-2">
-            <Link href="/dashboard" className="hidden sm:flex btn-ghost text-sm">📦 Dashboard</Link>
-            <Link href="/settings" className="hidden sm:flex btn-ghost text-sm">⚙️ Paramètres</Link>
-            <Link href="/tarifs" className="hidden sm:flex btn-ghost text-sm">💳 Tarifs</Link>
+            <Link href="/dashboard" className="hidden sm:flex btn btn-ghost text-sm">📦 Dashboard</Link>
+            <Link href="/settings" className="hidden sm:flex btn btn-ghost text-sm">⚙️ Paramètres</Link>
+            <Link href="/tarifs" className="hidden sm:flex btn btn-ghost text-sm">💳 Tarifs</Link>
             <div className="hidden sm:block w-px h-5 bg-border mx-1" />
             <div className="hidden md:block text-right">
               <p className="text-sm font-semibold text-white leading-tight">{user.company_name}</p>
@@ -330,7 +330,7 @@ export default function DashboardClient({ user, initialDeliveries, initialAnomal
             <div className="w-8 h-8 rounded-full bg-brand-500/20 border border-brand-500/30 flex items-center justify-center text-brand-400 font-700 text-sm">
               {user.company_name[0]?.toUpperCase()}
             </div>
-            <button onClick={logout} className="hidden sm:flex btn-ghost text-sm">Déconnexion</button>
+            <button onClick={logout} className="hidden sm:flex btn btn-ghost text-sm">Déconnexion</button>
           </div>
         </div>
       </header>
@@ -341,7 +341,7 @@ export default function DashboardClient({ user, initialDeliveries, initialAnomal
             <h1 className="font-display text-2xl font-700 text-white mb-1">Tableau de bord</h1>
             <p className="text-slate-500 text-sm">Suivez vos anomalies et votre argent récupéré en temps réel.</p>
           </div>
-          <button onClick={exportPDF} disabled={anomalies.length === 0} className="btn-secondary gap-2">
+          <button onClick={exportPDF} disabled={anomalies.length === 0} className="btn btn-ghost gap-2">
             📄 Exporter PDF
           </button>
         </div>
@@ -414,14 +414,14 @@ export default function DashboardClient({ user, initialDeliveries, initialAnomal
               )}
             </div>
             <div className="flex flex-col gap-3 min-w-[180px]">
-              <button onClick={handleAnalyze} disabled={!file || analyzing} className="btn-primary justify-center py-3">
+              <button onClick={handleAnalyze} disabled={!file || analyzing} className="btn btn-primary justify-center py-3">
                 {analyzing ? "Analyse…" : "⚡ Analyser"}
               </button>
               
                </div>
               <a href="data:text/csv;charset=utf-8,order_id,tracking,expected_date,actual_date,anomaly_type%0AORD-001,FR123456789FR,2024-01-10,2024-01-14,%0AORD-002,FR987654321FR,2024-01-11,,lost%0AORD-003,FR112233445FR,2024-01-12,2024-01-12,damaged"
                 download="template.csv"
-                className="btn-secondary justify-center py-2.5 text-sm"
+                className="btn btn-ghost justify-center py-2.5 text-sm"
               >
                 Télécharger modèle
               </a>

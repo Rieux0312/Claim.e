@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import Logo from "@/app/components/Logo";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -30,15 +31,9 @@ export default function LoginPage() {
           ← Retour à l'accueil
         </Link>
         <div className="flex items-center gap-2.5 mb-8">
-          <div className="w-9 h-9 rounded-xl bg-brand-500 flex items-center justify-center">
-            <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 2L2 7l10 5 10-5-10-5z" />
-              <path d="M2 17l10 5 10-5" />
-              <path d="M2 12l10 5 10-5" />
-            </svg>
-          </div>
+          <Logo size={32} />
           <span className="font-display font-800 text-xl text-white">
-            Claim<span className="text-brand-400">.e</span>
+            Claim<span style={{ opacity: 0.5 }}>.</span>e
           </span>
         </div>
         <div className="mb-8">
@@ -62,7 +57,7 @@ export default function LoginPage() {
               <input type="password" className="input" placeholder="••••••••"
                 value={password} onChange={(e) => setPassword(e.target.value)} required />
             </div>
-            <button type="submit" disabled={loading} className="btn-primary w-full justify-center py-3 text-base">
+            <button type="submit" disabled={loading} className="btn btn-primary w-full justify-center py-3 text-base">
               {loading ? "Connexion…" : "Se connecter"}
             </button>
           </form>

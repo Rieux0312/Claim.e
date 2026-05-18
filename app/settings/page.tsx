@@ -212,10 +212,10 @@ export default function SettingsPage() {
             </span>
           </Link>
           <div className="flex items-center gap-1 md:gap-2">
-            <Link href="/dashboard" className="hidden sm:flex btn-ghost text-sm">📦 Dashboard</Link>
-            <Link href="/settings" className="hidden sm:flex btn-ghost text-sm">⚙️ Paramètres</Link>
+            <Link href="/dashboard" className="hidden sm:flex btn btn-ghost text-sm">📦 Dashboard</Link>
+            <Link href="/settings" className="hidden sm:flex btn btn-ghost text-sm">⚙️ Paramètres</Link>
             <div className="hidden sm:block w-px h-5 bg-border mx-1" />
-            <button onClick={logout} className="hidden sm:flex btn-ghost text-sm">Déconnexion</button>
+            <button onClick={logout} className="hidden sm:flex btn btn-ghost text-sm">Déconnexion</button>
           </div>
         </div>
       </header>
@@ -252,7 +252,7 @@ export default function SettingsPage() {
                 style={{ opacity: 0.5, cursor: "not-allowed" }} />
               <p className="text-xs text-slate-600 mt-1">L&apos;email ne peut pas être modifié ici.</p>
             </div>
-            <button type="submit" disabled={loading} className="btn-primary">
+            <button type="submit" disabled={loading} className="btn btn-primary">
               {loading ? "Sauvegarde…" : "💾 Sauvegarder"}
             </button>
           </form>
@@ -268,7 +268,7 @@ export default function SettingsPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="8 caractères minimum" minLength={8} required />
             </div>
-            <button type="submit" disabled={loading} className="btn-primary">
+            <button type="submit" disabled={loading} className="btn btn-primary">
               {loading ? "Mise à jour…" : "🔑 Mettre à jour"}
             </button>
           </form>
@@ -291,7 +291,7 @@ export default function SettingsPage() {
                 </code>
                 <button
                   onClick={copyWebhookUrl}
-                  className={`btn-secondary text-sm shrink-0 transition-all ${webhookCopied ? "text-emerald-400 border-emerald-500/30" : ""}`}
+                  className={`btn btn-ghost text-sm shrink-0 transition-all ${webhookCopied ? "text-emerald-400 border-emerald-500/30" : ""}`}
                 >
                   {webhookCopied ? "✓ Copié !" : "📋 Copier"}
                 </button>
@@ -324,7 +324,7 @@ export default function SettingsPage() {
               </button>
             </div>
           ) : (
-            <button onClick={generateSecret} disabled={webhookGenerating} className="btn-primary">
+            <button onClick={generateSecret} disabled={webhookGenerating} className="btn btn-primary">
               {webhookGenerating ? "Génération…" : "⚡ Générer mon URL webhook"}
             </button>
           )}
@@ -371,11 +371,11 @@ export default function SettingsPage() {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <button type="submit" disabled={shopifySaving} className="btn-primary">
+              <button type="submit" disabled={shopifySaving} className="btn btn-primary">
                 {shopifySaving ? "Connexion…" : "🔗 Connecter Shopify"}
               </button>
               {shopifyConnected && (
-                <button type="button" onClick={handleSync} disabled={syncLoading} className="btn-secondary text-sm">
+                <button type="button" onClick={handleSync} disabled={syncLoading} className="btn btn-ghost text-sm">
                   {syncLoading ? "⏳ Synchro…" : "🔄 Synchroniser"}
                 </button>
               )}
@@ -419,11 +419,11 @@ export default function SettingsPage() {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <button type="submit" disabled={sendcloudSaving} className="btn-primary">
+              <button type="submit" disabled={sendcloudSaving} className="btn btn-primary">
                 {sendcloudSaving ? "Connexion…" : "🔗 Connecter Sendcloud"}
               </button>
               {sendcloudConnected && (
-                <button type="button" onClick={handleSync} disabled={syncLoading} className="btn-secondary text-sm">
+                <button type="button" onClick={handleSync} disabled={syncLoading} className="btn btn-ghost text-sm">
                   {syncLoading ? "⏳ Synchro…" : "🔄 Synchroniser"}
                 </button>
               )}
@@ -447,7 +447,7 @@ export default function SettingsPage() {
             </div>
             {canSync && (
               <button onClick={handleSync} disabled={syncLoading}
-                className="btn-secondary text-sm shrink-0 ml-4 mt-0.5">
+                className="btn btn-ghost text-sm shrink-0 ml-4 mt-0.5">
                 {syncLoading ? "⏳ Synchro…" : "🔄 Synchroniser tout"}
               </button>
             )}
@@ -495,7 +495,7 @@ export default function SettingsPage() {
               );
             })}
             <div className="pt-3">
-              <button type="submit" disabled={carrierSaving} className="btn-primary">
+              <button type="submit" disabled={carrierSaving} className="btn btn-primary">
                 {carrierSaving ? "Sauvegarde…" : "💾 Sauvegarder les clés"}
               </button>
             </div>

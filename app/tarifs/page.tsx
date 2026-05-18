@@ -52,7 +52,7 @@ export default function TarifsPage() {
                 </li>
               ))}
             </ul>
-            <Link href="/signup" className="btn-secondary w-full justify-center py-3">
+            <Link href="/signup" className="btn btn-ghost w-full justify-center py-3">
               Commencer en Starter
             </Link>
           </div>
@@ -90,7 +90,7 @@ export default function TarifsPage() {
                 </li>
               ))}
             </ul>
-            <Link href="/signup" className="btn-primary w-full justify-center py-3">
+            <Link href="/signup" className="btn btn-primary w-full justify-center py-3">
               Démarrer en Pro
             </Link>
           </div>
@@ -137,7 +137,7 @@ export default function TarifsPage() {
           <p className="text-slate-400 text-sm mb-6">
             Créez votre compte gratuitement et analysez vos premières livraisons en quelques minutes.
           </p>
-          <Link href="/signup" className="btn-primary px-8 py-3">
+          <Link href="/signup" className="btn btn-primary px-8 py-3">
             Créer un compte gratuit →
           </Link>
         </div>

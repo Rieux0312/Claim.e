@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Logo from "@/app/components/Logo";
 
 export default function NotFound() {
   return (
@@ -22,23 +23,17 @@ export default function NotFound() {
           La page que vous cherchez n'existe pas ou a été déplacée.
         </p>
         <div className="flex gap-4 justify-center flex-wrap">
-          <Link href="/" className="btn-primary px-6 py-3">
+          <Link href="/" className="btn btn-primary px-6 py-3">
             🏠 Retour à l'accueil
           </Link>
-          <Link href="/dashboard" className="btn-secondary px-6 py-3">
+          <Link href="/dashboard" className="btn btn-ghost px-6 py-3">
             📦 Mon dashboard
           </Link>
         </div>
         <div className="mt-12 flex items-center gap-2 justify-center">
-          <div className="w-7 h-7 rounded-lg bg-brand-500 flex items-center justify-center">
-            <svg className="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 2L2 7l10 5 10-5-10-5z" />
-              <path d="M2 17l10 5 10-5" />
-              <path d="M2 12l10 5 10-5" />
-            </svg>
-          </div>
+          <Logo size={28} />
           <span className="font-display font-700 text-white">
-            Claim<span className="text-brand-400">.e</span>
+            Claim<span style={{ opacity: 0.5 }}>.</span>e
           </span>
         </div>
       </div>

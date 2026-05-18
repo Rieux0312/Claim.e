@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Logo from "@/app/components/Logo";
 
 const STEPS = [
   {
@@ -68,15 +69,9 @@ export default function OnboardingPage() {
       <div className="relative w-full max-w-lg animate-fade-up">
         {/* Logo */}
         <div className="flex items-center gap-2.5 justify-center mb-10">
-          <div className="w-9 h-9 rounded-xl bg-brand-500 flex items-center justify-center">
-            <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 2L2 7l10 5 10-5-10-5z" />
-              <path d="M2 17l10 5 10-5" />
-              <path d="M2 12l10 5 10-5" />
-            </svg>
-          </div>
+          <Logo size={32} />
           <span className="font-display font-800 text-xl text-white">
-            Claim<span className="text-brand-400">.e</span>
+            Claim<span style={{ opacity: 0.5 }}>.</span>e
           </span>
         </div>
 
@@ -120,7 +115,7 @@ export default function OnboardingPage() {
           )}
 
           {/* Bouton suivant */}
-          <button onClick={next} className="btn-primary w-full justify-center py-3 text-base">
+          <button onClick={next} className="btn btn-primary w-full justify-center py-3 text-base">
             {current.action}
           </button>
 
@@ -128,7 +123,7 @@ export default function OnboardingPage() {
           {!isLast && (
             <button
               onClick={() => router.push("/dashboard")}
-              className="btn-ghost w-full justify-center mt-3 text-sm"
+              className="btn btn-ghost w-full justify-center mt-3 text-sm"
             >
               Passer la visite
             </button>

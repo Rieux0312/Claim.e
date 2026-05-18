@@ -126,10 +126,10 @@ export default function AProposPage() {
             Rejoignez 500+ entreprises qui récupèrent déjà leurs pertes logistiques avec Claim.e.
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
-            <Link href="/signup" className="btn-primary px-8 py-3">
+            <Link href="/signup" className="btn btn-primary px-8 py-3">
               Commencer →
             </Link>
-            <Link href="/" className="btn-secondary px-8 py-3">
+            <Link href="/" className="btn btn-ghost px-8 py-3">
               Voir nos fonctionnalités
             </Link>
           </div>

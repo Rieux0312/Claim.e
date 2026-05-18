@@ -82,7 +82,7 @@ export default function FaqPage() {
 
         <div className="text-center mt-10 md:mt-14">
           <p className="text-slate-400 text-sm mb-4">Vous avez une autre question ?</p>
-          <a href="mailto:contact@claim-e.fr" className="btn-secondary px-6 py-2.5 text-sm">
+          <a href="mailto:contact@claim-e.fr" className="btn btn-ghost px-6 py-2.5 text-sm">
             Nous contacter
           </a>
         </div>

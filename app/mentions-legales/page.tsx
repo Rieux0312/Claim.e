@@ -1,26 +1,10 @@
 import Link from "next/link";
+import PublicNavbar from "@/app/components/PublicNavbar";
 
 export default function MentionsLegalesPage() {
   return (
     <div className="min-h-screen bg-surface">
-      {/* Header */}
-      <header className="border-b border-border bg-surface/90 backdrop-blur-xl">
-        <div className="max-w-4xl mx-auto px-6 flex items-center justify-between h-16">
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-brand-500 flex items-center justify-center">
-              <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                <path d="M2 17l10 5 10-5" />
-                <path d="M2 12l10 5 10-5" />
-              </svg>
-            </div>
-            <span className="font-display font-800 text-lg text-white">
-              Claim<span className="text-brand-400">.e</span>
-            </span>
-          </Link>
-          <Link href="/" className="btn-ghost text-sm">← Retour à l'accueil</Link>
-        </div>
-      </header>
+      <PublicNavbar />
 
       <main className="max-w-4xl mx-auto px-6 py-12">
         <h1 className="font-display text-4xl font-700 text-white mb-2">Mentions légales</h1>
@@ -73,8 +57,8 @@ export default function MentionsLegalesPage() {
         </div>
 
         <div className="mt-10 flex gap-4 flex-wrap">
-          <Link href="/cgu" className="btn-secondary text-sm">Conditions générales d'utilisation</Link>
-          <Link href="/confidentialite" className="btn-secondary text-sm">Politique de confidentialité</Link>
+          <Link href="/cgu" className="btn btn-ghost text-sm">Conditions générales d'utilisation</Link>
+          <Link href="/confidentialite" className="btn btn-ghost text-sm">Politique de confidentialité</Link>
         </div>
       </main>
     </div>

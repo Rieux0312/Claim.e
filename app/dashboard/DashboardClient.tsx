@@ -315,9 +315,9 @@ export default function DashboardClient({ user, initialDeliveries, initialAnomal
       <Toasts toasts={toasts} />
       <header className="sticky top-0 z-40 border-b border-border bg-surface/90 backdrop-blur-xl">
         <div className="max-w-6xl mx-auto px-4 md:px-6 flex items-center justify-between h-16">
-          <Link href="/" className="flex items-center gap-2.5">
-            <Logo size={32} />
-            <span className="font-display font-800 text-lg text-white hover:opacity-80 transition-opacity">Claim<span style={{ opacity: 0.5 }}>.</span>e</span>
+          <Link href="/" className="logo-link">
+            <Logo size={28} />
+            <span>Claim<span style={{ opacity: 0.5 }}>.</span>e</span>
           </Link>
           <div className="flex items-center gap-1 md:gap-2">
             <Link href="/dashboard" className="hidden sm:flex btn btn-ghost text-sm">📦 Dashboard</Link>

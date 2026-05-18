@@ -68,11 +68,11 @@ export default function OnboardingPage() {
 
       <div className="relative w-full max-w-lg animate-fade-up">
         {/* Logo */}
-        <div className="flex items-center gap-2.5 justify-center mb-10">
-          <Logo size={32} />
-          <span className="font-display font-800 text-xl text-white">
-            Claim<span style={{ opacity: 0.5 }}>.</span>e
-          </span>
+        <div className="flex justify-center mb-10">
+          <Link href="/" className="logo-link">
+            <Logo size={28} />
+            <span>Claim<span style={{ opacity: 0.5 }}>.</span>e</span>
+          </Link>
         </div>
 
         {/* Barre de progression */}

@@ -61,12 +61,10 @@ export default function SignupPage() {
         <Link href="/" className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-slate-300 transition-colors mb-8">
           ← Retour à l'accueil
         </Link>
-        <div className="flex items-center gap-2.5 mb-8">
-          <Logo size={32} />
-          <span className="font-display font-800 text-xl text-white">
-            Claim<span style={{ opacity: 0.5 }}>.</span>e
-          </span>
-        </div>
+        <Link href="/" className="logo-link mb-8">
+          <Logo size={28} />
+          <span>Claim<span style={{ opacity: 0.5 }}>.</span>e</span>
+        </Link>
         <div className="mb-8">
           <h1 className="font-display text-3xl font-700 text-white mb-2">Créez votre compte</h1>
           <p className="text-slate-400">Commencez à récupérer de l'argent en quelques minutes.</p>

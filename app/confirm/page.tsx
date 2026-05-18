@@ -8,11 +8,11 @@ export default function ConfirmPage() {
       <div className="relative w-full max-w-md animate-fade-up">
 
         {/* Logo */}
-        <div className="flex items-center gap-2.5 justify-center mb-8">
-          <Logo size={32} />
-          <span className="font-display font-800 text-xl text-white">
-            Claim<span style={{ opacity: 0.5 }}>.</span>e
-          </span>
+        <div className="flex justify-center mb-8">
+          <Link href="/" className="logo-link">
+            <Logo size={28} />
+            <span>Claim<span style={{ opacity: 0.5 }}>.</span>e</span>
+          </Link>
         </div>
 
         <div className="glass-card p-10 text-center">

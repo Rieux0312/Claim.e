@@ -34,11 +34,9 @@ export default function PublicNavbar() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
 
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5 shrink-0">
-          <Logo size={32} />
-          <span className="font-display font-800 text-lg text-white">
-            Claim<span className="text-brand-400">.e</span>
-          </span>
+        <Link href="/" className="logo-link">
+          <Logo size={28} />
+          <span>Claim<span style={{ opacity: 0.5 }}>.</span>e</span>
         </Link>
 
         {/* Desktop nav */}

@@ -62,6 +62,7 @@ const NAV_LINKS = [
 function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [scrolled, setScrolled]     = useState(false);
+  const [menuOpen, setMenuOpen]     = useState(false);
   const supabase = createClient();
 
   useEffect(() => {
@@ -78,6 +79,7 @@ function Navbar() {
   async function logout() {
     await supabase.auth.signOut();
     setIsLoggedIn(false);
+    setMenuOpen(false);
   }
 
   return (
@@ -104,20 +106,51 @@ function Navbar() {
         {/* CTA */}
         <div className="nav-cta">
           {isLoggedIn ? (
-            <>
-              <Link href="/dashboard" className="btn btn-primary">
-                📦 <span className="hidden sm:inline">Mon </span>Dashboard
-              </Link>
-              <button onClick={logout} className="btn btn-ghost">
-                Déconnexion
-              </button>
-            </>
+            <Link href="/dashboard" className="btn btn-primary">📦 Dashboard</Link>
           ) : (
             <>
               <Link href="/login" className="btn btn-ghost">Se connecter</Link>
               <Link href="/signup" className="btn btn-primary">Essayer<span className="arr">→</span></Link>
             </>
           )}
+          {/* Hamburger — visible uniquement sous 980px */}
+          <button
+            onClick={() => setMenuOpen((o) => !o)}
+            className="nav-hamburger"
+            aria-label="Ouvrir le menu"
+            aria-expanded={menuOpen}
+          >
+            <span style={{ transform: menuOpen ? "rotate(45deg) translateY(7px)" : undefined }} />
+            <span style={{ opacity: menuOpen ? 0 : 1 }} />
+            <span style={{ transform: menuOpen ? "rotate(-45deg) translateY(-7px)" : undefined }} />
+          </button>
+        </div>
+      </div>
+
+      {/* Menu mobile */}
+      <div className={`nav-mobile${menuOpen ? " open" : ""}`}>
+        <div className="wrap nav-mobile-inner">
+          {NAV_LINKS.map(({ href, label }) =>
+            href.startsWith("#") ? (
+              <a key={href} href={href} onClick={() => setMenuOpen(false)}>{label}</a>
+            ) : (
+              <Link key={href} href={href} onClick={() => setMenuOpen(false)}>{label}</Link>
+            )
+          )}
+          <div className="nav-mobile-divider" />
+          <div className="nav-mobile-cta">
+            {isLoggedIn ? (
+              <>
+                <Link href="/dashboard" className="btn btn-primary" onClick={() => setMenuOpen(false)}>📦 Dashboard</Link>
+                <button onClick={logout} className="btn btn-ghost">Déconnexion</button>
+              </>
+            ) : (
+              <>
+                <Link href="/login" className="btn btn-ghost" onClick={() => setMenuOpen(false)}>Se connecter</Link>
+                <Link href="/signup" className="btn btn-primary" onClick={() => setMenuOpen(false)}>Essayer →</Link>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </nav>

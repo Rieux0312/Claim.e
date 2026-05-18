@@ -30,6 +30,7 @@ export default function SettingsPage() {
   const router = useRouter();
   const supabase = createClient();
 
+  const [menuOpen, setMenuOpen] = useState(false);
   const [user, setUser] = useState<{ id: string; email: string | undefined } | null>(null);
   const [companyName, setCompanyName]   = useState("");
   const [email, setEmail]               = useState("");
@@ -204,11 +205,11 @@ export default function SettingsPage() {
 
       {/* Header */}
       <header className="sticky top-0 z-40 border-b border-border bg-surface/90 backdrop-blur-xl">
-        <div className="max-w-6xl mx-auto px-6 flex items-center justify-between h-16">
+        <div className="max-w-6xl mx-auto px-4 md:px-6 flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2.5">
             <Logo size={32} />
             <span className="font-display font-800 text-lg text-white">
-              Claim<span className="text-brand-400">.e</span>
+              Claim<span style={{ opacity: 0.5 }}>.</span>e
             </span>
           </Link>
           <div className="flex items-center gap-1 md:gap-2">
@@ -216,6 +217,26 @@ export default function SettingsPage() {
             <Link href="/settings" className="hidden sm:flex btn btn-ghost text-sm">⚙️ Paramètres</Link>
             <div className="hidden sm:block w-px h-5 bg-border mx-1" />
             <button onClick={logout} className="hidden sm:flex btn btn-ghost text-sm">Déconnexion</button>
+            {/* Hamburger mobile */}
+            <button
+              onClick={() => setMenuOpen((o) => !o)}
+              className="sm:hidden flex flex-col justify-center items-center w-9 h-9 rounded-xl hover:bg-white/5 transition-colors gap-1.5 ml-1"
+              aria-label="Menu"
+            >
+              <span className={`block w-5 h-0.5 bg-slate-300 rounded-full transition-all duration-300 origin-center ${menuOpen ? "rotate-45 translate-y-[7px]" : ""}`} />
+              <span className={`block w-5 h-0.5 bg-slate-300 rounded-full transition-all duration-300 ${menuOpen ? "opacity-0 scale-x-0" : ""}`} />
+              <span className={`block w-5 h-0.5 bg-slate-300 rounded-full transition-all duration-300 origin-center ${menuOpen ? "-rotate-45 -translate-y-[7px]" : ""}`} />
+            </button>
+          </div>
+        </div>
+        {/* Menu mobile déroulant */}
+        <div className={`sm:hidden overflow-hidden transition-all duration-300 ease-in-out ${menuOpen ? "max-h-60 opacity-100" : "max-h-0 opacity-0"}`}>
+          <div className="border-t border-border/50 bg-surface/98 px-4 py-3 flex flex-col gap-1">
+            <Link href="/dashboard" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 font-medium text-sm transition-all">📦 Dashboard</Link>
+            <Link href="/settings" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 font-medium text-sm transition-all">⚙️ Paramètres</Link>
+            <Link href="/tarifs" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 font-medium text-sm transition-all">💳 Tarifs</Link>
+            <div className="h-px bg-border/50 mx-4 my-1" />
+            <button onClick={() => { setMenuOpen(false); logout(); }} className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 font-medium text-sm transition-all text-left">Déconnexion</button>
           </div>
         </div>
       </header>
@@ -464,30 +485,32 @@ export default function SettingsPage() {
               const hasKey = !!carrierKeys[carrier.id]?.trim();
               return (
                 <div key={carrier.id}
-                  className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.03] border border-border hover:border-brand-500/30 transition-colors">
-                  <div className="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center shrink-0 text-lg select-none">
-                    {carrier.emoji}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm font-medium text-white">{carrier.name}</span>
-                      {hasKey && (
-                        <span className="inline-flex items-center gap-1 text-xs text-emerald-400">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" />Connecté
-                        </span>
-                      )}
+                  className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 p-3 rounded-xl bg-white/[0.03] border border-border hover:border-brand-500/30 transition-colors">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center shrink-0 text-lg select-none">
+                      {carrier.emoji}
                     </div>
-                    <p className="text-xs text-slate-600 truncate mt-0.5">{carrier.hint}</p>
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-medium text-white">{carrier.name}</span>
+                        {hasKey && (
+                          <span className="inline-flex items-center gap-1 text-xs text-emerald-400">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" />Connecté
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-xs text-slate-600 truncate mt-0.5">{carrier.hint}</p>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-1.5 shrink-0">
+                  <div className="flex items-center gap-1.5 sm:ml-auto sm:shrink-0">
                     <input type={showKeys[carrier.id] ? "text" : "password"}
-                      className="input text-sm" style={{ width: "180px" }}
+                      className="input text-sm flex-1 sm:w-44"
                       value={carrierKeys[carrier.id] ?? ""}
                       onChange={(e) => setCarrierKeys((p) => ({ ...p, [carrier.id]: e.target.value }))}
                       placeholder="Clé API…" autoComplete="new-password" />
                     <button type="button"
                       onClick={() => setShowKeys((p) => ({ ...p, [carrier.id]: !p[carrier.id] }))}
-                      className="text-slate-500 hover:text-slate-300 transition-colors p-1 text-base">
+                      className="text-slate-500 hover:text-slate-300 transition-colors p-1 text-base shrink-0">
                       {showKeys[carrier.id] ? "🙈" : "👁️"}
                     </button>
                   </div>
@@ -506,7 +529,7 @@ export default function SettingsPage() {
         <div className="glass-card p-6 border-red-500/20">
           <h2 className="font-display font-600 text-red-400 mb-2 text-lg">⚠️ Zone danger</h2>
           <p className="text-slate-500 text-sm mb-4">Se déconnecter de votre compte Claim.e.</p>
-          <button onClick={logout} className="btn-danger px-4 py-2 rounded-xl text-sm font-medium">
+          <button onClick={logout} className="btn btn-danger">
             Se déconnecter
           </button>
         </div>

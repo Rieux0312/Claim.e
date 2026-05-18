@@ -113,6 +113,7 @@ export default function DashboardClient({ user, initialDeliveries, initialAnomal
   const [busy, setBusy] = useState<Set<string>>(new Set());
   const [drag, setDrag] = useState(false);
   const [file, setFile] = useState<File | null>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const tid = useRef(0);
 
@@ -313,10 +314,10 @@ export default function DashboardClient({ user, initialDeliveries, initialAnomal
     <div className="min-h-screen bg-surface">
       <Toasts toasts={toasts} />
       <header className="sticky top-0 z-40 border-b border-border bg-surface/90 backdrop-blur-xl">
-        <div className="max-w-6xl mx-auto px-6 flex items-center justify-between h-16">
+        <div className="max-w-6xl mx-auto px-4 md:px-6 flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2.5">
             <Logo size={32} />
-            <span className="font-display font-800 text-lg text-white hover:opacity-80 transition-opacity">Claim<span className="text-brand-400">.e</span></span>
+            <span className="font-display font-800 text-lg text-white hover:opacity-80 transition-opacity">Claim<span style={{ opacity: 0.5 }}>.</span>e</span>
           </Link>
           <div className="flex items-center gap-1 md:gap-2">
             <Link href="/dashboard" className="hidden sm:flex btn btn-ghost text-sm">📦 Dashboard</Link>
@@ -331,6 +332,27 @@ export default function DashboardClient({ user, initialDeliveries, initialAnomal
               {user.company_name[0]?.toUpperCase()}
             </div>
             <button onClick={logout} className="hidden sm:flex btn btn-ghost text-sm">Déconnexion</button>
+            {/* Hamburger mobile */}
+            <button
+              onClick={() => setMenuOpen((o) => !o)}
+              className="sm:hidden flex flex-col justify-center items-center w-9 h-9 rounded-xl hover:bg-white/5 transition-colors gap-1.5 ml-1"
+              aria-label="Menu"
+            >
+              <span className={`block w-5 h-0.5 bg-slate-300 rounded-full transition-all duration-300 origin-center ${menuOpen ? "rotate-45 translate-y-[7px]" : ""}`} />
+              <span className={`block w-5 h-0.5 bg-slate-300 rounded-full transition-all duration-300 ${menuOpen ? "opacity-0 scale-x-0" : ""}`} />
+              <span className={`block w-5 h-0.5 bg-slate-300 rounded-full transition-all duration-300 origin-center ${menuOpen ? "-rotate-45 -translate-y-[7px]" : ""}`} />
+            </button>
+          </div>
+        </div>
+        {/* Menu mobile déroulant */}
+        <div className={`sm:hidden overflow-hidden transition-all duration-300 ease-in-out ${menuOpen ? "max-h-72 opacity-100" : "max-h-0 opacity-0"}`}>
+          <div className="border-t border-border/50 bg-surface/98 px-4 py-3 flex flex-col gap-1">
+            <p className="px-4 py-1.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">{user.company_name}</p>
+            <Link href="/dashboard" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 font-medium text-sm transition-all">📦 Dashboard</Link>
+            <Link href="/settings" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 font-medium text-sm transition-all">⚙️ Paramètres</Link>
+            <Link href="/tarifs" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 font-medium text-sm transition-all">💳 Tarifs</Link>
+            <div className="h-px bg-border/50 mx-4 my-1" />
+            <button onClick={() => { setMenuOpen(false); logout(); }} className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 font-medium text-sm transition-all text-left">Déconnexion</button>
           </div>
         </div>
       </header>
@@ -413,12 +435,10 @@ export default function DashboardClient({ user, initialDeliveries, initialAnomal
                 <><p className="text-2xl mb-2">📂</p><p className="font-medium text-sm text-slate-400">Déposez votre CSV ici</p></>
               )}
             </div>
-            <div className="flex flex-col gap-3 min-w-[180px]">
+            <div className="flex flex-col gap-3 w-full sm:w-48">
               <button onClick={handleAnalyze} disabled={!file || analyzing} className="btn btn-primary justify-center py-3">
                 {analyzing ? "Analyse…" : "⚡ Analyser"}
               </button>
-              
-               </div>
               <a href="data:text/csv;charset=utf-8,order_id,tracking,expected_date,actual_date,anomaly_type%0AORD-001,FR123456789FR,2024-01-10,2024-01-14,%0AORD-002,FR987654321FR,2024-01-11,,lost%0AORD-003,FR112233445FR,2024-01-12,2024-01-12,damaged"
                 download="template.csv"
                 className="btn btn-ghost justify-center py-2.5 text-sm"
@@ -427,6 +447,7 @@ export default function DashboardClient({ user, initialDeliveries, initialAnomal
               </a>
             </div>
           </div>
+        </div>
         <div>
           <div className="flex items-center gap-1 p-1 bg-card/50 border border-border rounded-xl w-fit mb-5">
             {(["deliveries", "anomalies"] as const).map((t) => (
